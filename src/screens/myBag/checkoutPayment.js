@@ -26,7 +26,7 @@ export default class Shipping extends React.Component {
                     </Header>
                     <Content style={{ backgroundColor: '#f0f0f0' }}>
                         <View style={{ margin: 10 }}>
-                            <Text style={{ marginTop: 20, marginLeft: 5, fontWeight: 'bold', fontSize: 18 }}>Shipping Address</Text>
+                            <Text style={{ marginLeft: 5, fontWeight: 'bold', fontSize: 18 }}>Shipping Address</Text>
                             <CardAdress navigation={this.props.navigation} />
                             <Text style={{ marginTop: 20, marginLeft: 5, fontWeight: 'bold', fontSize: 18 }}>Payment</Text>
                             <View style={{ flexDirection: 'row', marginRight: 10, height: 60, }}>
@@ -47,18 +47,18 @@ export default class Shipping extends React.Component {
 
 
 
-                        <View style={{ backgroundColor: 'white', height: 190, marginTop:50, borderTopEndRadius:10, borderTopLeftRadius:10 }}>
-                            <View style={{ flexDirection: 'row', margin:10}}>
+                        <View style={{ backgroundColor: 'white', height: 160, marginTop:50, borderTopEndRadius:10, borderTopLeftRadius:10 }}>
+                            <View style={{ flexDirection: 'row', justifyContent:'space-between', marginHorizontal:15, marginVertical:5}}>
                                 <Text style={{width:100, color:'gray'}}>Order :</Text>
-                                <Text style={{marginLeft:200}}>112$</Text>
+                                <Text>112$</Text>
                             </View>
-                            <View style={{ flexDirection: 'row', margin:10}}>
+                            <View style={{ flexDirection: 'row', justifyContent:'space-between', marginHorizontal:15,marginVertical:5}}>
                                 <Text style={{width:100, color:'gray'}}>Shipping :</Text>
-                                <Text style={{marginLeft:200}}>15$</Text>
+                                <Text>15$</Text>
                             </View>
-                            <View style={{ flexDirection: 'row', margin:10,}}>
+                            <View style={{ flexDirection: 'row', justifyContent:'space-between', marginHorizontal:15, marginVertical:5}}>
                                 <Text style={{width:100, color:'gray'}}>Summary :</Text>
-                                <Text style={{marginLeft:200, fontWeight:'bold', fontSize:18}}>127$</Text>
+                                <Text style={{fontWeight:'bold', fontSize:18}}>127$</Text>
                             </View>
                             <Button full rounded danger style={{margin:10}}>
                                 <TouchableOpacity

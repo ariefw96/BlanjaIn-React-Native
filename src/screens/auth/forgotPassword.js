@@ -9,7 +9,7 @@ import {
     Image
 } from 'react-native';
 import axios from 'axios';
-const BASE_URL = 'https://42b6778beeff.ngrok.io'
+import {BASE_URL} from '@env'
 
 class ForgotPassword extends React.Component {
     state = {

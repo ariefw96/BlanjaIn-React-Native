@@ -8,8 +8,7 @@ import {
     Image
 } from 'react-native';
 import axios from 'axios';
-// import { API_KEY, BASE_URL } from '@env'
-const BASE_URL = 'https://9fb699ad35d1.ngrok.io'
+import {BASE_URL} from '@env'
 
 class Register extends React.Component {
     state = {

@@ -9,8 +9,7 @@ import {
     Image
 } from 'react-native';
 import axios from 'axios'
-// import {API_KEY, BASE_URL} from '@env'
-const BASE_URL = 'https://42b6778beeff.ngrok.io'
+import {BASE_URL} from '@env'
 
 class Login extends React.Component {
     state = {
@@ -55,6 +54,7 @@ class Login extends React.Component {
         const { email, password } = this.state
         const {auth} = this.props
         console.log(auth)
+        console.log(BASE_URL)
         return (
             <>
                 <View style={{ margin: 20 }}>

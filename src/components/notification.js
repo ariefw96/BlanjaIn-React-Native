@@ -9,7 +9,7 @@ const Bell = ({navigation}) => {
                 onPress={() => {
                     navigation.navigate('Notification')
                 }}
-                style={{ position: 'absolute', right: 20, top: 20 }}
+                style={{ position: 'absolute', right: 20, top: 40 }}
             >
                     <Image source={require('./../assets/bell.png')} />
             </TouchableOpacity>

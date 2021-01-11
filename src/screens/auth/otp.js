@@ -8,7 +8,7 @@ import {
     Image
 } from 'react-native';
 import axios from 'axios';
-const BASE_URL = 'https://42b6778beeff.ngrok.io'
+import {BASE_URL} from '@env'
 
 
 class Otp extends React.Component {
@@ -38,7 +38,8 @@ class Otp extends React.Component {
     render() {
         const {otp} = this.state
         console.log(this.state)
-        console.log(this.props.auth.email)
+        const {auth} = this.props
+        console.log(auth)
         return (
             <>
                 <View style={{ margin: 20 }}>

@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { Form, Item, Input, Label, Button, Toast } from 'native-base';
-import { TextInput } from 'react-native'
 import {
     Text,
     View,
@@ -8,8 +7,7 @@ import {
     Image
 } from 'react-native';
 import axios from 'axios';
-// import { API_KEY, BASE_URL } from '@env'
-const BASE_URL = 'https://9fb699ad35d1.ngrok.io'
+import {BASE_URL} from '@env'
 
 class Register extends React.Component {
     state = {
@@ -18,11 +16,6 @@ class Register extends React.Component {
         email: '',
         password: '',
         errorForm: '',
-    }
-
-    changeHandler = (e) => {
-        console.log(e.target)
-        this.setState({ [e.target.name]: e.target.value })
     }
 
     Register = () => {
@@ -38,7 +31,6 @@ class Register extends React.Component {
                 level_id: 1,
             }
             console.log(data)
-            console.log(BASE_URL)
             axios.post(BASE_URL + '/auth/signup', data)
                 .then(({ data }) => {
                     this.setState({
@@ -59,6 +51,7 @@ class Register extends React.Component {
     render() {
         let { fullname, email, password } = this.state
         console.log(this.state)
+        console.log(BASE_URL)
         return (
             <>
                 <View style={{ margin: 20 }}>

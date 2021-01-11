@@ -50,7 +50,6 @@ class Home extends React.Component {
                             <ScrollView>
                                 <View style={{ marginBottom: 10 }}>
                                     <View style={{ height: 350, marginLeft: 10, marginRight: 10 }}>
-                                        <Text>Selamat datang {this.props.auth.name}</Text>
                                         <Text style={{ fontSize: 35, fontWeight: 'bold', color: 'black' }}>New</Text>
                                         <Text style={{ color: 'gray', marginBottom: 15 }}>You've never seen it before!</Text>
                                         <SafeAreaView>
