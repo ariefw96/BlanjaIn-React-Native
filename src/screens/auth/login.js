@@ -73,9 +73,13 @@ class Login extends React.Component {
                     <Text>
                         {'\n'}
                     </Text>
-                    <Image style={{ alignSelf: 'center' }}
-                        source={require('./../../assets/Vector.png')}
-                    />
+                    <TouchableOpacity
+                        onPress={() => { this.props.navigation.navigate('Home') }}
+                    >
+                        <Image style={{ alignSelf: 'center' }}
+                            source={require('./../../assets/Vector.png')}
+                        />
+                    </TouchableOpacity>
                     <Text style={{ fontSize: 20, fontWeight: "bold", color: 'red', alignSelf: "center" }}>Blanja</Text>
                     <Form>
                         <Item floatingLabel>

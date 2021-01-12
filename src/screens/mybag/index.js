@@ -2,12 +2,25 @@ import React, { Component } from 'react';
 import { Dimensions, StyleSheet, Text, View, Image, SafeAreaView, ScrollView } from 'react-native';
 import CardBag from '../../components/cardBag'
 import { Container, Header, Title, Content, Button, Left, Right } from "native-base";
+import {connect} from 'react-redux'
 
-
-export default class Mybag extends Component {
+class Mybag extends Component {
     constructor(props) {
         super(props)
     }
+
+    componentDidMount = () => {
+        this._unsubscribe = this.props.navigation.addListener('focus', () => {
+            if (!this.props.auth.isLogin) {
+                this.props.navigation.navigate('Login')
+            }
+        });
+    }
+
+    componentWillUnmount() {
+        this._unsubscribe()
+    }
+
     render() {
         return (
             <>
@@ -72,6 +85,13 @@ export default class Mybag extends Component {
         );
     }
 }
+const mapStateToProps = ({ auth }) => {
+    return {
+        auth
+    };
+};
+
+export default connect(mapStateToProps)(Mybag);
 
 const windowWidth = Dimensions.get('window').width;
 

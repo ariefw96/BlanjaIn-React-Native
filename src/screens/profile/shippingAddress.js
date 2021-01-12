@@ -28,12 +28,12 @@ class Shipping extends React.Component {
     componentDidMount = () => {
         this._unsubscribe = this.props.navigation.addListener('focus', () => {
             this.getAddress()
-          });
+        });
     }
 
     componentWillUnmount() {
         this._unsubscribe()
-      }
+    }
 
     render() {
         console.log(this.props.auth)

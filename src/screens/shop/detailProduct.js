@@ -5,6 +5,7 @@ import Review from './../../components/review'
 import { Left, Body, Right, Title, Button, Container, Header } from 'native-base'
 import { Col, Row, Grid } from 'react-native-easy-grid'
 import axios from 'axios'
+import {connect} from 'react-redux'
 import {BASE_URL} from '@env'
 
 
@@ -18,6 +19,12 @@ class DetailPage extends Component {
     };
 
     componentDidMount = () => {
+        this._unsubscribe = this.props.navigation.addListener('focus', () => {
+            if (this.props.auth.isLogin) {
+                this.props.navigation.navigate('Login')
+            }
+        });
+
         axios.get(`${BASE_URL}/product/` + this.props.route.params.itemId)
             .then(({ data }) => {
                 this.setState({
@@ -27,6 +34,10 @@ class DetailPage extends Component {
                 console.log(error)
             })
 
+    }
+
+    componentWillUnmount() {
+        this._unsubscribe()
     }
 
     setSize = (e) => {
@@ -181,7 +192,13 @@ class DetailPage extends Component {
     }
 }
 
-export default DetailPage;
+const mapStateToProps = ({ auth }) => {
+    return {
+        auth
+    };
+};
+
+export default connect(mapStateToProps)(DetailPage);
 
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
