@@ -5,6 +5,7 @@ import { Image, View, TouchableOpacity, StyleSheet } from 'react-native'
 import CardOrder from './../../components/cardOrders'
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { ScrollView } from 'react-native-gesture-handler';
+import {BASE_URL} from '@env'
 
 export default class Orders extends React.Component {
     render() {

@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
 import { Container, Header, Title, Content, Button, Left, Body, Text, Item, Input } from "native-base";
 import { Image, View, TouchableOpacity, StyleSheet } from 'react-native'
-
-import CardAdress from './../../components/cardAdress'
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { ScrollView } from 'react-native-gesture-handler';
+import {BASE_URL} from '@env'
+
+import CardAdress from './../../components/cardAdress'
+
 
 export default class Shipping extends React.Component {
     render() {

@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Container, Header, Title, Content, Button, Left, Body, Text, Item, Input, Label } from "native-base";
+import {BASE_URL} from '@env'
 import { Image, View, TouchableOpacity, StyleSheet } from 'react-native'
 
 export default class ChangeAddress extends React.Component {

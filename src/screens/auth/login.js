@@ -13,14 +13,13 @@ import {BASE_URL} from '@env'
 
 class Login extends React.Component {
     state = {
-        isLogin: false,
         email: '',
         password: '',
         errorForm: ''
     }
 
     Login = () => {
-        if (this.state.username === '' || this.state.password === '') {
+        if (this.state.email === '' || this.state.password === '') {
             this.setState({
                 errorForm: 'Semua kolom harus diisi!'
             })

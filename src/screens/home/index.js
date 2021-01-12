@@ -12,8 +12,7 @@ import {
 
 import Card from './../../components/card'
 import Banner from './../../components/banner'
-// import {API_KEY, BASE_URL} from '@env'
-const BASE_URL = ' https://42b6778beeff.ngrok.io'
+import {BASE_URL} from '@env'
 
 class Home extends React.Component {
     constructor(props) {
@@ -32,7 +31,7 @@ class Home extends React.Component {
                     products: data.data.products
                 })
             }).catch((error) => {
-                console.log(error)
+                console.log(error.response)
             })
 
     }

@@ -13,7 +13,6 @@ import {BASE_URL} from '@env'
 
 class Otp extends React.Component {
     state = {
-        isForgot: false,
         otp: '',
         errorForm:''
     }

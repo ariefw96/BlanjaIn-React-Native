@@ -4,7 +4,7 @@ import Card from '../../components/card'
 import { Container, Header, Title, Content, Button, Left, Body, Right } from "native-base";
 import { Col, Row, Grid } from 'react-native-easy-grid'
 import axios from 'axios'
-import {API_KEY, BASE_URL} from '@env'
+import {BASE_URL} from '@env'
 
 class ShopCategory extends Component {
     constructor(props) {

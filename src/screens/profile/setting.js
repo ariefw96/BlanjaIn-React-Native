@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Container, Header, Title, Content, Button, Left, Body, Text, Item, Label, Input, CheckBox, ListItem } from "native-base";
 import { Image, View, TouchableOpacity, StyleSheet } from 'react-native'
+import {BASE_URL} from '@env'
 
 export default class Orders extends React.Component {
     state={

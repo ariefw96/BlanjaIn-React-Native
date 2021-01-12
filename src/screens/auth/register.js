@@ -11,7 +11,6 @@ import {BASE_URL} from '@env'
 
 class Register extends React.Component {
     state = {
-        isRegister: false,
         fullname: '',
         email: '',
         password: '',

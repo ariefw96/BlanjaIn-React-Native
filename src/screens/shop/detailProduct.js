@@ -5,8 +5,8 @@ import Review from './../../components/review'
 import { Left, Body, Right, Title, Button, Container, Header } from 'native-base'
 import { Col, Row, Grid } from 'react-native-easy-grid'
 import axios from 'axios'
+import {BASE_URL} from '@env'
 
-import {API_KEY, BASE_URL} from '@env'
 
 class DetailPage extends Component {
     state = {

@@ -30,16 +30,16 @@ export default class Shipping extends React.Component {
                             <CardAdress navigation={this.props.navigation} />
                             <Text style={{ marginTop: 20, marginLeft: 5, fontWeight: 'bold', fontSize: 18 }}>Payment</Text>
                             <View style={{ flexDirection: 'row', marginRight: 10, height: 60, }}>
-                                <Image source={require('./../../assets/card.png')} />
+                                <Image source={require('./../../assets/icons/master.png')} style={{width:105, height:88}} />
                                 <Text style={{ marginTop: 30,width:120 }}>Master Card</Text>
                                 <CheckBox style={{ marginLeft: 70, marginTop: 30 }} checked={this.state.isChecked}  onPress={() => { this.setState({ isChecked: !this.state.isChecked }) }} />
                             </View>
                             <View style={{ flexDirection: 'row', marginRight: 10, height: 60, }}>
-                                <Image source={require('./../../assets/card.png')} />
+                                <Image source={require('./../../assets/icons/master.png')} />
                                 <Text style={{ marginTop: 30,width:120 }}>Post Indonesia</Text>
                                 <CheckBox style={{ marginLeft: 70, marginTop: 30 }}  />
                             </View><View style={{ flexDirection: 'row', marginRight: 10, height: 60, }}>
-                                <Image source={require('./../../assets/card.png')} />
+                                <Image source={require('./../../assets/icons/master.png')}/>
                                 <Text style={{ marginTop: 30,width:120 }}>GoPay</Text>
                                 <CheckBox style={{ marginLeft: 70, marginTop: 30 }} />
                             </View>

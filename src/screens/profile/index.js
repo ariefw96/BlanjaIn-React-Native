@@ -3,6 +3,7 @@ import { Container, Header, Title, Content, Button, Left, Body, Text, Right } fr
 import { Image, View, TouchableOpacity } from 'react-native'
 import { connect } from 'react-redux'
 import { setLoginfalse } from './../../utils/redux/ActionCreators/auth'
+import {BASE_URL} from '@env'
 
 class Profile extends React.Component {
     constructor(props) {

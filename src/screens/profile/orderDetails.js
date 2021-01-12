@@ -1,10 +1,9 @@
 import React, { Component } from 'react';
 import { Container, Header, Title, Content, Button, Left, Body, Text, Item, Input, Label } from "native-base";
 import { Image, View, TouchableOpacity, StyleSheet } from 'react-native'
-
+import {BASE_URL} from '@env'
 
 import CardBag from '../../components/cardOrderDetail'
-
 
 export default class ChangeAddress extends React.Component {
     render() {

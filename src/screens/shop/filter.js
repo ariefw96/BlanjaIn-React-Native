@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Container, Header, Title, Content, Button, Left, Body, Text, Right, CheckBox } from "native-base";
 import { Image, View, TouchableOpacity, StyleSheet, Picker } from 'react-native'
+import {BASE_URL} from '@env'
 
 
 import { SafeAreaView } from 'react-native-safe-area-context';

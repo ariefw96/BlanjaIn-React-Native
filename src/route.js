@@ -11,7 +11,10 @@ import Profile from './screens/profile/index';
 
 import Login from './screens/auth/login';
 import Signup from './screens/auth/register';
-import Forgot from './screens/auth/forgotPassword'
+import Activate from './screens/auth/activate';
+import Forgot from './screens/auth/forgotPassword';
+import Otp from './screens/auth/otp';
+import Reset from './screens/auth/resetPassword'
 
 import Shop from './screens/shop/index';
 import Categories from './screens/shop/categories'
@@ -144,8 +147,11 @@ const appRouter = () => {
           <Stack.Screen name="Notification" component={Notification} />
           <Stack.Screen name="DetailPage" component={DetailPage} />
           <Stack.Screen name="Login" component={Login} />
-          <Stack.Screen name="Signup" component={Signup} />
-          <Stack.Screen name="Forgot" component={Forgot} />
+          <Stack.Screen name="Register" component={Signup} />
+          <Stack.Screen name="Activate" component={Activate} />
+          <Stack.Screen name="ForgotPassword" component={Forgot} />
+          <Stack.Screen name="Otp" component={Otp} />
+          <Stack.Screen name="ResetPassword" component={Reset} />
           <Stack.Screen name="Success" component={Success} />
         </Stack.Navigator>
       
