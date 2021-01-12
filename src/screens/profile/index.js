@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Container, Header, Title, Content, Button, Left, Body, Text, Right } from "native-base";
 import { Image, View, TouchableOpacity } from 'react-native'
 import { connect } from 'react-redux'
-import { setLoginfalse } from './../../utils/redux/ActionCreators/auth'
+import { setLoginfalse, removeEmail, removeId, removeName } from './../../utils/redux/ActionCreators/auth'
 import {BASE_URL} from '@env'
 
 class Profile extends React.Component {
@@ -11,7 +11,22 @@ class Profile extends React.Component {
     }
     Logout = () => {
         this.props.dispatch(setLoginfalse())
+        this.props.dispatch(removeEmail())
+        this.props.dispatch(removeName())
+        this.props.dispatch(removeId())
         this.props.navigation.navigate('Login')
+    }
+
+    componentDidMount = () => {
+        this._unsubscribe = this.props.navigation.addListener('focus', () => {
+            if(!this.props.auth.isLogin){
+                this.props.navigation.navigate('Login')
+            }
+        });
+    }
+
+    componentWillUnmount() {
+        this._unsubscribe()
     }
 
     render() {

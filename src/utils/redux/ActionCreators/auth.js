@@ -29,3 +29,22 @@ export const setName = (data) => {
         data
     }
 }
+
+export const removeName = (data) => {
+    return {
+        type: "SET_NAME_FALSE",
+    }
+}
+
+export const setId = (data) => {
+    return{
+        type:"SET_ID_TRUE",
+        data
+    }
+}
+
+export const removeId = (data) => {
+    return{
+        type:"SET_ID_FALSE",
+    }
+}

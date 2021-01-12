@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Form, Item, Input, Label, Button, } from 'native-base';
-import { setLogintrue, setName, setEmail } from './../../utils/redux/ActionCreators/auth'
+import { setLogintrue, setName, setEmail, setId } from './../../utils/redux/ActionCreators/auth'
 import { connect } from 'react-redux'
 import {
     Text,
@@ -9,7 +9,7 @@ import {
     Image
 } from 'react-native';
 import axios from 'axios'
-import {BASE_URL} from '@env'
+import { BASE_URL } from '@env'
 
 class Login extends React.Component {
     state = {
@@ -39,8 +39,9 @@ class Login extends React.Component {
                     this.props.dispatch(setLogintrue())
                     this.props.dispatch(setName(data.result.name))
                     this.props.dispatch(setEmail(data.result.email))
+                    this.props.dispatch(setId(data.result.user_id))
                     this.props.navigation.navigate('Home')
-                }).catch(({response}) => {
+                }).catch(({ response }) => {
                     console.log(response.data)
                     alert(response.data.msg)
                 })
@@ -48,10 +49,22 @@ class Login extends React.Component {
 
     }
 
+    componentDidMount = () => {
+        this._unsubscribe = this.props.navigation.addListener('focus', () => {
+            if (this.props.auth.isLogin) {
+                this.props.navigation.navigate('Home')
+            }
+        });
+    }
+
+    componentWillUnmount() {
+        this._unsubscribe()
+    }
+
     render() {
         console.log(this.state)
         const { email, password } = this.state
-        const {auth} = this.props
+        const { auth } = this.props
         console.log(auth)
         console.log(BASE_URL)
         return (
@@ -93,7 +106,7 @@ class Login extends React.Component {
                     >
                         <Text>Dont have an account? Register Here</Text>
                     </TouchableOpacity>
-                    <Text style={{color:'red', textAlign:'center', fontWeight:'bold'}}>{this.state.errorForm}</Text>
+                    <Text style={{ color: 'red', textAlign: 'center', fontWeight: 'bold' }}>{this.state.errorForm}</Text>
                 </View>
             </>
         )

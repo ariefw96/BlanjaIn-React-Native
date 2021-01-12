@@ -3,6 +3,7 @@ import React, { useEffect } from 'react';
 import {connect} from 'react-redux';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+// import Splash from './screens/splash/index'
 import Icon from 'react-native-vector-icons/FontAwesome';
 
 import Home from './screens/home/index';
@@ -24,9 +25,6 @@ import DetailPage from './screens/shop/detailProduct'
 import Bag from './screens/myBag/index';
 import Checkout from './screens/myBag/checkoutPayment'
 import Success from './screens/myBag/success'
-
-
-
 
 import Order from './screens/profile/myOrder'
 import DetailOrders from './screens/profile/orderDetails'
@@ -143,6 +141,7 @@ const appRouter = () => {
     <>
       
         <Stack.Navigator headerMode="none">
+          {/* <Stack.Screen name="Splash" component={Splash} /> */}
           <Stack.Screen name="Tab" component={MyTabs} />
           <Stack.Screen name="Notification" component={Notification} />
           <Stack.Screen name="DetailPage" component={DetailPage} />

@@ -35,11 +35,12 @@ export default class Shipping extends React.Component {
                                 <CheckBox style={{ marginLeft: 70, marginTop: 30 }} checked={this.state.isChecked}  onPress={() => { this.setState({ isChecked: !this.state.isChecked }) }} />
                             </View>
                             <View style={{ flexDirection: 'row', marginRight: 10, height: 60, }}>
-                                <Image source={require('./../../assets/icons/master.png')} />
+                                <Image source={require('./../../assets/icons/pos.png')} />
                                 <Text style={{ marginTop: 30,width:120 }}>Post Indonesia</Text>
                                 <CheckBox style={{ marginLeft: 70, marginTop: 30 }}  />
-                            </View><View style={{ flexDirection: 'row', marginRight: 10, height: 60, }}>
-                                <Image source={require('./../../assets/icons/master.png')}/>
+                            </View>
+			    <View style={{ flexDirection: 'row', marginRight: 10, height: 60, }}>
+                                <Image source={require('./../../assets/icons/gopay.png')}/>
                                 <Text style={{ marginTop: 30,width:120 }}>GoPay</Text>
                                 <CheckBox style={{ marginLeft: 70, marginTop: 30 }} />
                             </View>

@@ -3,13 +3,41 @@ import { Container, Header, Title, Content, Button, Left, Body, Text, Item, Inpu
 import { Image, View, TouchableOpacity, StyleSheet } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { ScrollView } from 'react-native-gesture-handler';
-import {BASE_URL} from '@env'
+import { connect } from 'react-redux'
+import axios from 'axios'
+import { BASE_URL } from '@env'
 
 import CardAdress from './../../components/cardAdress'
 
+class Shipping extends React.Component {
+    state = {
+        shippingAddress: [],
+    }
 
-export default class Shipping extends React.Component {
+    getAddress = () => {
+        axios.get(BASE_URL + `/address/${this.props.auth.id}`)
+            .then(({ data }) => {
+                this.setState({
+                    shippingAddress: data.data
+                })
+            }).catch(({ response }) => {
+                console.log(response)
+            })
+    }
+
+    componentDidMount = () => {
+        this._unsubscribe = this.props.navigation.addListener('focus', () => {
+            this.getAddress()
+          });
+    }
+
+    componentWillUnmount() {
+        this._unsubscribe()
+      }
+
     render() {
+        console.log(this.props.auth)
+        const { shippingAddress } = this.state
         return (
             <>
                 <Container>
@@ -34,15 +62,21 @@ export default class Shipping extends React.Component {
                         </View>
                         <SafeAreaView>
                             <ScrollView style={{ height: 380, marginBottom: 20, marginTop: -20 }}>
-                                <CardAdress navigation={this.props.navigation}/>
-                                <CardAdress navigation={this.props.navigation}/>
-                                <CardAdress navigation={this.props.navigation}/>
+                                {
+                                    shippingAddress && shippingAddress.map(({ id, recipient_name, city, postal, phone }) => {
+                                        return (
+                                            <>
+                                                <CardAdress key={id} addressId={id} name={recipient_name} city={city} postal={postal} phone={phone} navigation={this.props.navigation} />
+                                            </>
+                                        )
+                                    })
+                                }
                             </ScrollView>
                         </SafeAreaView>
 
                         <Button full rounded bordered dark>
                             <TouchableOpacity
-                                onPress={() => {this.props.navigation.navigate('AddAddress')}}
+                                onPress={() => { this.props.navigation.navigate('AddAddress') }}
                             >
                                 <Text>
                                     Add New Address
@@ -56,3 +90,11 @@ export default class Shipping extends React.Component {
         )
     }
 }
+
+const mapStateToProps = ({ auth }) => {
+    return {
+        auth
+    };
+};
+
+export default connect(mapStateToProps)(Shipping);
