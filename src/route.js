@@ -144,7 +144,7 @@ const appRouter = () => {
           {/* <Stack.Screen name="Splash" component={Splash} /> */}
           <Stack.Screen name="Tab" component={MyTabs} />
           <Stack.Screen name="Notification" component={Notification} />
-          <Stack.Screen name="DetailPage" component={DetailPage} />
+          <Stack.Screen name="Details" component={DetailPage} />
           <Stack.Screen name="Login" component={Login} />
           <Stack.Screen name="Register" component={Signup} />
           <Stack.Screen name="Activate" component={Activate} />

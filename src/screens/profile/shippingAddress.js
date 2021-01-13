@@ -5,6 +5,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { ScrollView } from 'react-native-gesture-handler';
 import { connect } from 'react-redux'
 import axios from 'axios'
+import { setAddress } from './../../utils/redux/ActionCreators/adress'
 import { BASE_URL } from '@env'
 
 import CardAdress from './../../components/cardAdress'
@@ -12,6 +13,7 @@ import CardAdress from './../../components/cardAdress'
 class Shipping extends React.Component {
     state = {
         shippingAddress: [],
+        selectedAddress: null,
     }
 
     getAddress = () => {
@@ -35,9 +37,20 @@ class Shipping extends React.Component {
         this._unsubscribe()
     }
 
+    setAddress = (id) => {
+        this.setState({
+            selectedAddress: id
+        })
+    }
+    setActiveAddress = () => {
+        alert('Adress ' + this.state.selectedAddress + ' terpilih')
+        this.props.dispatch(setAddress(this.state.selectedAddress))
+    }
+
     render() {
-        console.log(this.props.auth)
+        // console.log(this.props.auth)
         const { shippingAddress } = this.state
+        console.log(this.props.address)
         return (
             <>
                 <Container>
@@ -57,8 +70,15 @@ class Shipping extends React.Component {
                         <Item rounded style={{ marginTop: 20, backgroundColor: 'white' }}>
                             <Input placeholder="Search Here" />
                         </Item>
-                        <View>
-                            <Text style={{ marginTop: 20, marginLeft: 5, fontWeight: 'bold', fontSize: 18 }}>Shipping Address</Text>
+                        <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginHorizontal: 10, marginTop: 15 }}>
+                            <View>
+                                <Text style={{ fontWeight: 'bold', fontSize: 18 }}>Shipping Address</Text>
+                            </View>
+                            <TouchableOpacity
+                                onPress={() => { this.props.navigation.navigate('AddAddress') }}
+                            >
+                                <Text>Add New Address</Text>
+                            </TouchableOpacity>
                         </View>
                         <SafeAreaView>
                             <ScrollView style={{ height: 380, marginBottom: 20, marginTop: -20 }}>
@@ -66,7 +86,11 @@ class Shipping extends React.Component {
                                     shippingAddress && shippingAddress.map(({ id, recipient_name, city, postal, phone }) => {
                                         return (
                                             <>
-                                                <CardAdress key={id} addressId={id} name={recipient_name} city={city} postal={postal} phone={phone} navigation={this.props.navigation} />
+                                                <TouchableOpacity
+                                                    onPress={() => { this.setAddress(id) }}
+                                                >
+                                                    <CardAdress key={id} addressId={id} name={recipient_name} city={city} postal={postal} phone={phone} navigation={this.props.navigation} />
+                                                </TouchableOpacity>
                                             </>
                                         )
                                     })
@@ -76,10 +100,10 @@ class Shipping extends React.Component {
 
                         <Button full rounded bordered dark>
                             <TouchableOpacity
-                                onPress={() => { this.props.navigation.navigate('AddAddress') }}
+                                onPress={this.setActiveAddress}
                             >
                                 <Text>
-                                    Add New Address
+                                    Set Active Address
                             </Text>
                             </TouchableOpacity>
                         </Button>
@@ -91,9 +115,10 @@ class Shipping extends React.Component {
     }
 }
 
-const mapStateToProps = ({ auth }) => {
+const mapStateToProps = ({ auth, address }) => {
     return {
-        auth
+        auth,
+        address
     };
 };
 

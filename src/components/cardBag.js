@@ -3,35 +3,36 @@ import { Image, StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 
 class CardBag extends Component {
     state = {
-        counter: 5,
+        counter: this.props.qty,
         testState: null
     }
 
     Minus = () => {
-        if(this.state.counter>0){
+        if (this.state.counter > 0) {
             this.setState({
-                counter: this.state.counter -1
+                counter: this.state.counter - 1
             })
         }
     }
 
     Plus = () => {
-        if(this.state.counter<=10){
+        if (this.state.counter <= 10) {
             this.setState({
-                counter: this.state.counter +1
+                counter: this.state.counter + 1
             })
         }
     }
     render() {
+        const { itemsId, name, color, size, qty, price } = this.props
         return (
             <View style={styles.container}>
-                
+
                 <Image source={require('./../assets/cardbag.png')} style={styles.img} />
                 <View style={styles.infobag}>
-                    <Text>T-Shirt</Text>
+                    <Text>{name}</Text>
                     <View style={{ flexDirection: 'row' }}>
-                        <Text style={{ marginRight: 16 }}>Color: Gray</Text>
-                        <Text>Size: L</Text>
+                        <Text style={{ marginRight: 16 }}>Color: {color}</Text>
+                        <Text>Size: {size}</Text>
                     </View>
                     <View style={{ flexDirection: 'row', marginTop: 14 }}>
                         <TouchableOpacity
@@ -55,7 +56,7 @@ class CardBag extends Component {
 
 
                         <View style={styles.price}>
-                            <Text style={{ fontFamily: 'Metropolis-Bold', fontSize: 20 }}>30$</Text>
+                            <Text style={{ fontFamily: 'Metropolis-Bold', fontSize: 20 }}>Rp.{this.state.counter * price}</Text>
                         </View>
                     </View>
                 </View>
@@ -74,7 +75,7 @@ const styles = StyleSheet.create({
     },
     price: {
         marginTop: 7,
-        marginLeft: 50,
+        marginLeft: 20,
     },
     btn: {
         width: 36,

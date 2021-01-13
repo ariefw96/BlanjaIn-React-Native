@@ -60,7 +60,7 @@ export default class ChangeAddress extends React.Component {
 
     render() {
         const { address_type, recipient_name, address, city, postal, phone } = this.state
-        console.log(this.state)
+        // console.log(this.state)
         return (
             <Container >
                 <Header transparent>
@@ -72,7 +72,7 @@ export default class ChangeAddress extends React.Component {
                         </Button>
                     </Left>
                     <Body>
-                        <Title style={{ color: 'black', fontWeight: 'bold' }}>Add Shipping Address</Title>
+                        <Title style={{ color: 'black', fontWeight: 'bold' }}>Change Shipping Address</Title>
                     </Body>
                 </Header>
                 <Content style={{ backgroundColor: '#f0f0f0', margin: 10 }}>

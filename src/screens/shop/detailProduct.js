@@ -5,26 +5,20 @@ import Review from './../../components/review'
 import { Left, Body, Right, Title, Button, Container, Header } from 'native-base'
 import { Col, Row, Grid } from 'react-native-easy-grid'
 import axios from 'axios'
-import {connect} from 'react-redux'
-import {BASE_URL} from '@env'
+import { connect } from 'react-redux'
+import { BASE_URL } from '@env'
 
 
 class DetailPage extends Component {
     state = {
         product: [],
-        foryou:[],
-        itemsId:this.props.route.params.itemId,
+        foryou: [],
+        itemsId: this.props.route.params.itemId,
         selectedSize: 0,
-        selectedColor:0
+        selectedColor: 0
     };
 
     componentDidMount = () => {
-        this._unsubscribe = this.props.navigation.addListener('focus', () => {
-            if (this.props.auth.isLogin) {
-                this.props.navigation.navigate('Login')
-            }
-        });
-
         axios.get(`${BASE_URL}/product/` + this.props.route.params.itemId)
             .then(({ data }) => {
                 this.setState({
@@ -33,12 +27,8 @@ class DetailPage extends Component {
             }).catch((error) => {
                 console.log(error)
             })
-
     }
 
-    componentWillUnmount() {
-        this._unsubscribe()
-    }
 
     setSize = (e) => {
         this.setState({
@@ -52,11 +42,35 @@ class DetailPage extends Component {
         })
     }
 
+    addToCart = () => {
+        const {navigation} = this.props
+        if (!this.props.auth.isLogin) {
+            alert('Anda harus login terlebih dahulu')
+        } else {
+            if(this.state.selectedColor == 0 || this.state.selectedSize == 0){
+                alert('Harap pilih warna dan ukuran')
+            }else{
+                const addItems = {
+                    user_id: this.props.auth.id,
+                    product_id:this.props.route.params.itemId,
+                    color:this.state.selectedColor,
+                    size:this.state.selectedColor,
+                    qty:1
+                }
+                axios.post(BASE_URL+'/bag/add', addItems)
+                .then(({data}) =>{
+                    alert(data.message)
+                    navigation.navigate('MyBag')
+                }).catch(({response}) =>{
+                    console.log(response.data)
+                })
+            }
+        }
+    }
 
     render() {
         const { product } = this.state
-
-        console.log(this.state.product[0])
+        // console.log(this.state.product[0])
         return (
             <>
                 <Header transparent style>
@@ -106,7 +120,7 @@ class DetailPage extends Component {
                                                                     selectedValue={this.state.selectedSize}
                                                                     onValueChange={(itemValue, itemIndex) => this.setSize(itemValue)}
                                                                 >
-                                                                    <Picker.Item label="Size" value="0" style={{backgroundColor:'gray'}} />
+                                                                    <Picker.Item label="Size" value="0" style={{ backgroundColor: 'gray' }} />
                                                                     <Picker.Item label="XS" value="1" />
                                                                     <Picker.Item label="S" value="2" />
                                                                     <Picker.Item label="M" value="3" />
@@ -175,12 +189,11 @@ class DetailPage extends Component {
                                         </SafeAreaView>
                                     </Grid>
 
-                                    <Button danger full rounded style={{ marginTop: 15 }}>
-                                        <TouchableOpacity
-                                            onPress={() => { this.props.navigation.navigate('MyBag') }}
-                                        >
-                                            <Text style={{ color: '#fff' }}> Add to Cart </Text>
-                                        </TouchableOpacity>
+                                    <Button danger full rounded style={{ marginVertical: 15 }}
+                                        onPress={this.addToCart}
+                                    >
+
+                                        <Text style={{ color: '#fff' }}> Add to Cart </Text>
                                     </Button>
                                 </Container>
                             </>

@@ -37,9 +37,9 @@ class Home extends React.Component {
     }
 
     render() {
-        console.log(this.state)
+        // console.log(this.state)
         const { products } = this.state
-        console.log(this.props.auth)
+        // console.log(this.props.auth)
         return (
             <>
                 <View style={{ flex: 1 }}>

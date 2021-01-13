@@ -2,11 +2,17 @@ import React, { Component } from 'react';
 import { Dimensions, StyleSheet, Text, View, Image, SafeAreaView, ScrollView } from 'react-native';
 import CardBag from '../../components/cardBag'
 import { Container, Header, Title, Content, Button, Left, Right } from "native-base";
-import {connect} from 'react-redux'
+import { connect } from 'react-redux'
+import { BASE_URL } from '@env'
+import axios from 'axios'
 
 class Mybag extends Component {
     constructor(props) {
         super(props)
+    }
+    state = {
+        bagState: [],
+        emptyBag: false
     }
 
     componentDidMount = () => {
@@ -14,6 +20,20 @@ class Mybag extends Component {
             if (!this.props.auth.isLogin) {
                 this.props.navigation.navigate('Login')
             }
+            axios.get(BASE_URL + '/bag/getFromUser/' + this.props.auth.id)
+                    .then(({ data }) => {
+                        if (data.status == 200) {
+                            this.setState({
+                                bagState: data.data
+                            })
+                        } else {
+                            this.setState({
+                                emptyBag: true
+                            })
+                        }
+                    }).catch(({ response }) => {
+                        console.log(response.data)
+                    })
         });
     }
 
@@ -22,6 +42,23 @@ class Mybag extends Component {
     }
 
     render() {
+        const { bagState } = this.state
+        let thisBag;
+        if (this.state.emptyBag) {
+            thisBag = <><Text>Cart anda masih kosong</Text></>
+        } else {
+            thisBag = <>
+                {
+                    bagState && bagState.map(({ id, product_name, color_name, size_name, qty, product_price }) => {
+                        return (
+                            <>
+                                <CardBag itemsId={id} name={product_name} color={color_name} size={size_name} qty={qty} price={product_price} />
+                            </>
+                        )
+                    })
+                }
+            </>
+        }
         return (
             <>
                 <Container style={{ backgroundColor: '#f0f0f0' }}>
@@ -51,10 +88,7 @@ class Mybag extends Component {
                         <View style={{ height: 400 }}>
                             <SafeAreaView>
                                 <ScrollView>
-                                    <CardBag />
-                                    <CardBag />
-                                    <CardBag />
-                                    <CardBag />
+                                    {thisBag}
                                 </ScrollView>
                             </SafeAreaView>
                         </View>
