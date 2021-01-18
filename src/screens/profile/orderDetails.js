@@ -1,12 +1,32 @@
 import React, { Component } from 'react';
 import { Container, Header, Title, Content, Button, Left, Body, Text, Item, Input, Label } from "native-base";
 import { Image, View, TouchableOpacity, StyleSheet } from 'react-native'
-import {BASE_URL} from '@env'
+import { BASE_URL } from '@env'
+import axios from 'axios'
 
-import CardBag from '../../components/cardOrderDetail'
+import CardOrder from '../../components/cardOrderDetail'
 
 export default class ChangeAddress extends React.Component {
+
+    state = {
+        orderDetails: []
+    }
+
+    componentDidMount = () => {
+        axios.get(BASE_URL + '/transaksi/getOrderDetail/' + this.props.route.params.trxId)
+            .then(({ data }) => {
+                this.setState({
+                    orderDetails: data.data
+                })
+            }).catch(({ response }) => {
+                console.log(response.data)
+            })
+    }
+
     render() {
+        const { TrxId, created_at, trackingNumber, status, qty, address, city, postal, payment, total, cardOrder } = this.state.orderDetails
+        console.log(this.state)
+        const newDate = `${created_at}`
         return (
             <>
                 <Container>
@@ -23,48 +43,54 @@ export default class ChangeAddress extends React.Component {
                         </Body>
                     </Header>
                     <Content style={{ backgroundColor: '#f0f0f0', margin: 10 }}>
-
-                        <View style={{ flexDirection: 'row' }}>
+                        <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
                             <Text style={{ fontWeight: 'bold', fontSize: 20 }}>
                                 Order No :
-                                        <Text style={{ color: 'gray', }}> BAP305114181</Text>
+                                <Text style={{ color: 'gray', }}> {TrxId}</Text>
                             </Text>
-                            <Text style={{ marginLeft: 60, color: 'green' }}>05-11-2020</Text>
+                            <Text style={{ color: 'green' }}>{newDate.substr(0, 10)}</Text>
                         </View>
                         <Text style={{ marginTop: 10, color: 'gray', fontSize: 18 }}>
                             Tracking Number :
-                                        <Text style={{ fontWeight: 'bold', color: 'black' }}> JP4008547567</Text>
+                                        <Text style={{ fontWeight: 'bold', color: 'black' }}> {trackingNumber}</Text>
                         </Text>
-                        <Text style={{ color: 'green', fontWeight: 'bold' }}>Delivered</Text>
-                        <Text style={{ fontWeight: 'bold', marginBottom: 15, marginTop: 10 }}>3 Items</Text>
-                        <CardBag />
-                        <CardBag />
-                        <CardBag />
+                        <Text style={{ color: 'green', fontWeight: 'bold' }}>{status}</Text>
+                        <Text style={{ fontWeight: 'bold', marginBottom: 15, marginTop: 10 }}>{qty} Items</Text>
+                        {
+                            cardOrder && cardOrder.map(({ product_name, price, product_img, color, size, qty }) => {
+                                return (
+                                    <>
+                                        <CardOrder name={product_name} price={price} img={product_img} color={color} size={size} qty={qty} />
+                                    </>
+                                )
+                            })
+                        }
                         <Text style={{ fontWeight: 'bold', marginBottom: 10 }}>Order Information</Text>
                         <View style={{ flexDirection: 'row' }}>
-                            <Text style={{ color: 'gray', width: 125,marginBottom:10 }}>Shipping Address  </Text>
-                            <Text style={{ width: 215, fontWeight: 'bold' }}>3 Newbridge Curt Chino Hills, CA 91709, United States</Text>
+                            <Text style={{ color: 'gray', width: 125, marginBottom: 10 }}>Shipping Address  </Text>
+                            <Text style={{ width: 215, fontWeight: 'bold' }}>{address}, {city}, ID {postal}</Text>
                         </View>
-                        <View style={{ flexDirection: 'row', height: 30,marginBottom:10 }}>
+                        <View style={{ flexDirection: 'row', height: 30, marginBottom: 10 }}>
                             <Text style={{ width: 125, color: 'gray' }}>Payment Method </Text>
-                            <Image source={require('./../../assets/card.png')} style={{ height: 30, width: 80 }} />
+                            {/* <Image source={require('./../../assets/card.png')} style={{ height: 30, width: 80 }} /> */}
+                            <Text>{payment}</Text>
                             <Text style={{ width: 135 }}>**** **** **** 3947</Text>
                         </View>
-                        <View style={{ flexDirection: 'row' ,marginBottom:10}}>
+                        <View style={{ flexDirection: 'row', marginBottom: 10 }}>
                             <Text style={{ color: 'gray', width: 125 }}>Delivery Method  </Text>
                             <Text style={{ width: 215, fontWeight: 'bold' }}>Fedex, 3 Days, 15$</Text>
                         </View>
-                        <View style={{ flexDirection: 'row',marginBottom:10 }}>
+                        <View style={{ flexDirection: 'row', marginBottom: 10 }}>
                             <Text style={{ color: 'gray', width: 125 }}>Discount  </Text>
                             <Text style={{ width: 215, fontWeight: 'bold' }}>10% Discount Code, PALUGADA</Text>
                         </View>
-                        <View style={{ flexDirection: 'row' ,marginBottom:10}}>
+                        <View style={{ flexDirection: 'row', marginBottom: 10 }}>
                             <Text style={{ color: 'gray', width: 125 }}>Total Amount  </Text>
-                            <Text style={{ width: 215, fontWeight: 'bold' }}>112$</Text>
+                            <Text style={{ width: 215, fontWeight: 'bold' }}>Rp. {total}</Text>
                         </View>
-                        <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginTop:15 }}>
+                        <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginTop: 15 }}>
                             <Button full rounded bordered dark style={styles.btn}
-                            onPress={() => {this.props.navigation.navigate('Home')}}
+                                onPress={() => { this.props.navigation.navigate('Home') }}
                             >
                                 <Text>Reorder</Text>
                             </Button>

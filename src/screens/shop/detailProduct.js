@@ -5,6 +5,7 @@ import Review from './../../components/review'
 import { Left, Body, Right, Title, Button, Container, Header } from 'native-base'
 import { Col, Row, Grid } from 'react-native-easy-grid'
 import axios from 'axios'
+import {addItems} from './../../utils/redux/ActionCreators/bag'
 import { connect } from 'react-redux'
 import { BASE_URL } from '@env'
 
@@ -50,30 +51,31 @@ class DetailPage extends Component {
             if(this.state.selectedColor == 0 || this.state.selectedSize == 0){
                 alert('Harap pilih warna dan ukuran')
             }else{
-                const addItems = {
+                const Items = {
                     user_id: this.props.auth.id,
                     product_id:this.props.route.params.itemId,
+                    product_name:this.state.product[0].product_name,
+                    product_img:this.state.product[0].product_img.split(',')[0],
                     color:this.state.selectedColor,
-                    size:this.state.selectedColor,
+                    size:this.state.selectedSize,
+                    price:this.state.product[0].product_price,
                     qty:1
                 }
-                axios.post(BASE_URL+'/bag/add', addItems)
-                .then(({data}) =>{
-                    alert(data.message)
-                    navigation.navigate('MyBag')
-                }).catch(({response}) =>{
-                    console.log(response.data)
-                })
+                console.log(Items)
+                this.props.dispatch(addItems(Items))
+                alert('Berhasil menambahkan ke keranjang')
+                this.props.navigation.navigate('MyBag')
             }
         }
     }
 
     render() {
         const { product } = this.state
+        // console.log(this.props.bag)
         // console.log(this.state.product[0])
         return (
             <>
-                <Header transparent style>
+                <Header transparent>
                     <Left>
                         <Button transparent
                             onPress={() => { this.props.navigation.goBack() }}
@@ -121,11 +123,11 @@ class DetailPage extends Component {
                                                                     onValueChange={(itemValue, itemIndex) => this.setSize(itemValue)}
                                                                 >
                                                                     <Picker.Item label="Size" value="0" style={{ backgroundColor: 'gray' }} />
-                                                                    <Picker.Item label="XS" value="1" />
-                                                                    <Picker.Item label="S" value="2" />
-                                                                    <Picker.Item label="M" value="3" />
-                                                                    <Picker.Item label="L" value="4" />
-                                                                    <Picker.Item label="XL" value="5" />
+                                                                    <Picker.Item label="XS" value="XS" />
+                                                                    <Picker.Item label="S" value="S" />
+                                                                    <Picker.Item label="M" value="M" />
+                                                                    <Picker.Item label="L" value="L" />
+                                                                    <Picker.Item label="XL" value="XL" />
                                                                 </Picker>
                                                             </View>
                                                             <View style={styles.size}>
@@ -134,10 +136,10 @@ class DetailPage extends Component {
                                                                     onValueChange={(itemValue, itemIndex) => this.setColor(itemValue)}
                                                                 >
                                                                     <Picker.Item label="Color" value="0" />
-                                                                    <Picker.Item label="Red" value="1" />
-                                                                    <Picker.Item label="Green" value="2" />
-                                                                    <Picker.Item label="Blue" value="3" />
-                                                                    <Picker.Item label="Black" value="4" />
+                                                                    <Picker.Item label="Red" value="Red" />
+                                                                    <Picker.Item label="Green" value="Green" />
+                                                                    <Picker.Item label="Blue" value="Blue" />
+                                                                    <Picker.Item label="Black" value="Black" />
                                                                 </Picker>
                                                             </View>
                                                             <TouchableOpacity>
@@ -205,9 +207,10 @@ class DetailPage extends Component {
     }
 }
 
-const mapStateToProps = ({ auth }) => {
+const mapStateToProps = ({ auth, bag }) => {
     return {
-        auth
+        auth,
+        bag
     };
 };
 

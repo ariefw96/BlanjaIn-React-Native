@@ -3,32 +3,39 @@ import { Text, View, TouchableOpacity, StyleSheet } from 'react-native'
 
 export default class cardOrder extends React.Component {
     render() {
+        console.log(this.props)
         return (
             <>
                 <TouchableOpacity style={styles.order}
-                    onPress={() => { this.props.navigation.navigate('DetailsOrders') }}
+                    onPress={() => {
+                        this.props.navigation.navigate('DetailsOrders', {
+                            trxId: this.props.trxId
+                        })
+                    }}
                 >
                     <View style={{ margin: 10, }}>
-                        <View style={{ flexDirection: 'row' }}>
+                        <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
                             <Text style={{ fontWeight: 'bold', fontSize: 20 }}>
                                 Order No :
-                                        <Text style={{ color: 'gray', }}> BAP305114181</Text>
+                                        <Text style={{ color: 'gray', }}> {this.props.trxId}</Text>
                             </Text>
-                            <Text style={{ marginLeft: 40, color: 'green' }}>05-11-2020</Text>
+                            <Text style={{ color: 'green' }}>{this.props.created_at.toString().substr(0, 10)}</Text>
                         </View>
                         <Text style={{ marginTop: 10, color: 'gray', fontSize: 18 }}>
                             Tracking Number :
-                                        <Text style={{ fontWeight: 'bold', color: 'black' }}> JP4008547567</Text>
+                                        <Text style={{ fontWeight: 'bold', color: 'black' }}> {this.props.trackingNumber}</Text>
                         </Text>
                         <Text style={{ marginTop: 10, color: 'gray', fontSize: 18 }}>
                             Quantity :
-                                        <Text style={{ color: 'black', fontWeight: 'bold' }} > 3</Text>
+                                        <Text style={{ color: 'black', fontWeight: 'bold' }} > {this.props.qty}</Text>
                         </Text>
-                        <Text style={{ marginTop: 10, color: 'gray', fontSize: 18 }}>
-                            Total Amount :
-                                        <Text style={{ fontWeight: 'bold', color: 'black' }}> 112$</Text>
-                        </Text>
-                        <Text style={{ color: 'green', fontSize: 18, fontWeight: 'bold', marginLeft: 250 }}>Delivered</Text>
+                        <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginTop: 10, }}>
+                            <Text style={{ color: 'gray', fontSize: 18 }}>
+                                Total Amount :
+                                        <Text style={{ fontWeight: 'bold', color: 'black' }}> Rp. {this.props.total}</Text>
+                            </Text>
+                            <Text style={{ color: 'green', fontSize: 18, fontWeight: 'bold' }}>{this.props.status}</Text>
+                        </View>
                     </View>
                 </TouchableOpacity>
 

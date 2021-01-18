@@ -96,9 +96,10 @@ class Profile extends React.Component {
     }
 }
 
-const mapStateToProps = ({ auth }) => {
+const mapStateToProps = ({ auth,bag }) => {
     return {
-        auth
+        auth,
+        bag
     };
 };
 

@@ -62,11 +62,11 @@ class Login extends React.Component {
     }
 
     render() {
-        console.log(this.state)
+        // console.log(this.state)
         const { email, password } = this.state
         const { auth } = this.props
-        console.log(auth)
-        console.log(BASE_URL)
+        // console.log(auth)
+        // console.log(BASE_URL)
         return (
             <>
                 <View style={{ margin: 20 }}>

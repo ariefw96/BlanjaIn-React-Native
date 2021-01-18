@@ -18,7 +18,7 @@ export default class Card extends React.Component {
         } else {
 
         }
-        console.log(this.props)
+        // console.log(this.props)
 
         return (
             <>

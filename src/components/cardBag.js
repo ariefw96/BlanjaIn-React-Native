@@ -1,33 +1,42 @@
 import React, { Component } from 'react';
 import { Image, StyleSheet, Text, View, TouchableOpacity } from 'react-native';
+import { addQty, minQty, removeItems } from './../utils/redux/ActionCreators/bag'
+import { connect } from 'react-redux'
+import { BASE_URL } from '@env'
 
 class CardBag extends Component {
-    state = {
-        counter: this.props.qty,
-        testState: null
-    }
-
     Minus = () => {
-        if (this.state.counter > 0) {
-            this.setState({
-                counter: this.state.counter - 1
-            })
+        const data = {
+            product_id: this.props.productId,
+            color: this.props.color,
+            size: this.props.size,
+            price: this.props.price
+        }
+        console.log(data)
+        if(this.props.qty!= 1){
+            this.props.dispatch(minQty(data))
+        }else{
+            this.props.dispatch(removeItems(data))
         }
     }
 
     Plus = () => {
-        if (this.state.counter <= 10) {
-            this.setState({
-                counter: this.state.counter + 1
-            })
+        const data = {
+            product_id: this.props.productId,
+            color: this.props.color,
+            size: this.props.size,
+            price: this.props.price
         }
+        console.log(data)
+        this.props.dispatch(addQty(data))
     }
     render() {
-        const { itemsId, name, color, size, qty, price } = this.props
+        const { productId, name, color, size, qty, price, img } = this.props
+        console.log(this.props.bag.mybag)
         return (
             <View style={styles.container}>
 
-                <Image source={require('./../assets/cardbag.png')} style={styles.img} />
+                <Image source={{ uri: BASE_URL + img, width: 104, height: 104 }} style={styles.img} />
                 <View style={styles.infobag}>
                     <Text>{name}</Text>
                     <View style={{ flexDirection: 'row' }}>
@@ -42,12 +51,10 @@ class CardBag extends Component {
                                 <Image source={require('./../assets/icons/min.png')} style={{ marginTop: 13 }} />
                             </View>
                         </TouchableOpacity>
-                        <Text style={{ marginTop: 7, marginHorizontal: 10 }}>{this.state.counter}</Text>
+                        <Text style={{ marginTop: 7, marginHorizontal: 10 }}>{qty}</Text>
+
                         <TouchableOpacity
                             onPress={this.Plus}
-                        ></TouchableOpacity>
-                        <TouchableOpacity
-                            onPress={() => { this.setState({ counter: this.state.counter + 1 }) }}
                         >
                             <View style={styles.btn}>
                                 <Image source={require('../assets/icons/plus.png')} style={{ marginTop: 6 }} />
@@ -56,7 +63,7 @@ class CardBag extends Component {
 
 
                         <View style={styles.price}>
-                            <Text style={{ fontFamily: 'Metropolis-Bold', fontSize: 20 }}>Rp.{this.state.counter * price}</Text>
+                            <Text style={{ fontFamily: 'Metropolis-Bold', fontSize: 20 }}>Rp.{qty * price}</Text>
                         </View>
                     </View>
                 </View>
@@ -65,7 +72,14 @@ class CardBag extends Component {
     }
 }
 
-export default CardBag;
+const mapStateToProps = ({ auth, bag }) => {
+    return {
+        auth,
+        bag
+    };
+};
+
+export default connect(mapStateToProps)(CardBag);
 
 const styles = StyleSheet.create({
     container: {

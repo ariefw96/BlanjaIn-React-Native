@@ -11,7 +11,6 @@ class Mybag extends Component {
         super(props)
     }
     state = {
-        bagState: [],
         emptyBag: false
     }
 
@@ -20,20 +19,6 @@ class Mybag extends Component {
             if (!this.props.auth.isLogin) {
                 this.props.navigation.navigate('Login')
             }
-            axios.get(BASE_URL + '/bag/getFromUser/' + this.props.auth.id)
-                    .then(({ data }) => {
-                        if (data.status == 200) {
-                            this.setState({
-                                bagState: data.data
-                            })
-                        } else {
-                            this.setState({
-                                emptyBag: true
-                            })
-                        }
-                    }).catch(({ response }) => {
-                        console.log(response.data)
-                    })
         });
     }
 
@@ -42,17 +27,17 @@ class Mybag extends Component {
     }
 
     render() {
-        const { bagState } = this.state
+        const bagState = this.props.bag.mybag
         let thisBag;
-        if (this.state.emptyBag) {
-            thisBag = <><Text>Cart anda masih kosong</Text></>
+        if (bagState.length < 1) {
+            thisBag = <><View><Text>Cart anda masih kosong</Text></View></>
         } else {
             thisBag = <>
                 {
-                    bagState && bagState.map(({ id, product_name, color_name, size_name, qty, product_price }) => {
+                    bagState && bagState.map(({ product_id,product_img, product_name, color, size, qty, price }) => {
                         return (
                             <>
-                                <CardBag itemsId={id} name={product_name} color={color_name} size={size_name} qty={qty} price={product_price} />
+                                <CardBag productId={product_id} img={product_img} name={product_name} color={color} size={size} qty={qty} price={price} />
                             </>
                         )
                     })
@@ -104,7 +89,7 @@ class Mybag extends Component {
                             }}>
                             <Text style={{ fontFamily: 'Metropolis-Light', color: '#9B9B9B' }}>
                                 Total amount:</Text>
-                            <Text style={{ fontFamily: 'Metropolis-Bold' }}>112$</Text>
+                        <Text style={{ fontFamily: 'Metropolis-Bold' }}>Rp. {this.props.bag.totalAmmount}</Text>
                         </View>
                         <Button full rounded danger style={{ marginHorizontal: 10, marginBottom: 10 }}
                             onPress={() => { this.props.navigation.navigate('Checkout') }}
@@ -119,9 +104,9 @@ class Mybag extends Component {
         );
     }
 }
-const mapStateToProps = ({ auth }) => {
+const mapStateToProps = ({ auth, bag }) => {
     return {
-        auth
+        auth, bag
     };
 };
 

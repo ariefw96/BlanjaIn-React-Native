@@ -50,7 +50,7 @@ class Shipping extends React.Component {
     render() {
         // console.log(this.props.auth)
         const { shippingAddress } = this.state
-        console.log(this.props.address)
+        // console.log(this.props.address)
         return (
             <>
                 <Container>
