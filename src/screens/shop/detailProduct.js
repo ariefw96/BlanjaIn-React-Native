@@ -2,10 +2,10 @@ import React, { Component } from 'react'
 import { Image, Dimensions, StyleSheet, Text, View, ScrollView, TouchableOpacity, SafeAreaView, Picker } from 'react-native';
 import CardProduct from './../../components/card'
 import Review from './../../components/review'
-import { Left, Body, Right, Title, Button, Container, Header } from 'native-base'
+import { Left, Body, Title, Button, Container, Header, Form, Textarea, } from 'native-base'
 import { Col, Row, Grid } from 'react-native-easy-grid'
 import axios from 'axios'
-import {addItems} from './../../utils/redux/ActionCreators/bag'
+import { addItems } from './../../utils/redux/ActionCreators/bag'
 import { connect } from 'react-redux'
 import { BASE_URL } from '@env'
 
@@ -44,22 +44,22 @@ class DetailPage extends Component {
     }
 
     addToCart = () => {
-        const {navigation} = this.props
+        const { navigation } = this.props
         if (!this.props.auth.isLogin) {
             alert('Anda harus login terlebih dahulu')
         } else {
-            if(this.state.selectedColor == 0 || this.state.selectedSize == 0){
+            if (this.state.selectedColor == 0 || this.state.selectedSize == 0) {
                 alert('Harap pilih warna dan ukuran')
-            }else{
+            } else {
                 const Items = {
                     user_id: this.props.auth.id,
-                    product_id:this.props.route.params.itemId,
-                    product_name:this.state.product[0].product_name,
-                    product_img:this.state.product[0].product_img.split(',')[0],
-                    color:this.state.selectedColor,
-                    size:this.state.selectedSize,
-                    price:this.state.product[0].product_price,
-                    qty:1
+                    product_id: this.props.route.params.itemId,
+                    product_name: this.state.product[0].product_name,
+                    product_img: this.state.product[0].product_img.split(',')[0],
+                    color: this.state.selectedColor,
+                    size: this.state.selectedSize,
+                    price: this.state.product[0].product_price,
+                    qty: 1
                 }
                 console.log(Items)
                 this.props.dispatch(addItems(Items))
@@ -71,8 +71,8 @@ class DetailPage extends Component {
 
     render() {
         const { product } = this.state
-        // console.log(this.props.bag)
-        // console.log(this.state.product[0])
+        let writeBtn;
+        const id_productDetails = this.props.route.params.itemId
         return (
             <>
                 <Header transparent>
@@ -90,6 +90,7 @@ class DetailPage extends Component {
 
                 {
                     product && product.map(({ product_id, product_name, category_name, product_desc, product_img, product_price }) => {
+                        
                         return (
                             <>
                                 <Container>
@@ -162,7 +163,7 @@ class DetailPage extends Component {
                                                         </Text>
 
                                                         {/* <ListBar nav={navigation} /> */}
-                                                        <View style={styles.text}>
+                                                        {/* <View style={styles.text}>
                                                             <Text style={{ fontFamily: 'Metropolis', fontSize: 18 }}>
                                                                 You can also like this
                                         </Text>
@@ -183,8 +184,9 @@ class DetailPage extends Component {
                                                                     <CardProduct navigation={this.props.navigation} />
                                                                 </View>
                                                             </ScrollView>
-                                                        </SafeAreaView>
-                                                        <Review />
+                                                        </SafeAreaView> */}
+                                                        {writeBtn}
+                                                        <Review idProduct={id_productDetails}/>
                                                     </View>
                                                 </Row>
                                             </ScrollView>

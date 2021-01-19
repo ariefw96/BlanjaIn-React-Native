@@ -21,6 +21,7 @@ import Shop from './screens/shop/index';
 import Categories from './screens/shop/categories'
 import Filter from './screens/shop/filter'
 import DetailPage from './screens/shop/detailProduct' 
+import Review from './screens/shop/productReview'
 
 import Bag from './screens/myBag/index';
 import Checkout from './screens/myBag/checkoutPayment'
@@ -152,6 +153,7 @@ const appRouter = () => {
           <Stack.Screen name="Otp" component={Otp} />
           <Stack.Screen name="ResetPassword" component={Reset} />
           <Stack.Screen name="Success" component={Success} />
+          <Stack.Screen name="Review" component={Review} />
         </Stack.Navigator>
       
     </>

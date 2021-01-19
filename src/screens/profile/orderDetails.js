@@ -94,7 +94,11 @@ export default class ChangeAddress extends React.Component {
                             >
                                 <Text>Reorder</Text>
                             </Button>
-                            <Button full rounded danger style={styles.btn}>
+                            <Button full rounded danger style={styles.btn}
+                                onPress={() => {this.props.navigation.navigate('Review', {
+                                    trxId: TrxId
+                                })}}
+                            >
                                 <Text>Leave Feedback</Text>
                             </Button>
                         </View>
