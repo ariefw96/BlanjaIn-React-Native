@@ -3,7 +3,8 @@ import { Container, Header, Title, Content, Button, Left, Body, Text, Right } fr
 import { Image, View, TouchableOpacity } from 'react-native'
 import { connect } from 'react-redux'
 import { setLoginfalse, removeEmail, removeId, removeName } from './../../utils/redux/ActionCreators/auth'
-import {BASE_URL} from '@env'
+import EmptyPage from './../emptyScreen/index'
+import { BASE_URL } from '@env'
 
 class Profile extends React.Component {
     constructor(props) {
@@ -11,16 +12,17 @@ class Profile extends React.Component {
     }
     Logout = () => {
         this.props.dispatch(setLoginfalse())
-        this.props.dispatch(removeEmail())
-        this.props.dispatch(removeName())
-        this.props.dispatch(removeId())
         this.props.navigation.navigate('Login')
     }
 
     componentDidMount = () => {
         this._unsubscribe = this.props.navigation.addListener('focus', () => {
-            if(!this.props.auth.isLogin){
+            if (!this.props.auth.isLogin) {
                 this.props.navigation.navigate('Login')
+            } else {
+                this.setState({
+                    loading: false
+                })
             }
         });
     }
@@ -30,7 +32,40 @@ class Profile extends React.Component {
     }
 
     render() {
-        // console.log(this.props.auth)
+        let componentProfile;
+        const { auth } = this.props
+        if (auth.level == 2) {
+            componentProfile =
+                <>
+                    <TouchableOpacity style={{ borderBottomColor: 'gray', borderBottomWidth: 0.2, marginLeft: 10, marginRight: 40 }}
+                        onPress={() => { this.props.navigation.navigate('Store') }}
+                    >
+                        <View style={{ paddingLeft: 10, marginTop: 5 }}>
+                            <Text style={{ fontWeight: 'bold', fontSize: 20, marginBottom: 5 }}>My Store</Text>
+                            <Text style={{ color: 'gray', marginBottom: 10 }}>Manage your store products here</Text>
+                        </View>
+                    </TouchableOpacity>
+                </>
+        } else {
+            componentProfile = <>
+                <TouchableOpacity style={{ borderBottomColor: 'gray', borderBottomWidth: 0.2, marginLeft: 10, marginRight: 40 }}
+                    onPress={() => { this.props.navigation.navigate('Orders') }}
+                >
+                    <View style={{ paddingLeft: 10, marginTop: 5 }}>
+                        <Text style={{ fontWeight: 'bold', fontSize: 20, marginBottom: 5 }}>My Orders</Text>
+                        <Text style={{ color: 'gray', marginBottom: 10 }}>Already 12 orders</Text>
+                    </View>
+                </TouchableOpacity>
+                <TouchableOpacity style={{ borderBottomColor: 'gray', borderBottomWidth: 0.2, marginLeft: 10, marginRight: 40 }}
+                    onPress={() => { this.props.navigation.navigate('Shipping') }}>
+                    <View style={{ paddingLeft: 10, marginTop: 5 }}
+                    >
+                        <Text style={{ fontWeight: 'bold', fontSize: 20, marginBottom: 5 }}>Shipping Adress</Text>
+                        <Text style={{ color: 'gray', marginBottom: 10 }}>3 Shipping Adress</Text>
+                    </View>
+                </TouchableOpacity>
+            </>
+        }
         return (
             <>
                 <Container>
@@ -58,22 +93,7 @@ class Profile extends React.Component {
                                 <Text style={{ color: 'gray' }}>{this.props.auth.email}</Text>
                             </View>
                         </View>
-                        <TouchableOpacity style={{ borderBottomColor: 'gray', borderBottomWidth: 0.2, marginLeft: 10, marginRight: 40 }}
-                            onPress={() => { this.props.navigation.navigate('Orders') }}
-                        >
-                            <View style={{ paddingLeft: 10, marginTop: 5 }}>
-                                <Text style={{ fontWeight: 'bold', fontSize: 20, marginBottom: 5 }}>My Orders</Text>
-                                <Text style={{ color: 'gray', marginBottom: 10 }}>Already 12 orders</Text>
-                            </View>
-                        </TouchableOpacity>
-                        <TouchableOpacity style={{ borderBottomColor: 'gray', borderBottomWidth: 0.2, marginLeft: 10, marginRight: 40 }}
-                            onPress={() => { this.props.navigation.navigate('Shipping') }}>
-                            <View style={{ paddingLeft: 10, marginTop: 5 }}
-                            >
-                                <Text style={{ fontWeight: 'bold', fontSize: 20, marginBottom: 5 }}>Shipping Adress</Text>
-                                <Text style={{ color: 'gray', marginBottom: 10 }}>3 Shipping Adress</Text>
-                            </View>
-                        </TouchableOpacity>
+                        {componentProfile}
                         <TouchableOpacity style={{ borderBottomColor: 'gray', borderBottomWidth: 0.2, marginLeft: 10, marginRight: 40 }}
                             onPress={() => { this.props.navigation.navigate('Setting') }}
                         >
@@ -84,7 +104,7 @@ class Profile extends React.Component {
                             </View>
                         </TouchableOpacity>
                     </Content>
-                    <Button full rounded danger style={{marginHorizontal:10, marginBottom:15}}
+                    <Button full rounded danger style={{ marginHorizontal: 10, marginBottom: 15 }}
                         onPress={this.Logout}
                     >
                         <Text>Logout</Text>
@@ -96,7 +116,7 @@ class Profile extends React.Component {
     }
 }
 
-const mapStateToProps = ({ auth,bag }) => {
+const mapStateToProps = ({ auth, bag }) => {
     return {
         auth,
         bag

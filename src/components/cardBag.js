@@ -12,7 +12,7 @@ class CardBag extends Component {
             size: this.props.size,
             price: this.props.price
         }
-        console.log(data)
+        // console.log(data)
         if(this.props.qty!= 1){
             this.props.dispatch(minQty(data))
         }else{
@@ -27,12 +27,17 @@ class CardBag extends Component {
             size: this.props.size,
             price: this.props.price
         }
-        console.log(data)
+        // console.log(data)
         this.props.dispatch(addQty(data))
     }
+
+    toPrice = (x) => {
+        return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+    }
+
     render() {
         const { productId, name, color, size, qty, price, img } = this.props
-        console.log(this.props.bag.mybag)
+        // console.log(this.props.bag.mybag)
         return (
             <View style={styles.container}>
 
@@ -63,7 +68,7 @@ class CardBag extends Component {
 
 
                         <View style={styles.price}>
-                            <Text style={{ fontFamily: 'Metropolis-Bold', fontSize: 20 }}>Rp.{qty * price}</Text>
+                            <Text style={{ fontFamily: 'Metropolis-Bold', fontSize: 20 }}>Rp {this.toPrice(qty * price)}</Text>
                         </View>
                     </View>
                 </View>

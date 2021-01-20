@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { Image, Dimensions, StyleSheet, Text, View, ScrollView, TouchableOpacity, SafeAreaView, Picker } from 'react-native';
-import CardProduct from './../../components/card'
+import CardProduct from '../../components/cardHome'
 import Review from './../../components/review'
 import { Left, Body, Title, Button, Container, Header, Form, Textarea, } from 'native-base'
 import { Col, Row, Grid } from 'react-native-easy-grid'
@@ -26,7 +26,7 @@ class DetailPage extends Component {
                     product: data.data
                 })
             }).catch((error) => {
-                console.log(error)
+                console.log(error.response.data)
             })
     }
 
@@ -41,6 +41,10 @@ class DetailPage extends Component {
         this.setState({
             selectedColor: e
         })
+    }
+
+    toPrice = (x) => {
+        return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
     }
 
     addToCart = () => {
@@ -90,7 +94,7 @@ class DetailPage extends Component {
 
                 {
                     product && product.map(({ product_id, product_name, category_name, product_desc, product_img, product_price }) => {
-                        
+
                         return (
                             <>
                                 <Container>
@@ -151,12 +155,10 @@ class DetailPage extends Component {
                                                         </View>
                                                         <View style={styles.wraptitle}>
                                                             <Text style={styles.title}>{product_name}</Text>
-                                                            <Text style={styles.title}>Rp. {product_price}</Text>
+                                                            <Text style={styles.title}>Rp. {this.toPrice(product_price)}</Text>
                                                         </View>
                                                         <Text style={styles.PrdName}>{category_name}</Text>
                                                         <View>
-                                                            <Image source={require('./../../assets/icons/rating.png')} />
-                                                            <Text style={styles.PrdName}> (10)</Text>
                                                         </View>
                                                         <Text style={styles.desc}>
                                                             {product_desc}
@@ -186,7 +188,7 @@ class DetailPage extends Component {
                                                             </ScrollView>
                                                         </SafeAreaView> */}
                                                         {writeBtn}
-                                                        <Review idProduct={id_productDetails}/>
+                                                        <Review idProduct={id_productDetails} />
                                                     </View>
                                                 </Row>
                                             </ScrollView>

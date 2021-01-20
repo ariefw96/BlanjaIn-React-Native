@@ -31,7 +31,7 @@ class Register extends React.Component {
             axios.get(BASE_URL + `/auth/activate/${this.state.email}/${this.state.otp}`)
                 .then(({ data }) => {
                     alert(data.message)
-                    console.log(data)
+                    // console.log(data)
                     this.props.navigation.navigate('Login')
                 }).catch(({ response }) => {
                     alert(response.data.message)
@@ -53,7 +53,7 @@ class Register extends React.Component {
             axios.post(BASE_URL + `/auth/resend`, resendData)
                 .then(({ data }) => {
                     alert(data.message)
-                    console.log(data)
+                    // console.log(data)
                 }).catch(({ response }) => {
                     alert(response.data.message)
                     console.log(response.data)
@@ -65,7 +65,7 @@ class Register extends React.Component {
 
     render() {
         let { email, otp } = this.state
-        console.log(this.state)
+        // console.log(this.state)
         return (
             <>
                 <View style={{ margin: 20 }}>

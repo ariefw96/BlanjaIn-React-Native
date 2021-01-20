@@ -38,19 +38,23 @@ class writeReview extends Component {
     }
 
     submitReview = () =>{
-        const reviewData = {
-            user_id:this.props.auth.id,
-            product_id:this.state.selectedProduct,
-            rating:this.state.star,
-            review:this.state.review
+        if(this.state.selectedProduct != 0){
+            const reviewData = {
+                user_id:this.props.auth.id,
+                product_id:this.state.selectedProduct,
+                rating:this.state.star,
+                review:this.state.review
+            }
+            axios.post(BASE_URL+'/user/addReview', reviewData)
+            .then(({data}) =>{
+                alert(data.message)
+                this.props.navigation.goBack()
+            }).catch(({response}) =>{
+                console.log(response.data)
+            })
+        }else{
+            alert('Silahkan pilih produk terlebih dahulu')
         }
-        axios.post(BASE_URL+'/user/addReview', reviewData)
-        .then(({data}) =>{
-            alert(data.message)
-            this.props.navigation.goBack()
-        }).catch(({response}) =>{
-            console.log(response.data)
-        })
     }
 
     componentDidMount = () => {

@@ -25,7 +25,7 @@ export default class ChangeAddress extends React.Component {
 
     render() {
         const { TrxId, created_at, trackingNumber, status, qty, address, city, postal, payment, total, cardOrder } = this.state.orderDetails
-        console.log(this.state)
+        // console.log(this.state)
         const newDate = `${created_at}`
         return (
             <>
@@ -78,7 +78,7 @@ export default class ChangeAddress extends React.Component {
                         </View>
                         <View style={{ flexDirection: 'row', marginBottom: 10 }}>
                             <Text style={{ color: 'gray', width: 125 }}>Delivery Method  </Text>
-                            <Text style={{ width: 215, fontWeight: 'bold' }}>Fedex, 3 Days, 15$</Text>
+                            <Text style={{ width: 215, fontWeight: 'bold' }}>SiLambat, 3 Days, Rp. 15,000</Text>
                         </View>
                         <View style={{ flexDirection: 'row', marginBottom: 10 }}>
                             <Text style={{ color: 'gray', width: 125 }}>Discount  </Text>
@@ -86,7 +86,7 @@ export default class ChangeAddress extends React.Component {
                         </View>
                         <View style={{ flexDirection: 'row', marginBottom: 10 }}>
                             <Text style={{ color: 'gray', width: 125 }}>Total Amount  </Text>
-                            <Text style={{ width: 215, fontWeight: 'bold' }}>Rp. {total}</Text>
+                    <Text style={{ width: 215, fontWeight: 'bold' }}>Rp. {total}</Text>
                         </View>
                         <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginTop: 15 }}>
                             <Button full rounded bordered dark style={styles.btn}

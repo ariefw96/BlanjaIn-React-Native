@@ -36,9 +36,9 @@ class Otp extends React.Component {
 
     render() {
         const {otp} = this.state
-        console.log(this.state)
+        // console.log(this.state)
         const {auth} = this.props
-        console.log(auth)
+        // console.log(auth)
         return (
             <>
                 <View style={{ margin: 20 }}>

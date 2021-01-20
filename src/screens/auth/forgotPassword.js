@@ -45,8 +45,8 @@ class ForgotPassword extends React.Component {
 
     render() {
         const { email } = this.state
-        console.log(this.state)
-        console.log('email :'+this.props.auth.email)
+        // console.log(this.state)
+        // console.log('email :'+this.props.auth.email)
         return (
             <>
                 <View style={{ margin: 20 }}>

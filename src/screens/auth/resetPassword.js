@@ -47,8 +47,8 @@ class ResetPassword extends React.Component {
     }
 
     render() {
-    console.log(this.state.newPassword, this.state.confPassword)
-    console.log(this.props.auth.email)
+    // console.log(this.state.newPassword, this.state.confPassword)
+    // console.log(this.props.auth.email)
     const {newPassword, confPassword} = this.state
         return (
             <>

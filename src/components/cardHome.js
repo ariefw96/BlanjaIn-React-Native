@@ -5,6 +5,9 @@ import {API_KEY, BASE_URL} from '@env'
 
 
 export default class Card extends React.Component {
+    toPrice = (x) => {
+        return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+    }
     render() {
         let newBtn;
         if (this.props.new) {
@@ -22,6 +25,9 @@ export default class Card extends React.Component {
 
         return (
             <>
+            <View key={this.props.keyId}>
+
+            </View>
                 <TouchableOpacity
                     onPress={() => {
                         this.props.navigation.navigate('Details', {
@@ -32,10 +38,13 @@ export default class Card extends React.Component {
                     <View style={{ height: 320, marginRight: 15 }}>
                         <Image source={{ uri: BASE_URL + this.props.product_img, width: 156, height: 215 }} />
                         {newBtn}
-                        <Image source={require('./../assets/rating.png')} style={{ marginTop: 5 }} />
+                        <View style={{flexDirection:'row'}}>
+                <Text>Rating {this.props.rating} ({this.props.dibeli})</Text>
+
+                        </View>
                         <Text style={{ color: 'gray', marginTop: 5 }}>{this.props.category}</Text>
                         <Text style={{ fontWeight: 'bold', fontSize: 15 }}>{this.props.product_name}</Text>
-                        <Text style={{ fontWeight: 'bold', fontSize: 15 }}>Rp. {this.props.product_price}</Text>
+                        <Text style={{ fontWeight: 'bold', fontSize: 15 }}>Rp. {this.toPrice(this.props.product_price)}</Text>
                 <Text>{this.props.size} - {this.props.color}</Text>
                     </View>
                 </TouchableOpacity>

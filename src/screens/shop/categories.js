@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import { Dimensions, StyleSheet, Text, View, Image, TouchableOpacity, ScrollView, SafeAreaView } from 'react-native';
-import Card from '../../components/card'
+import Card from '../../components/cardHome'
 import { Container, Header, Title, Content, Button, Left, Body, Right } from "native-base";
 import { Col, Row, Grid } from 'react-native-easy-grid'
 import axios from 'axios'
-import {BASE_URL} from '@env'
+import { BASE_URL } from '@env'
 
 class ShopCategory extends Component {
     constructor(props) {
@@ -18,7 +18,7 @@ class ShopCategory extends Component {
 
     componentDidMount = () => {
         if (this.props.route.params.categoryType === 'new') {
-            console.log('saya klik new')
+            // console.log('saya klik new')
             axios.get(BASE_URL + '/products')
                 .then(({ data }) => {
                     console.log(data)
@@ -28,30 +28,57 @@ class ShopCategory extends Component {
                 }).catch((error) => {
                     console.log(error)
                 })
-        }else{
-            axios.get(BASE_URL+'/products?category='+this.props.route.params.categoryType)
-            .then(({ data }) => {
-                console.log(data)
-                this.setState({
-                    products: data.data.products
+        } else {
+            axios.get(BASE_URL + '/products?category=' + this.props.route.params.categoryType)
+                .then(({ data }) => {
+                    // console.log(data)
+                    this.setState({
+                        products: data.data.products
+                    })
+                }).catch((error) => {
+                    console.log(error.response.data)
                 })
-            }).catch((error) => {
-                console.log(error)
-            })
         }
     }
+
+    sortPriceAsc = () => {
+        let newArray = this.state.products.sort(function (a, b) {
+            var keyA = new Date(a.product_price),
+                keyB = new Date(b.product_price);
+            if (keyA < keyB) return -1;
+            if (keyA > keyB) return 1;
+            return 0;
+        });
+        this.setState({
+            products: newArray
+        })
+    }
+
+    sortPriceDesc = () => {
+        let newArray = this.state.products.sort(function (a, b) {
+            var keyA = new Date(a.product_price),
+                keyB = new Date(b.product_price);
+            if (keyA > keyB) return -1;
+            if (keyA < keyB) return 1;
+            return 0;
+        });
+        this.setState({
+            products: newArray
+        })
+    }
+
     render() {
         const { products } = this.state
         return (
             <>
-                <Header transparent style={{backgroundColor:'white'}}>
+                <Header transparent style={{ backgroundColor: 'white' }}>
                     <Left>
                         <Button transparent onPress={() => { this.props.navigation.goBack() }}>
                             <Image source={require('../../assets/icons/back.png')} />
                         </Button>
                     </Left>
                     <Body >
-        <Title style={{ color: 'black', marginLeft: 50, fontWeight: 'bold' }}>{this.props.route.params.title}</Title>
+                        <Title style={{ color: 'black', marginLeft: 50, fontWeight: 'bold' }}>{this.props.route.params.title}</Title>
                     </Body>
                     <Right>
                         <Button transparent>
@@ -59,7 +86,7 @@ class ShopCategory extends Component {
                         </Button>
                     </Right>
                 </Header>
-                <Container style={{backgroundColor: '#f0f0f0'}}>
+                <Container style={{ backgroundColor: '#f0f0f0' }}>
                     <View style={styles.filter}>
                         <Grid>
                             <Col>
@@ -77,8 +104,14 @@ class ShopCategory extends Component {
                         </Grid>
                     </View>
 
-
-
+                    <View style={{ flexDirection: 'row', justifyContent: 'space-around' }}>
+                        <Button primary style={{ width: 100 }}
+                            onPress={this.sortPriceAsc}
+                        ><Text>Price Asc</Text></Button>
+                        <Button success style={{ width: 100 }}
+                            onPress={this.sortPriceDesc}
+                        ><Text>Price Desc</Text></Button>
+                    </View>
 
                     <ScrollView>
                         <View style={styles.grid} >

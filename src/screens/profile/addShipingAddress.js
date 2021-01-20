@@ -48,8 +48,8 @@ class addShipping extends Component {
 
     render() {
         const { address_type, recipient_name, address, city, postal, phone } = this.state
-        console.log(this.state)
-        console.log(this.props.auth)
+        // console.log(this.state)
+        // console.log(this.props.auth)
         return (
             <Container >
                 <Header transparent>

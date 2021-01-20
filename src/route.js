@@ -1,6 +1,6 @@
 import 'react-native-gesture-handler';
 import React, { useEffect } from 'react';
-import {connect} from 'react-redux';
+import { connect } from 'react-redux';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 // import Splash from './screens/splash/index'
@@ -20,7 +20,7 @@ import Reset from './screens/auth/resetPassword'
 import Shop from './screens/shop/index';
 import Categories from './screens/shop/categories'
 import Filter from './screens/shop/filter'
-import DetailPage from './screens/shop/detailProduct' 
+import DetailPage from './screens/shop/detailProduct'
 import Review from './screens/shop/productReview'
 
 import Bag from './screens/myBag/index';
@@ -36,10 +36,20 @@ import Setting from './screens/profile/setting'
 
 import Notification from './screens/home/notifications'
 
+import UserStore from './screens/profile/seller'
+import ListProduct from './screens/profile/seller/ListProduct'
+import SellingProduct from './screens/profile/seller/ListStock'
+import AddProduct from './screens/profile/seller/addProduct'
+import AddStock from './screens/profile/seller/addStock'
+import EditStock from './screens/profile/seller/editStock'
+import EditProduct from './screens/profile/seller/editProduct'
+
+import Splash from './screens/splash'
+
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
 
-const MyTabs = ({auth}) => {
+const MyTabs = ({ auth }) => {
   return (
     <Tab.Navigator
       headerMode="none"
@@ -123,15 +133,22 @@ const ShopPage = () => {
 const MainProfile = () => {
   return (
     <Stack.Navigator initialRouteName="MainProfile" headerMode="none">
-            <>
-            <Stack.Screen name="Profile" component={Profile} />
-            <Stack.Screen name="Orders" component={Order} />
-            <Stack.Screen name="DetailsOrders" component={DetailOrders} />
-            <Stack.Screen name="Shipping" component={Shipping} />
-            <Stack.Screen name="ChangeAddress" component={ChangeAddress} />
-            <Stack.Screen name="AddAddress" component={AddAddress} />
-            <Stack.Screen name="Setting" component={Setting} />
-            </>    
+      <>
+        <Stack.Screen name="Profile" component={Profile} />
+        <Stack.Screen name="Orders" component={Order} />
+        <Stack.Screen name="DetailsOrders" component={DetailOrders} />
+        <Stack.Screen name="Shipping" component={Shipping} />
+        <Stack.Screen name="ChangeAddress" component={ChangeAddress} />
+        <Stack.Screen name="AddAddress" component={AddAddress} />
+        <Stack.Screen name="Setting" component={Setting} />
+        <Stack.Screen name="Store" component={UserStore} />
+        <Stack.Screen name="SellingProduct" component={SellingProduct} />
+        <Stack.Screen name="ListProduct" component={ListProduct} />
+        <Stack.Screen name="AddProduct" component={AddProduct} />
+        <Stack.Screen name="AddStock" component={AddStock} />
+        <Stack.Screen name="EditStock" component={EditStock} />
+        <Stack.Screen name="EditProduct" component={EditProduct} />
+      </>
     </Stack.Navigator>
   );
 };
@@ -140,22 +157,22 @@ const appRouter = () => {
 
   return (
     <>
-      
-        <Stack.Navigator headerMode="none">
-          {/* <Stack.Screen name="Splash" component={Splash} /> */}
-          <Stack.Screen name="Tab" component={MyTabs} />
-          <Stack.Screen name="Notification" component={Notification} />
-          <Stack.Screen name="Details" component={DetailPage} />
-          <Stack.Screen name="Login" component={Login} />
-          <Stack.Screen name="Register" component={Signup} />
-          <Stack.Screen name="Activate" component={Activate} />
-          <Stack.Screen name="ForgotPassword" component={Forgot} />
-          <Stack.Screen name="Otp" component={Otp} />
-          <Stack.Screen name="ResetPassword" component={Reset} />
-          <Stack.Screen name="Success" component={Success} />
-          <Stack.Screen name="Review" component={Review} />
-        </Stack.Navigator>
-      
+
+      <Stack.Navigator headerMode="none">
+        {/* <Stack.Screen name="Splash" component={Splash} /> */}
+        <Stack.Screen name="Tab" component={MyTabs} />
+        <Stack.Screen name="Notification" component={Notification} />
+        <Stack.Screen name="Details" component={DetailPage} />
+        <Stack.Screen name="Login" component={Login} />
+        <Stack.Screen name="Register" component={Signup} />
+        <Stack.Screen name="Activate" component={Activate} />
+        <Stack.Screen name="ForgotPassword" component={Forgot} />
+        <Stack.Screen name="Otp" component={Otp} />
+        <Stack.Screen name="ResetPassword" component={Reset} />
+        <Stack.Screen name="Success" component={Success} />
+        <Stack.Screen name="Review" component={Review} />
+      </Stack.Navigator>
+
     </>
   );
 };

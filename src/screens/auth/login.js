@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Form, Item, Input, Label, Button, } from 'native-base';
-import { setLogintrue, setName, setEmail, setId } from './../../utils/redux/ActionCreators/auth'
+import { setLogintrue } from './../../utils/redux/ActionCreators/auth'
 import { connect } from 'react-redux'
 import {
     Text,
@@ -31,15 +31,18 @@ class Login extends React.Component {
 
             axios.post(BASE_URL + '/auth/login', data)
                 .then(({ data }) => {
-                    alert(data.message)
-                    console.log(data.result)
                     this.setState({
                         errorForm: ''
                     })
-                    this.props.dispatch(setLogintrue())
-                    this.props.dispatch(setName(data.result.name))
-                    this.props.dispatch(setEmail(data.result.email))
-                    this.props.dispatch(setId(data.result.user_id))
+                    const dataLogin = {
+                        name:data.result.name,
+                        email:data.result.email,
+                        level:data.result.level,
+                        id:data.result.user_id,
+                        token:data.result.token
+                    }
+                    console.log(dataLogin)
+                    this.props.dispatch(setLogintrue(dataLogin))
                     this.props.navigation.navigate('Home')
                 }).catch(({ response }) => {
                     console.log(response.data)
@@ -65,7 +68,6 @@ class Login extends React.Component {
         // console.log(this.state)
         const { email, password } = this.state
         const { auth } = this.props
-        // console.log(auth)
         // console.log(BASE_URL)
         return (
             <>

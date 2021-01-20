@@ -36,7 +36,27 @@ class Orders extends React.Component {
 
     render() {
         const { cardOrder } = this.state
-        console.log(this.state.cardOrder)
+        let orderContent;
+        if (cardOrder.length > 0) {
+            orderContent =
+                <>
+                    {
+                        cardOrder && cardOrder.map(({ trxId, trackingNumber, qty, total, created_at, status }) => {
+                            return (
+                                <>
+                                    <CardOrder trxId={trxId} trackingNumber={trackingNumber} qty={qty} total={total} created_at={created_at} status={status} navigation={this.props.navigation} />
+                                </>
+                            )
+                        })
+                    }
+                </>
+        } else {
+            orderContent =
+                <>
+                    <Text style={{ fontSize: 20, fontWeight: 'bold' }}>Belum ada daftar transaksi...</Text>
+                </>
+        }
+        // console.log(this.state.cardOrder)
         return (
             <>
                 <Container>
@@ -53,23 +73,13 @@ class Orders extends React.Component {
                         </Body>
 
                     </Header>
-                    <Content style={{ backgroundColor: '#f0f0f0' }}>
+                    <Content style={{ backgroundColor: '#f0f0f0', marginHorizontal: 10 }}>
                         <View>
-                            <Text style={{ fontWeight: 'bold', fontSize: 42, marginLeft: 15, marginRight: 10, marginTop: 20, marginBottom: 10 }}>My Orders</Text>
+                            <Text style={{ fontWeight: 'bold', fontSize: 42, marginRight: 10, marginTop: 20, marginBottom: 10 }}>My Orders</Text>
                         </View>
                         <SafeAreaView>
                             <ScrollView style={{ height: 480 }}>
-
-                                {
-                                    cardOrder && cardOrder.map(({trxId, trackingNumber, qty, total, created_at, status}) => {
-                                        return (
-                                            <>
-                                                <CardOrder trxId={trxId} trackingNumber={trackingNumber} qty={qty} total={total} created_at={created_at} status={status} navigation={this.props.navigation} />
-                                            </>
-                                        )
-                                    })
-                                }
-
+                                {orderContent}
                             </ScrollView>
                         </SafeAreaView>
                     </Content>

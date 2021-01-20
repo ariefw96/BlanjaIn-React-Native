@@ -3,12 +3,12 @@ import { Image, StyleSheet, Text, View } from 'react-native'
 import Logo from './../../assets/Vector.png'
 import SplashScreen from 'react-native-splash-screen';
 
-const Splash = () => {
-    useEffect(() => {
-      setTimeout(() => {
-        SplashScreen.hide();
-      }, 1000);
-    }, []);
+const Splash = ({navigation}) => {
+    // useEffect(() => {
+    //   setTimeout(() => {
+    //     navigation.navigate('Tab')
+    //   }, 3000);
+    // }, []);
     return(
         <View style={styles.container}>
             <Image source={Logo} />

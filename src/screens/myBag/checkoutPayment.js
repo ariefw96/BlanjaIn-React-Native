@@ -50,10 +50,8 @@ class CheckOut extends React.Component {
             payment = 2
         } else if (this.state.isCheckedGopay) {
             payment = 3
-        } else {
-            alert('Harap pilih pembayaran')
         }
-        if (payment != 0) {
+        if (payment != 0 && this.props.address.activeAddress != null) {
             const Order = {
                 trxId:`TRX00${this.props.bag.trxId}`,
                 payment: payment,
@@ -83,6 +81,8 @@ class CheckOut extends React.Component {
                 })
             }
 
+        }else{
+            alert('Harap lengkapi alamat dan payment')
         }
 
     }
@@ -105,7 +105,7 @@ class CheckOut extends React.Component {
     }
 
     render() {
-        console.log(this.props.bag.mybag[0])
+        // console.log(this.props.bag.mybag[0])
         const { address } = this.state
         let cardAdress;
         if (this.props.address.activeAddress != null) {

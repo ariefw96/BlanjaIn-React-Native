@@ -3,7 +3,7 @@ import { Text, View, TouchableOpacity, StyleSheet } from 'react-native'
 
 export default class cardOrder extends React.Component {
     render() {
-        console.log(this.props)
+        // console.log(this.props)
         return (
             <>
                 <TouchableOpacity style={styles.order}
