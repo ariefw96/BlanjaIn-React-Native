@@ -49,8 +49,8 @@ class DetailPage extends Component {
 
     addToCart = () => {
         const { navigation } = this.props
-        if (!this.props.auth.isLogin) {
-            alert('Anda harus login terlebih dahulu')
+        if (!this.props.auth.isLogin || this.props.auth.level !=1) {
+            alert('Anda harus login sebagai costumer terlebih dahulu')
         } else {
             if (this.state.selectedColor == 0 || this.state.selectedSize == 0) {
                 alert('Harap pilih warna dan ukuran')

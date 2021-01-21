@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Dimensions, StyleSheet, Text, View, Image, TouchableOpacity, ScrollView, SafeAreaView } from 'react-native';
+import { Dimensions, StyleSheet, Text, View, Image, TouchableOpacity, ScrollView, SafeAreaView, ProgressViewIOS } from 'react-native';
 import Card from '../../components/cardHome'
 import { Container, Header, Title, Content, Button, Left, Body, Right } from "native-base";
 import { Col, Row, Grid } from 'react-native-easy-grid'
@@ -11,8 +11,42 @@ class ShopCategory extends Component {
         super(props)
         this.state = {
             products: [],
+            pageInfo: {},
+            currentPage: '',
+            intialPage:''
         }
-        console.log(this.props)
+    }
+
+    nextPage = () => {
+        const nextPage = this.state.pageInfo.nextpage
+        if (nextPage != null) {
+            axios.get(BASE_URL + '/' + nextPage)
+                .then(({ data }) => {
+                    this.setState({
+                        products: data.data.products,
+                        pageInfo: data.data.pageInfo,
+                        currentPage: '/' + nextPage
+                    })
+                }).catch((error) => {
+                    console.log(error)
+                })
+        }
+    }
+
+    prevPage = () => {
+        const prevPage = this.state.pageInfo.previousPage
+        if (prevPage != null) {
+            axios.get(BASE_URL + '/' + prevPage)
+                .then(({ data }) => {
+                    this.setState({
+                        products: data.data.products,
+                        pageInfo: data.data.pageInfo,
+                        currentPage: '/' + prevPage
+                    })
+                }).catch((error) => {
+                    console.log(error)
+                })
+        }
     }
 
 
@@ -21,9 +55,11 @@ class ShopCategory extends Component {
             // console.log('saya klik new')
             axios.get(BASE_URL + '/products')
                 .then(({ data }) => {
-                    console.log(data)
                     this.setState({
-                        products: data.data.products
+                        products: data.data.products,
+                        pageInfo: data.data.pageInfo,
+                        currentPage: '/products',
+                        intialPage:'/products'
                     })
                 }).catch((error) => {
                     console.log(error)
@@ -33,7 +69,11 @@ class ShopCategory extends Component {
                 .then(({ data }) => {
                     // console.log(data)
                     this.setState({
-                        products: data.data.products
+                        products: data.data.products,
+                        pageInfo: data.data.pageInfo,
+                        currentPage: '/products?category=' + this.props.route.params.categoryType,
+                        intialPage:'/products?category=' + this.props.route.params.categoryType
+
                     })
                 }).catch((error) => {
                     console.log(error.response.data)
@@ -42,33 +82,34 @@ class ShopCategory extends Component {
     }
 
     sortPriceAsc = () => {
-        let newArray = this.state.products.sort(function (a, b) {
-            var keyA = new Date(a.product_price),
-                keyB = new Date(b.product_price);
-            if (keyA < keyB) return -1;
-            if (keyA > keyB) return 1;
-            return 0;
-        });
-        this.setState({
-            products: newArray
-        })
+        const sortingProduct = this.state.intialPage !='/products'?'&':'?'
+        axios.get(BASE_URL + this.state.intialPage+ sortingProduct+'sortBy=product_price&orderBy=asc')
+            .then(({ data }) => {
+                this.setState({
+                    products: data.data.products,
+                    pageInfo: data.data.pageInfo,
+                })
+            }).catch((error) => {
+                console.log(error)
+            })
     }
 
     sortPriceDesc = () => {
-        let newArray = this.state.products.sort(function (a, b) {
-            var keyA = new Date(a.product_price),
-                keyB = new Date(b.product_price);
-            if (keyA > keyB) return -1;
-            if (keyA < keyB) return 1;
-            return 0;
-        });
-        this.setState({
-            products: newArray
-        })
+        const sortingProduct = this.state.intialPage !='/products'?'&':'?'
+        axios.get(BASE_URL + this.state.intialPage+ sortingProduct+'sortBy=product_price&orderBy=desc')
+            .then(({ data }) => {
+                this.setState({
+                    products: data.data.products,
+                    pageInfo: data.data.pageInfo,
+                })
+            }).catch((error) => {
+                console.log(error)
+            })
     }
 
     render() {
-        const { products } = this.state
+        const { products, pageInfo } = this.state
+        console.log(this.state.currentPage)
         return (
             <>
                 <Header transparent style={{ backgroundColor: 'white' }}>
@@ -81,7 +122,9 @@ class ShopCategory extends Component {
                         <Title style={{ color: 'black', marginLeft: 50, fontWeight: 'bold' }}>{this.props.route.params.title}</Title>
                     </Body>
                     <Right>
-                        <Button transparent>
+                        <Button transparent
+                            onPress={() => this.props.navigation.navigate('Search')}
+                        >
                             <Image source={require('../../assets/icons/Search.png')} />
                         </Button>
                     </Right>
@@ -100,33 +143,47 @@ class ShopCategory extends Component {
                                 <TouchableOpacity>
                                     <Text style={styles.txtFilter}> Sort </Text>
                                 </TouchableOpacity>
-                            </Col>
-                        </Grid>
-                    </View>
-
-                    <View style={{ flexDirection: 'row', justifyContent: 'space-around' }}>
-                        <Button primary style={{ width: 100 }}
+                                <View style={{ flexDirection: 'row', justifyContent: 'space-around' }}>
+                        <Button full small rounded bordered
                             onPress={this.sortPriceAsc}
                         ><Text>Price Asc</Text></Button>
-                        <Button success style={{ width: 100 }}
+                        <Button full small rounded bordered
                             onPress={this.sortPriceDesc}
                         ><Text>Price Desc</Text></Button>
+                    </View>
+                            </Col>
+                        </Grid>
                     </View>
 
                     <ScrollView>
                         <View style={styles.grid} >
                             {
-                                products && products.map(({ product_id, product_name, product_price, product_img, category_name, color_name, size_name }) => {
+                                products && products.map(({ product_id, product_name, product_price, product_img, category_name, color_name, size_name, rating, dibeli }) => {
                                     let img = product_img.split(',')[0]
                                     return (
                                         <>
-                                            <Card navigation={this.props.navigation} product_name={product_name} product_price={product_price} product_img={img} keyId={product_id} category={category_name} color={color_name} size={size_name} />
+                                            <Card navigation={this.props.navigation} product_name={product_name} product_price={product_price} product_img={img} keyId={product_id} category={category_name} color={color_name} size={size_name} rating={rating} dibeli={dibeli} />
                                         </>
                                     )
                                 })
                             }
                         </View>
                     </ScrollView>
+                    <View style={{ flexDirection: 'row', justifyContent: 'space-around' }}>
+                        <Button full small rounded bordered
+                            onPress={this.prevPage}
+                        >
+                            <Text>{`<< `}Prev</Text>
+                        </Button>
+                        <Button full small rounded bordered style={{ width: 200 }}>
+                            <Text>{pageInfo.currentPage}</Text>
+                        </Button>
+                        <Button small rounded bordered
+                            onPress={this.nextPage}
+                        >
+                            <Text>Next {`>> `}</Text>
+                        </Button>
+                    </View>
                 </Container>
             </>
         );

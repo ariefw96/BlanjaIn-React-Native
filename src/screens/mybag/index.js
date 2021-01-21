@@ -16,8 +16,8 @@ class Mybag extends Component {
 
     componentDidMount = () => {
         this._unsubscribe = this.props.navigation.addListener('focus', () => {
-            if (!this.props.auth.isLogin) {
-                this.props.navigation.navigate('Login')
+            if (!this.props.auth.isLogin || this.props.auth.level !=1) {
+                this.props.navigation.navigate('Home')
             }
         });
     }

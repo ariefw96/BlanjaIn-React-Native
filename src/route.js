@@ -18,6 +18,7 @@ import Otp from './screens/auth/otp';
 import Reset from './screens/auth/resetPassword'
 
 import Shop from './screens/shop/index';
+import Search from './screens/shop/search'
 import Categories from './screens/shop/categories'
 import Filter from './screens/shop/filter'
 import DetailPage from './screens/shop/detailProduct'
@@ -125,6 +126,7 @@ const ShopPage = () => {
     <Stack.Navigator headerMode="none">
       <Stack.Screen name="Shop" component={Shop} />
       <Stack.Screen name="Categories" component={Categories} />
+      <Stack.Screen name="Search" component={Search} />
       <Stack.Screen name="Filter" component={Filter} />
     </Stack.Navigator>
   );
@@ -160,6 +162,7 @@ const appRouter = () => {
 
       <Stack.Navigator headerMode="none">
         {/* <Stack.Screen name="Splash" component={Splash} /> */}
+
         <Stack.Screen name="Tab" component={MyTabs} />
         <Stack.Screen name="Notification" component={Notification} />
         <Stack.Screen name="Details" component={DetailPage} />
@@ -171,6 +174,7 @@ const appRouter = () => {
         <Stack.Screen name="ResetPassword" component={Reset} />
         <Stack.Screen name="Success" component={Success} />
         <Stack.Screen name="Review" component={Review} />
+        <Stack.Screen name="Search" component={Search} />
       </Stack.Navigator>
 
     </>

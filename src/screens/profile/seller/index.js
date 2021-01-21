@@ -46,7 +46,7 @@ class UserStore extends React.Component {
                         <Body />
                         <Right>
                             <Button transparent>
-                                <Image source={require('./../../../assets/icons/Search.png')} />
+                                {/* <Image source={require('./../../../assets/icons/Search.png')} /> */}
                             </Button>
                         </Right>
                     </Header>
@@ -60,13 +60,14 @@ class UserStore extends React.Component {
                             </View>
                         </View>
                         <TouchableOpacity style={{ borderBottomColor: 'gray', borderBottomWidth: 0.2, marginLeft: 10, marginRight: 40 }}
-                            onPress={() => { this.props.navigation.navigate('SellingProduct') }}
+                            onPress={() => { this.props.navigation.navigate('AddProduct') }}
                         >
                             <View style={{ paddingLeft: 10, marginTop: 5 }}>
-                                <Text style={{ fontWeight: 'bold', fontSize: 20, marginBottom: 5 }}>My selling product</Text>
-                                <Text style={{ color: 'gray', marginBottom: 10 }}>Manage your selling products here</Text>
+                                <Text style={{ fontWeight: 'bold', fontSize: 20, marginBottom: 5 }}>Add products</Text>
+                                <Text style={{ color: 'gray', marginBottom: 10 }}>Add your new Product here</Text>
                             </View>
                         </TouchableOpacity>
+                        
                         <TouchableOpacity style={{ borderBottomColor: 'gray', borderBottomWidth: 0.2, marginLeft: 10, marginRight: 40 }}
                             onPress={() => { this.props.navigation.navigate('ListProduct') }}
                         >
@@ -76,21 +77,22 @@ class UserStore extends React.Component {
                             </View>
                         </TouchableOpacity>
                         <TouchableOpacity style={{ borderBottomColor: 'gray', borderBottomWidth: 0.2, marginLeft: 10, marginRight: 40 }}
-                            onPress={() => { this.props.navigation.navigate('AddProduct') }}
-                        >
-                            <View style={{ paddingLeft: 10, marginTop: 5 }}>
-                                <Text style={{ fontWeight: 'bold', fontSize: 20, marginBottom: 5 }}>Add products</Text>
-                                <Text style={{ color: 'gray', marginBottom: 10 }}>Already 12 orders</Text>
-                            </View>
-                        </TouchableOpacity>
-                        <TouchableOpacity style={{ borderBottomColor: 'gray', borderBottomWidth: 0.2, marginLeft: 10, marginRight: 40 }}
                             onPress={() => { this.props.navigation.navigate('AddStock') }}>
                             <View style={{ paddingLeft: 10, marginTop: 5 }}
                             >
                                 <Text style={{ fontWeight: 'bold', fontSize: 20, marginBottom: 5 }}>Add stock</Text>
-                                <Text style={{ color: 'gray', marginBottom: 10 }}>3 Shipping Adress</Text>
+                                <Text style={{ color: 'gray', marginBottom: 10 }}>Add stock of product or somthng here</Text>
                             </View>
                         </TouchableOpacity>
+                        <TouchableOpacity style={{ borderBottomColor: 'gray', borderBottomWidth: 0.2, marginLeft: 10, marginRight: 40 }}
+                            onPress={() => { this.props.navigation.navigate('SellingProduct') }}
+                        >
+                            <View style={{ paddingLeft: 10, marginTop: 5 }}>
+                                <Text style={{ fontWeight: 'bold', fontSize: 20, marginBottom: 5 }}>My selling product</Text>
+                                <Text style={{ color: 'gray', marginBottom: 10 }}>Manage your selling products here</Text>
+                            </View>
+                        </TouchableOpacity>
+
                     </Content>
                 </Container>
             </>
