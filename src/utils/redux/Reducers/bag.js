@@ -1,12 +1,11 @@
-import myBag from "../../../screens/myBag";
 
 const bagReducer = (
     prevstate = {
         mybag: [],
         myOrder: [],
         totalAmmount: 0,
-        totalPayment:0,
-        trxId: 0
+        totalPayment: 0,
+        trxId: Math.floor( (Math.random() * 10000000) + 1)
     }, action) => {
 
     switch (action.type) {
@@ -73,10 +72,18 @@ const bagReducer = (
                 mybag: itemAfterRemove,
                 totalAmmount: prevstate.totalAmmount - action.data.price
             }
-            case "TOTAL_PAYMENT":
-                return {
-                    totalPayment: prevstate.totalPayment +  action.data
-                }
+        case "TOTAL_PAYMENT":
+            return {
+                totalPayment: prevstate.totalPayment + action.data
+            }
+        case "EMPTY_BAG":
+            return {
+                ...prevstate,
+                mybag: [],
+                myOrder: [],
+                totalAmmount: 0,
+                totalPayment: 0,
+            }
         default:
             return {
                 ...prevstate,

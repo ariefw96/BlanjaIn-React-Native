@@ -6,6 +6,7 @@ import { Left, Body, Title, Button, Container, Header, Form, Textarea, } from 'n
 import { Col, Row, Grid } from 'react-native-easy-grid'
 import axios from 'axios'
 import { addItems } from './../../utils/redux/ActionCreators/bag'
+import {addNotification} from './../../utils/redux/ActionCreators/notification'
 import { connect } from 'react-redux'
 import { BASE_URL } from '@env'
 
@@ -65,7 +66,7 @@ class DetailPage extends Component {
                     price: this.state.product[0].product_price,
                     qty: 1
                 }
-                console.log(Items)
+                // console.log(Items)
                 this.props.dispatch(addItems(Items))
                 alert('Berhasil menambahkan ke keranjang')
                 this.props.navigation.navigate('MyBag')

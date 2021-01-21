@@ -45,7 +45,28 @@ class Home extends React.Component {
             }).catch((error) => {
                 // console.log(error.response)
             })
+    }
 
+    Refresh = () =>{
+        axios.get(BASE_URL + '/products')
+            .then(({ data }) => {
+                // console.log(data)
+                this.setState({
+                    products: data.data.products
+                })
+            }).catch((error) => {
+                // console.log(error.response)
+            })
+        axios.get(BASE_URL + '/products?sortBy=rating&orderBy=desc')
+            .then(({ data }) => {
+                // console.log(data)
+                this.setState({
+                    popular: data.data.products,
+                    loading: false
+                })
+            }).catch((error) => {
+                // console.log(error.response)
+            })
     }
 
     render() {
@@ -64,7 +85,15 @@ class Home extends React.Component {
                                 <ScrollView>
                                     <View style={{ marginBottom: 10 }}>
                                         <View style={{ height: 350, marginLeft: 10, marginRight: 10 }}>
+                                            <View style={{flexDirection:'row', justifyContent:'space-between'}}>
                                             <Text style={{ fontSize: 35, fontWeight: 'bold', color: 'black' }}>New</Text>
+                                            <TouchableOpacity
+                                            onPress={this.Refresh}
+                                            >
+                                            <Text>Refresh Page</Text>
+                                            </TouchableOpacity>
+
+                                            </View>
                                             <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
                                                 <Text style={{ color: 'gray', marginBottom: 15 }}>You've never seen it before!</Text>
                                                 <TouchableOpacity onPress={() => this.props.navigation.navigate('Search')}>

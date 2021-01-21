@@ -44,3 +44,9 @@ export const setTotalPayment = (data) =>{
         data
     }
 }
+
+export const setEmptyBag = () =>{
+    return {
+        type: "EMPTY_BAG"
+    }
+}

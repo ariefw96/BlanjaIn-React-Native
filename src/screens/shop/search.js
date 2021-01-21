@@ -11,16 +11,52 @@ class ShopCategory extends Component {
         super(props)
         this.state = {
             products: [],
-            searchKey: '',
+            pageInfo: {},
+            currentPage: '',
+            intialPage:''
         }
     }
+
+    nextPage = () => {
+        const nextPage = this.state.pageInfo.nextpage
+        if (nextPage != null) {
+            axios.get(BASE_URL + '/' + nextPage)
+                .then(({ data }) => {
+                    this.setState({
+                        products: data.data.products,
+                        pageInfo: data.data.pageInfo,
+                        currentPage: '/' + nextPage
+                    })
+                }).catch((error) => {
+                    console.log(error)
+                })
+        }
+    }
+
+    prevPage = () => {
+        const prevPage = this.state.pageInfo.previousPage
+        if (prevPage != null) {
+            axios.get(BASE_URL + '/' + prevPage)
+                .then(({ data }) => {
+                    this.setState({
+                        products: data.data.products,
+                        pageInfo: data.data.pageInfo,
+                        currentPage: '/' + prevPage
+                    })
+                }).catch((error) => {
+                    console.log(error)
+                })
+        }
+    }
+
 
     getInitialData = () => {
         axios.get(BASE_URL + '/products')
             .then(({ data }) => {
                 // console.log(data)
                 this.setState({
-                    products: data.data.products
+                    products: data.data.products,
+                    pageInfo:data.data.pageInfo
                 })
             }).catch((error) => {
                 console.log(error)
@@ -51,7 +87,7 @@ class ShopCategory extends Component {
     }
 
     render() {
-        const { products } = this.state
+        const { products, pageInfo } = this.state
         let searchResult;
         if(products.length > 0){
             searchResult = <>
@@ -107,35 +143,23 @@ class ShopCategory extends Component {
                             <Text>Reset</Text>
                         </TouchableOpacity>
                     </View>
-
-                    {/* <View style={styles.filter}>
-                        <Grid>
-                            <Col>
-                                <TouchableOpacity
-                                    // onPress={() => this.props.navigation.navigate('Filter')}
-                                >
-                                    <Text style={styles.txtFilter}> Filter </Text>
-                                </TouchableOpacity>
-                            </Col>
-                            <Col>
-                                <TouchableOpacity>
-                                    <Text style={styles.txtFilter}> Sort </Text>
-                                </TouchableOpacity>
-                            </Col>
-                        </Grid>
-                    </View> */}
-
-                    {/* <View style={{ flexDirection: 'row', justifyContent: 'space-around' }}>
-                        <Button primary style={{ width: 100 }}
-                            onPress={this.sortPriceAsc}
-                        ><Text>Price Asc</Text></Button>
-                        <Button success style={{ width: 100 }}
-                            onPress={this.sortPriceDesc}
-                        ><Text>Price Desc</Text></Button>
-                    </View> */}
-
                     {searchResult}
                 </Container>
+                <View style={{ flexDirection: 'row', justifyContent: 'space-around' }}>
+                        <Button full small rounded bordered
+                            onPress={this.prevPage}
+                        >
+                            <Text>{`<< `}Prev</Text>
+                        </Button>
+                        <Button full small rounded bordered style={{ width: 200 }}>
+                            <Text>{pageInfo.currentPage}</Text>
+                        </Button>
+                        <Button small rounded bordered
+                            onPress={this.nextPage}
+                        >
+                            <Text>Next {`>> `}</Text>
+                        </Button>
+                    </View>
             </>
         );
     }

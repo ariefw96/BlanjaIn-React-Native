@@ -4,9 +4,16 @@ import { Image } from 'react-native'
 
 import { TouchableOpacity } from "react-native-gesture-handler";
 
-export default class HeaderTransparent extends Component {
+import {setEmptyBag} from './../../utils/redux/ActionCreators/bag'
+import {connect} from 'react-redux'
+
+class SuccesPage extends Component {
     constructor(props) {
         super(props)
+    }
+
+    componentDidMount = () =>{
+        this.props.dispatch(setEmptyBag())
     }
     render() {
         return (
@@ -31,3 +38,12 @@ export default class HeaderTransparent extends Component {
         );
     }
 }
+
+const mapStateToProps = ({ auth, bag }) => {
+    return {
+        auth,
+        bag
+    };
+};
+
+export default connect(mapStateToProps)(SuccesPage);

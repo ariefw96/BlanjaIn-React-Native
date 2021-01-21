@@ -16,7 +16,7 @@ class Mybag extends Component {
 
     componentDidMount = () => {
         this._unsubscribe = this.props.navigation.addListener('focus', () => {
-            if (!this.props.auth.isLogin || this.props.auth.level !=1) {
+            if (!this.props.auth.isLogin || this.props.auth.level != 1) {
                 this.props.navigation.navigate('Home')
             }
         });
@@ -29,12 +29,13 @@ class Mybag extends Component {
     render() {
         const bagState = this.props.bag.mybag
         let thisBag;
+        let btnCheckout;
         if (bagState.length < 1) {
             thisBag = <><View><Text>Cart anda masih kosong</Text></View></>
         } else {
             thisBag = <>
                 {
-                    bagState && bagState.map(({ product_id,product_img, product_name, color, size, qty, price }) => {
+                    bagState && bagState.map(({ product_id, product_img, product_name, color, size, qty, price }) => {
                         return (
                             <>
                                 <CardBag productId={product_id} img={product_img} name={product_name} color={color} size={size} qty={qty} price={price} />
@@ -43,6 +44,16 @@ class Mybag extends Component {
                     })
                 }
             </>
+            btnCheckout =
+                <>
+                    <Button full rounded danger style={{ marginHorizontal: 10, marginBottom: 10 }}
+                        onPress={() => { this.props.navigation.navigate('Checkout') }}
+                    >
+                        <View style={styles.btn}>
+                            <Text style={{ color: '#fff' }}>CHECK OUT</Text>
+                        </View>
+                    </Button>
+                </>
         }
         return (
             <>
@@ -89,15 +100,9 @@ class Mybag extends Component {
                             }}>
                             <Text style={{ fontFamily: 'Metropolis-Light', color: '#9B9B9B' }}>
                                 Total amount:</Text>
-                        <Text style={{ fontFamily: 'Metropolis-Bold' }}>Rp. {this.props.bag.totalAmmount}</Text>
+                            <Text style={{ fontFamily: 'Metropolis-Bold' }}>Rp. {this.props.bag.totalAmmount}</Text>
                         </View>
-                        <Button full rounded danger style={{ marginHorizontal: 10, marginBottom: 10 }}
-                            onPress={() => { this.props.navigation.navigate('Checkout') }}
-                        >
-                            <View style={styles.btn}>
-                                <Text style={{ color: '#fff' }}>CHECK OUT</Text>
-                            </View>
-                        </Button>
+                        {btnCheckout}
                     </View>
                 </Container>
             </>

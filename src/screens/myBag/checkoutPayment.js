@@ -5,8 +5,12 @@ import { connect } from 'react-redux'
 import { orderItems } from './../../utils/redux/ActionCreators/bag'
 import axios from 'axios'
 import { BASE_URL } from '@env'
-
 import CardAdress from './../../components/cardAdress'
+import PushNotification from 'react-native-push-notification';
+import { showNotification } from '../../notif';
+import {addNotification} from './../../utils/redux/ActionCreators/notification'
+
+const channel = 'notif';
 const shippingPrice = 15000;
 
 class CheckOut extends React.Component {
@@ -71,7 +75,12 @@ class CheckOut extends React.Component {
                 .then((result) =>{
                     axios.post(BASE_URL+'/transaksi/itemOrder', this.props.bag.mybag)
                     .then((res) =>{
-                        alert('Transaksi Sukses')
+                        showNotification('Notification', 'Checkout Succes', channel);
+                        const notifData = {
+                            title:`Checkout berhasil pada transaksi ${Order.trxId}`,
+                            content:`Hore checkout kamu berhasil, share ke temenmu dan dapetin kupon cashbacknya`
+                        }
+                        this.props.dispatch(addNotification(notifData))
                         this.props.navigation.navigate('Success')
                     }).catch(({response}) =>{
                         console.log(response.data)
@@ -97,6 +106,23 @@ class CheckOut extends React.Component {
                 }).catch(({ response }) => {
                     console.log(response.data)
                 })
+        });
+
+        PushNotification.createChannel(
+            {
+                channelId: 'notif',
+                channelName: 'My Notification channel',
+                channelDescription: 'A channel to categories your notification',
+                soundName: 'default',
+                importance: 4,
+                vibrate: true,
+            },
+            (created) => console.log(`createchannel returned '${created}'`),
+        );
+        // code to run on component mount
+
+        PushNotification.getChannels((channel_ids) => {
+            console.log(channel_ids);
         });
     }
 
@@ -185,11 +211,12 @@ class CheckOut extends React.Component {
     }
 }
 
-const mapStateToProps = ({ auth, address, bag }) => {
+const mapStateToProps = ({ auth, address, bag, notification }) => {
     return {
         auth,
         address,
-        bag
+        bag,
+        notification
     };
 };
 

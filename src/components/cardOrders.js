@@ -47,9 +47,9 @@ export default class cardOrder extends React.Component {
 const styles = StyleSheet.create({
     order: {
         borderRadius: 10, height: 164,
-        width: 340, backgroundColor: 'white',
+        width: 325, backgroundColor: 'white',
         marginTop: 10,
-        marginLeft: 10, marginRight: 10,
+        marginHorizontal:5,
         marginBottom: 10,
         shadowColor: 'rgba(0, 0, 0, 0.1)',
         shadowOpacity: 0.5,
