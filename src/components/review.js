@@ -32,7 +32,6 @@ class Review extends Component {
         let starThree = 0
         let starFour = 0
         let starFive = 0
-        let totalRating = 0
         review.map(({ rating }) => {
             if (rating == 1) {
                 starOne += 1
@@ -46,10 +45,7 @@ class Review extends Component {
             else if (rating == 5) {
                 starFive += 1
             }
-            totalRating +=rating
         })
-
-        const avgRating = totalRating / review.length
 
         // console.log(isEmpty, review)
         let reviewItems;
@@ -142,7 +138,7 @@ class Review extends Component {
                     <Grid>
                         <Row>
                             <Col size={3}>
-                                <Text style={{ fontSize: 48 }}>{avgRating.toString().substr(0,4)}</Text>
+                                <Text style={{ fontSize: 48 }}>{this.props.avgRating}</Text>
                                 <Text style={{ fontSize: 12, color: '#9B9B9B' }}>{totalReview} ratings</Text>
                             </Col>
                             <Col size={3} style={{ alignItems: 'flex-end', flexDirection: 'column' }}>

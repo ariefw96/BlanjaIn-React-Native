@@ -1,6 +1,7 @@
 import React from 'react';
 import axios from 'axios'
 import { connect } from 'react-redux'
+
 import {
     View,
     Text,
@@ -47,7 +48,7 @@ class Home extends React.Component {
             })
     }
 
-    Refresh = () =>{
+    Refresh = () => {
         axios.get(BASE_URL + '/products')
             .then(({ data }) => {
                 // console.log(data)
@@ -79,19 +80,20 @@ class Home extends React.Component {
             Home =
                 <>
                     <View style={{ flex: 1 }}>
-                        <Banner navigation={this.props.navigation} />
-                        <View style={{ height: 480 }}>
-                            <SafeAreaView>
-                                <ScrollView>
+
+                        <SafeAreaView>
+                            <ScrollView>
+                                <Banner navigation={this.props.navigation} />
+                                <View>
                                     <View style={{ marginBottom: 10 }}>
                                         <View style={{ height: 350, marginLeft: 10, marginRight: 10 }}>
-                                            <View style={{flexDirection:'row', justifyContent:'space-between'}}>
-                                            <Text style={{ fontSize: 35, fontWeight: 'bold', color: 'black' }}>New</Text>
-                                            <TouchableOpacity
-                                            onPress={this.Refresh}
-                                            >
-                                            <Text>Refresh Page</Text>
-                                            </TouchableOpacity>
+                                            <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+                                                <Text style={{ fontSize: 35, fontWeight: 'bold', color: 'black' }}>New</Text>
+                                                <TouchableOpacity
+                                                    onPress={this.Refresh}
+                                                >
+                                                    <Image source={require('./../../assets/icons/refresh.png')} style={{ marginTop: 15, marginRight: 10 }} />
+                                                </TouchableOpacity>
 
                                             </View>
                                             <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
@@ -105,11 +107,11 @@ class Home extends React.Component {
                                                     horizontal={true}
                                                 >
                                                     {
-                                                        products && products.map(({ product_id, product_name, product_price, product_img, category_name, color_name, size_name, rating, dibeli }) => {
+                                                        products && products.map(({ id, product_name, product_price, product_img, category_name, color_name, size_name, rating, dibeli }) => {
                                                             let img = product_img.split(',')[0]
                                                             return (
                                                                 <>
-                                                                    <Card new={true} key={product_id} navigation={this.props.navigation} product_name={product_name} product_price={product_price} product_img={img} keyId={product_id} category={category_name} color={color_name} size={size_name} rating={rating} dibeli={dibeli} />
+                                                                    <Card new={true} key={id} navigation={this.props.navigation} product_name={product_name} product_price={product_price} product_img={img} keyId={id} category={category_name} color={color_name} size={size_name} rating={rating} dibeli={dibeli} />
                                                                 </>
                                                             )
                                                         })
@@ -125,11 +127,11 @@ class Home extends React.Component {
                                                     horizontal={true}
                                                 >
                                                     {
-                                                        popular && popular.map(({ product_id, product_name, product_price, product_img, category_name, color_name, size_name, rating, dibeli }) => {
+                                                        popular && popular.map(({ id, product_name, product_price, product_img, category_name, color_name, size_name, rating, dibeli }) => {
                                                             let img = product_img.split(',')[0]
                                                             return (
                                                                 <>
-                                                                    <Card navigation={this.props.navigation} key={product_id} product_name={product_name} product_price={product_price} product_img={img} keyId={product_id} category={category_name} color={color_name} size={size_name} rating={rating} dibeli={dibeli} />
+                                                                    <Card navigation={this.props.navigation} key={id} product_name={product_name} product_price={product_price} product_img={img} keyId={id} category={category_name} color={color_name} size={size_name} rating={rating} dibeli={dibeli} />
                                                                 </>
                                                             )
                                                         })
@@ -138,9 +140,10 @@ class Home extends React.Component {
                                             </SafeAreaView>
                                         </View>
                                     </View>
-                                </ScrollView>
-                            </SafeAreaView>
-                        </View>
+                                </View>
+                            </ScrollView>
+                        </SafeAreaView>
+
                     </View>
                 </>
         }

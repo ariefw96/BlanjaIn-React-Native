@@ -39,10 +39,7 @@ import Notification from './screens/home/notifications'
 
 import UserStore from './screens/profile/seller'
 import ListProduct from './screens/profile/seller/ListProduct'
-import SellingProduct from './screens/profile/seller/ListStock'
 import AddProduct from './screens/profile/seller/addProduct'
-import AddStock from './screens/profile/seller/addStock'
-import EditStock from './screens/profile/seller/editStock'
 import EditProduct from './screens/profile/seller/editProduct'
 
 import Splash from './screens/splash'
@@ -144,11 +141,8 @@ const MainProfile = () => {
         <Stack.Screen name="AddAddress" component={AddAddress} />
         <Stack.Screen name="Setting" component={Setting} />
         <Stack.Screen name="Store" component={UserStore} />
-        <Stack.Screen name="SellingProduct" component={SellingProduct} />
         <Stack.Screen name="ListProduct" component={ListProduct} />
         <Stack.Screen name="AddProduct" component={AddProduct} />
-        <Stack.Screen name="AddStock" component={AddStock} />
-        <Stack.Screen name="EditStock" component={EditStock} />
         <Stack.Screen name="EditProduct" component={EditProduct} />
       </>
     </Stack.Navigator>

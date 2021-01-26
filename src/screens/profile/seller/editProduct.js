@@ -1,5 +1,5 @@
 import React from 'react'
-import { View, Text, StyleSheet, Image, ScrollView, TouchableOpacity, Picker } from 'react-native'
+import { View, Text, StyleSheet, Image, ScrollView, TouchableOpacity, Picker, Modal } from 'react-native'
 import { Container, Header, Content, Form, Item, Input, Button, Label, Textarea, Left, Body, Right } from 'native-base';
 import { BASE_URL } from "@env"
 import axios from 'axios'
@@ -7,15 +7,23 @@ import ImagePicker from 'react-native-image-crop-picker';
 import { connect } from 'react-redux'
 
 class AddProduct extends React.Component {
-    state = {
-        product_name: '',
-        category_id: 0,
-        product_price: 0,
-        product_desc:'',
-        photoFromDB: '',
-        product_img: [],
-        taken_pic: {},
-        isSetImage: false
+    constructor(props) {
+        super(props)
+
+        this.state = {
+            product_name: '',
+            category_id: '',
+            color_id: '',
+            size_id: '',
+            condition_id: '',
+            product_price: '',
+            product_desc: '',
+            product_img: [],
+            taken_pic: {},
+            photoFromDB: '',
+            isSetImage: false,
+            modalVisible: false
+        }
     }
 
     setCategory = (e) => {
@@ -24,29 +32,22 @@ class AddProduct extends React.Component {
         })
     }
 
-    getUpdateData = () => {
-        const config = {
-            headers: {
-                'x-access-token': 'Bearer ' + this.props.auth.token,
-            },
-        };
-        axios.get(BASE_URL + '/product/getProductData/' + this.props.route.params.itemId, config)
-            .then(({ data }) => {
-                // console.log(data.data)
-                this.setState({
-                    product_name: data.data.product_name,
-                    category_id: ''+data.data.category_id,
-                    product_price: ''+data.data.product_price,
-                    product_desc: data.data.product_desc,
-                    photoFromDB: data.data.product_img
-                })
-            }).catch(({ response }) => {
-                console.log(response.data)
-            })
+    setColor = (e) => {
+        this.setState({
+            color_id: e
+        })
     }
 
-    componentDidMount = () => {
-        this.getUpdateData()
+    setSize = (e) => {
+        this.setState({
+            size_id: e
+        })
+    }
+
+    setCondition = (e) => {
+        this.setState({
+            condition_id: e
+        })
     }
 
     chooseFile = () => {
@@ -55,8 +56,10 @@ class AddProduct extends React.Component {
             mediaType: 'photo',
         })
             .then((images) => {
-                console.log(images.length);
-                this.setState({ product_img: images, isSetImage:true });
+                this.setState({
+                    product_img: images,
+                    isSetImage: true
+                });
             })
             .catch((err) => {
                 console.log(err);
@@ -72,14 +75,48 @@ class AddProduct extends React.Component {
         })
             .then((images) => {
                 console.log(images.length);
-                this.setState({ taken_pic: images, isSetImage:true });
+                this.setState({
+                    taken_pic: images,
+                    isSetImage: true
+                });
             })
             .catch((err) => {
                 console.log(err);
             });
     };
 
+    getUpdateData = () => {
+        const config = {
+            headers: {
+                'x-access-token': 'Bearer ' + this.props.auth.token,
+            },
+        };
+        axios.get(BASE_URL + '/product/getProductData/' + this.props.route.params.itemId, config)
+            .then(({ data }) => {
+                // console.log(data.data)
+                this.setState({
+                    product_name: data.data[0].product_name,
+                    category_id: '' + data.data[0].category_id,
+                    color_id: '' + data.data[0].color_id,
+                    size_id: '' + data.data[0].size_id,
+                    condition_id: '' + data.data[0].condition_id,
+                    product_price: '' + data.data[0].product_price,
+                    product_desc: data.data[0].product_desc,
+                    photoFromDB: data.data[0].product_img
+                })
+            }).catch(({ response }) => {
+                console.log(response.data)
+            })
+    }
+
+    componentDidMount = () => {
+        this.getUpdateData()
+    }
+
     postProduct = () => {
+        this.setState({
+            modalVisible: true
+        })
         const config = {
             headers: {
                 'x-access-token': 'Bearer ' + this.props.auth.token,
@@ -89,6 +126,9 @@ class AddProduct extends React.Component {
         const data = new FormData();
         data.append('product_name', this.state.product_name);
         data.append('category_id', this.state.category_id);
+        data.append('color_id', this.state.color_id)
+        data.append('size_id', this.state.size_id)
+        data.append('condition_id', this.state.condition_id)
         data.append('product_price', this.state.product_price);
         data.append('product_desc', this.state.product_desc);
         data.append('user_id', this.props.auth.id);
@@ -119,11 +159,13 @@ class AddProduct extends React.Component {
 
         console.log(data);
         axios
-            .patch(BASE_URL + `/product/updateProduct/`+this.props.route.params.itemId, data, config)
+            .patch(BASE_URL + `/product/updateProduct/` + this.props.route.params.itemId, data, config)
             .then((data) => {
                 console.log(data.data);
-                alert('produk berhasil diupdate')
-                this.props.navigation.navigate('ListProduct')
+                this.setState({
+                    modalVisible: false
+                })
+                this.props.navigation.push('ListProduct')
             })
             .catch((err) => {
                 console.log(err.response.data);
@@ -131,9 +173,10 @@ class AddProduct extends React.Component {
     }
 
     render() {
-        const { product_name, category_id, product_price, product_desc, product_img, taken_pic, isSetImage } = this.state
+        const { product_name, category_id, color_id, size_id, condition_id, product_price, product_desc, product_img, taken_pic, isSetImage } = this.state
+        console.log(this.state)
         let thumbPhoto;
-        let {photoFromDB} = this.state
+        let { photoFromDB } = this.state
         photoFromDB = photoFromDB.split(',')
         if (!isSetImage) {
             thumbPhoto =
@@ -148,7 +191,6 @@ class AddProduct extends React.Component {
                     }
                 </>
         }
-        console.log(this.state)
         let prevImgFromCamera;
         if (Object.keys(this.state.taken_pic).length > 0) {
             prevImgFromCamera =
@@ -172,17 +214,15 @@ class AddProduct extends React.Component {
                         </Left>
                         <Body><Text style={{ fontSize: 24, fontWeight: 'bold' }}>Edit Product</Text></Body>
                     </Header>
-                    <Content style={{ marginHorizontal: 2, backgroundColor: 'white' }}>
-
-                        <ScrollView style={{ height: 540, backgroundColor: 'white' }}>
+                    <Content style={{ marginRight: 15, backgroundColor: 'white' }}>
+                        <ScrollView style={{ height: 550, backgroundColor: 'white' }}>
                             <View>
                                 <Form>
-                                    <Item floatingLabel>
+                                    <Item stackedLabel>
                                         <Label >Product Name</Label>
                                         <Input name="product_name" value={product_name} onChangeText={(text) => { this.setState({ product_name: text }) }} />
                                     </Item>
                                     <View style={styles.size}>
-                                        {/* <Text>{category_id}</Text> */}
                                         <Picker
                                             selectedValue={category_id}
                                             onValueChange={(itemValue, itemIndex) => this.setCategory(itemValue)}
@@ -195,47 +235,96 @@ class AddProduct extends React.Component {
                                             <Picker.Item label="Shoes" value="5" />
                                         </Picker>
                                     </View>
-                                    <Item floatingLabel>
+                                    <View style={styles.size}>
+                                        <Picker
+                                            selectedValue={color_id}
+                                            onValueChange={(itemValue, itemIndex) => this.setColor(itemValue)}
+                                        >
+                                            <Picker.Item label="Color" value="0" style={{ backgroundColor: 'gray' }} />
+                                            <Picker.Item label="Red" value="1" />
+                                            <Picker.Item label="Green" value="2" />
+                                            <Picker.Item label="Blue" value="3" />
+                                            <Picker.Item label="Black" value="4" />
+                                        </Picker>
+                                    </View>
+                                    <View style={styles.size}>
+                                        <Picker
+                                            selectedValue={size_id}
+                                            onValueChange={(itemValue, itemIndex) => this.setSize(itemValue)}
+                                        >
+                                            <Picker.Item label="Size" value="0" style={{ backgroundColor: 'gray' }} />
+                                            <Picker.Item label="XS" value="1" />
+                                            <Picker.Item label="S" value="2" />
+                                            <Picker.Item label="M" value="3" />
+                                            <Picker.Item label="L" value="4" />
+                                            <Picker.Item label="XL" value="5" />
+                                        </Picker>
+                                    </View>
+                                    <View style={styles.size}>
+                                        <Picker
+                                            selectedValue={condition_id}
+                                            onValueChange={(itemValue, itemIndex) => this.setCondition(itemValue)}
+                                        >
+                                            <Picker.Item label="Condition" value="0" style={{ backgroundColor: 'gray' }} />
+                                            <Picker.Item label="New" value="1" />
+                                            <Picker.Item label="Second" value="2" />
+                                        </Picker>
+                                    </View>
+                                    <Item stackedLabel>
                                         <Label >Price</Label>
                                         <Input name="price" value={product_price} onChangeText={(text) => { this.setState({ product_price: text }) }} />
                                     </Item>
-                                    <Textarea rowSpan={5} bordered placeholder="Description" name="description" value={product_desc} onChangeText={(text) => { this.setState({ product_desc: text }) }} />
-
-                                    <View style={{ flexDirection: 'row' }}>
-                                        {product_img && product_img.map((item) => {
-                                            return (
-                                                <Image
-                                                    key={product_img.indexOf(item)}
-                                                    source={{ uri: product_img.length !== 0 ? item.path : '' }}
-                                                    style={styles.imageStyle}
-                                                />
-                                            );
-                                        })}
-                                        {prevImgFromCamera}
-                                        {thumbPhoto}
+                                    <View style={{ marginLeft: 15 }}>
+                                        <Label >Product Description</Label>
+                                        <Textarea rowSpan={5} bordered placeholder="Description" name="description" value={product_desc} onChangeText={(text) => { this.setState({ product_desc: text }) }} />
+                                        <View style={{ flexDirection: 'row' }}>
+                                            {product_img && product_img.map((item) => {
+                                                return (
+                                                    <Image
+                                                        key={product_img.indexOf(item)}
+                                                        source={{ uri: product_img.length !== 0 ? item.path : '' }}
+                                                        style={styles.imageStyle}
+                                                    />
+                                                );
+                                            })}
+                                            {prevImgFromCamera}
+                                            {thumbPhoto}
+                                        </View>
+                                        <View>
+                                            <Label>Product picture</Label>
+                                            <TouchableOpacity
+                                                activeOpacity={0.5}
+                                                style={styles.btnSection}
+                                                onPress={this.chooseFile}>
+                                                <Text style={styles.btnText}>Choose Image</Text>
+                                            </TouchableOpacity>
+                                            <TouchableOpacity
+                                                activeOpacity={0.5}
+                                                style={styles.btnSection}
+                                                onPress={this.takePicture}>
+                                                <Text style={styles.btnText}>Take Picture</Text>
+                                            </TouchableOpacity>
+                                        </View>
                                     </View>
-                                    
-                                    <TouchableOpacity
-                                        activeOpacity={0.5}
-                                        style={styles.btnSection}
-                                        onPress={this.chooseFile}>
-                                        <Text style={styles.btnText}>Choose Image</Text>
-                                    </TouchableOpacity>
-
-                                    <TouchableOpacity
-                                        activeOpacity={0.5}
-                                        style={styles.btnSection}
-                                        onPress={this.takePicture}>
-                                        <Text style={styles.btnText}>Take Picture</Text>
-                                    </TouchableOpacity>
                                 </Form>
                             </View>
                         </ScrollView>
-                        <Button danger full rounded onPress={this.postProduct}>
+                        <Button danger full rounded onPress={this.postProduct} style={{ marginLeft: 15 }}>
                             <Text style={{ color: '#fff' }}> SUBMIT </Text>
                         </Button>
                     </Content>
                 </Container>
+                <Modal
+                    animationType="slide"
+                    transparent={true}
+                    visible={this.state.modalVisible}
+                >
+                    <View style={styles.centeredView}>
+                        <View style={styles.modalView}>
+                            <Text>HARAP TUNGGU</Text>
+                        </View>
+                    </View>
+                </Modal>
             </>
         )
     }
@@ -256,7 +345,7 @@ const styles = StyleSheet.create({
         fontWeight: 'bold'
     },
     btnSection: {
-        width: 225,
+        width: '100%',
         height: 50,
         backgroundColor: '#DCDCDC',
         alignItems: 'center',
@@ -290,4 +379,27 @@ const styles = StyleSheet.create({
         borderRadius: 5,
         borderWidth: 1,
     },
+    centeredView: {
+        flex: 1,
+        justifyContent: "center",
+        alignItems: "center",
+    },
+    modalView: {
+        height: 50,
+        width: 200,
+        borderWidth: 4,
+        borderColor: "#20232a",
+        backgroundColor: "white",
+        borderTopEndRadius: 20,
+        borderTopLeftRadius: 20,
+        borderBottomEndRadius: 20,
+        borderBottomLeftRadius: 20,
+        padding: 10,
+        alignItems: "center",
+        shadowColor: "#000",
+        shadowOffset: {
+            width: 0,
+            height: 2
+        }
+    }
 })

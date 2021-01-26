@@ -87,8 +87,8 @@ class writeReview extends Component {
                         >
                             <Picker.Item label="product" value='0' style={{ backgroundColor: 'gray' }} />
                             {
-                                listProduct && listProduct.map(({ product_id, product_name }) => {
-                                    return <Picker.Item label={product_name} value={product_id} />
+                                listProduct && listProduct.map(({ id, product_name }) => {
+                                    return <Picker.Item label={product_name} value={id} />
                                 })
                             }
                         </Picker>

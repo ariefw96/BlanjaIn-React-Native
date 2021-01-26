@@ -1,10 +1,8 @@
 import React, { Component } from "react";
 import { Container, Header, Title, Content, Button, Left, Body, Text, View, Item, Label, Input } from "native-base";
-import { Image, StyleSheet } from 'react-native'
+import { Image, StyleSheet, TouchableOpacity } from 'react-native'
 import {connect} from 'react-redux'
 import axios from 'axios'
-
-import { TouchableOpacity } from "react-native-gesture-handler";
 import { BASE_URL } from '@env'
 
 class addShipping extends Component {

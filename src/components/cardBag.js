@@ -12,7 +12,7 @@ class CardBag extends Component {
             size: this.props.size,
             price: this.props.price
         }
-        // console.log(data)
+        console.log(data)
         if(this.props.qty!= 1){
             this.props.dispatch(minQty(data))
         }else{

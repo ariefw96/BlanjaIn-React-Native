@@ -3,10 +3,6 @@ import { Container, Header, Title, Content, Button, Left, Body, Text, Right, Che
 import { Image, View, TouchableOpacity, StyleSheet, Picker } from 'react-native'
 import {BASE_URL} from '@env'
 
-
-import { SafeAreaView } from 'react-native-safe-area-context';
-import { ScrollView, TouchableHighlight } from 'react-native-gesture-handler';
-
 export default class Filters extends React.Component {
     state = {
         isRed: false,

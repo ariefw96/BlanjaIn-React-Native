@@ -13,19 +13,20 @@ class ShopCategory extends Component {
             products: [],
             pageInfo: {},
             currentPage: '',
-            intialPage:''
+            intialPage: '',
+            searchKey: '',
+            emptyResult: ''
         }
     }
 
     nextPage = () => {
         const nextPage = this.state.pageInfo.nextpage
         if (nextPage != null) {
-            axios.get(BASE_URL + '/' + nextPage)
+            axios.get(BASE_URL + nextPage)
                 .then(({ data }) => {
                     this.setState({
                         products: data.data.products,
                         pageInfo: data.data.pageInfo,
-                        currentPage: '/' + nextPage
                     })
                 }).catch((error) => {
                     console.log(error)
@@ -36,12 +37,11 @@ class ShopCategory extends Component {
     prevPage = () => {
         const prevPage = this.state.pageInfo.previousPage
         if (prevPage != null) {
-            axios.get(BASE_URL + '/' + prevPage)
+            axios.get(BASE_URL + prevPage)
                 .then(({ data }) => {
                     this.setState({
                         products: data.data.products,
                         pageInfo: data.data.pageInfo,
-                        currentPage: '/' + prevPage
                     })
                 }).catch((error) => {
                     console.log(error)
@@ -49,34 +49,18 @@ class ShopCategory extends Component {
         }
     }
 
-
-    getInitialData = () => {
-        axios.get(BASE_URL + '/products')
-            .then(({ data }) => {
-                // console.log(data)
-                this.setState({
-                    products: data.data.products,
-                    pageInfo:data.data.pageInfo
-                })
-            }).catch((error) => {
-                console.log(error)
-            })
-    }
-
-    componentDidMount = () => {
-        this.getInitialData()
-    }
-
     SearchItems = () => {
         axios.get(BASE_URL + '/products?name=' + this.state.searchKey)
             .then(({ data }) => {
                 // console.log(data)
                 this.setState({
-                    products: data.data.products
+                    products: data.data.products,
+                    pageInfo: data.data.pageInfo
                 })
             }).catch((error) => {
                 this.setState({
-                    products: []
+                    products: [],
+                    emptyResult: `Pencarian tidak ditemukan untuk produk ${this.state.searchKey}`
                 })
                 console.log(error)
             })
@@ -89,25 +73,23 @@ class ShopCategory extends Component {
     render() {
         const { products, pageInfo } = this.state
         let searchResult;
-        if(products.length > 0){
+        if (products.length > 0) {
             searchResult = <>
-            <ScrollView>
-                        <View style={styles.grid} >
-                            {
-                                products && products.map(({ product_id, product_name, product_price, product_img, category_name, color_name, size_name, rating, dibeli }) => {
-                                    let img = product_img.split(',')[0]
-                                    return (
-                                        <>
-                                            <Card navigation={this.props.navigation} key={product_id} product_name={product_name} product_price={product_price} product_img={img} keyId={product_id} category={category_name} color={color_name} size={size_name} rating={rating} dibeli={dibeli} />
-                                        </>
-                                    )
-                                })
-                            }
-                        </View>
-                    </ScrollView>
-             </>
-        }else{
-            searchResult = <><Text style={{fontSize:24, fontWeight:'bold', marginLeft:15}}>Pencarian tidak ditemukan..</Text></>
+                <View style={styles.grid} >
+                    {
+                        products && products.map(({ product_id, product_name, product_price, product_img, category_name, color_name, size_name, rating, dibeli }) => {
+                            let img = product_img.split(',')[0]
+                            return (
+                                <>
+                                    <Card navigation={this.props.navigation} key={product_id} product_name={product_name} product_price={product_price} product_img={img} keyId={product_id} category={category_name} color={color_name} size={size_name} rating={rating} dibeli={dibeli} />
+                                </>
+                            )
+                        })
+                    }
+                </View>
+            </>
+        } else {
+            searchResult = <><Text style={{ fontSize: 16, fontWeight: 'bold', marginLeft: 15 }}>{this.state.emptyResult}</Text></>
         }
         return (
             <>
@@ -118,48 +100,47 @@ class ShopCategory extends Component {
                         </Button>
                     </Left>
                     <Body >
-                        <Title style={{ color: 'black', marginLeft: 50, fontWeight: 'bold' }}>Search</Title>
+                        <Title style={{ color: 'black', marginLeft: 45, fontWeight: 'bold' }}>Search</Title>
                     </Body>
                 </Header>
                 <Container style={{ backgroundColor: '#f0f0f0' }}>
-                    <Form style={{ marginBottom: 10 }}>
-                        <Item floatingLabel>
-                            <Label>Keyword</Label>
-                            <Input name="searchKey" value={this.state.searchKey} onChangeText={(text) => { this.setState({ searchKey: text }) }} />
-                        </Item>
-                        <Button full rounded success small style={{ marginHorizontal: 15 }}
-                            onPress={this.SearchItems}
-                        >
-                            <Text>Search Here...</Text>
-                        </Button>
-                    </Form>
-                    <View style={{ flexDirection: 'row', justifyContent: 'space-between' , marginHorizontal:15}}>
-                        <Text style={{ fontSize: 36 }}>
-                            Here's for you
-                    </Text>
-                        <TouchableOpacity
-                            onPress={this.Refresh}
-                        >
-                            <Text>Reset</Text>
-                        </TouchableOpacity>
-                    </View>
-                    {searchResult}
+                    <ScrollView>
+                        <Form style={{ marginBottom: 10 }}>
+                            <Item floatingLabel>
+                                <Label>Keyword</Label>
+                                <Input name="searchKey" value={this.state.searchKey} onChangeText={(text) => { this.setState({ searchKey: text }) }} />
+                            </Item>
+                            <Button full rounded danger small style={{ marginHorizontal: 15 }}
+                                onPress={this.SearchItems}
+                            >
+                                <Text style={{ color: 'white' }}>Search</Text>
+                            </Button>
+                        </Form>
+                        <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginHorizontal: 15 }}>
+                            <Text style={{ fontSize: 18 }}>
+                                Search result for {this.state.searchKey}
+                            </Text>
+                        </View>
+                        <View style={{ minHeight: 480 }}>
+                            {searchResult}
+                        </View>
+                        <View style={{ flexDirection: 'row', justifyContent: 'space-around', paddingBottom: 5 }}>
+                            <Button full small rounded bordered
+                                onPress={this.prevPage}
+                            >
+                                <Text>{`<< `}Prev</Text>
+                            </Button>
+                            <Button full small rounded bordered style={{ width: 200 }}>
+                                <Text>{pageInfo.currentPage}</Text>
+                            </Button>
+                            <Button small rounded bordered
+                                onPress={this.nextPage}
+                            >
+                                <Text>Next {`>> `}</Text>
+                            </Button>
+                        </View>
+                    </ScrollView>
                 </Container>
-                <View style={{ flexDirection: 'row', justifyContent: 'space-around' }}>
-                        <Button full small rounded bordered
-                            onPress={this.prevPage}
-                        >
-                            <Text>{`<< `}Prev</Text>
-                        </Button>
-                        <Button full small rounded bordered style={{ width: 200 }}>
-                            <Text>{pageInfo.currentPage}</Text>
-                        </Button>
-                        <Button small rounded bordered
-                            onPress={this.nextPage}
-                        >
-                            <Text>Next {`>> `}</Text>
-                        </Button>
-                    </View>
             </>
         );
     }

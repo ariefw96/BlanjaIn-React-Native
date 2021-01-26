@@ -1,10 +1,8 @@
 import React, { Component } from 'react';
 import { Container, Header, Title, Content, Button, Footer, FooterTab, Left, Body, Text, Right, List, ListItem } from "native-base";
-import { Image, View, TouchableOpacity, StyleSheet } from 'react-native'
+import { Image, View, TouchableOpacity, StyleSheet, SafeAreaView, ScrollView } from 'react-native'
 
 import CardOrder from './../../components/cardOrders'
-import { SafeAreaView } from 'react-native-safe-area-context';
-import { ScrollView } from 'react-native-gesture-handler';
 import { BASE_URL } from '@env'
 import { connect } from 'react-redux'
 import axios from 'axios';

@@ -1,8 +1,6 @@
 import React, { Component } from "react";
 import { Container, Header, Title, Content, Button, Footer, FooterTab, Icon, Left, Body, Text, View } from "native-base";
-import { Image } from 'react-native'
-
-import { TouchableOpacity } from "react-native-gesture-handler";
+import { Image , TouchableOpacity} from 'react-native'
 
 import {setEmptyBag} from './../../utils/redux/ActionCreators/bag'
 import {connect} from 'react-redux'

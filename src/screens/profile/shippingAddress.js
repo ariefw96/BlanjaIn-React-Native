@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
 import { Container, Header, Title, Content, Button, Left, Body, Text, Item, Input } from "native-base";
-import { Image, View, TouchableOpacity, StyleSheet } from 'react-native'
-import { SafeAreaView } from 'react-native-safe-area-context';
-import { ScrollView } from 'react-native-gesture-handler';
+import { Image, View, TouchableOpacity, StyleSheet, SafeAreaView, ScrollView } from 'react-native'
 import { connect } from 'react-redux'
 import axios from 'axios'
 import { setAddress } from './../../utils/redux/ActionCreators/adress'

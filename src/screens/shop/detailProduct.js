@@ -6,29 +6,46 @@ import { Left, Body, Title, Button, Container, Header, Form, Textarea, } from 'n
 import { Col, Row, Grid } from 'react-native-easy-grid'
 import axios from 'axios'
 import { addItems } from './../../utils/redux/ActionCreators/bag'
-import {addNotification} from './../../utils/redux/ActionCreators/notification'
 import { connect } from 'react-redux'
 import { BASE_URL } from '@env'
+import Card from './../../components/cardForYou'
 
 
 class DetailPage extends Component {
     state = {
         product: [],
         foryou: [],
+        FavTrue:false,
         itemsId: this.props.route.params.itemId,
         selectedSize: 0,
         selectedColor: 0
     };
 
     componentDidMount = () => {
-        axios.get(`${BASE_URL}/product/` + this.props.route.params.itemId)
+        axios.get(`${BASE_URL}/product/getProductData/` + this.props.route.params.itemId)
             .then(({ data }) => {
+                console.log(data.data)
                 this.setState({
                     product: data.data
                 })
             }).catch((error) => {
                 console.log(error.response.data)
             })
+        axios.get(BASE_URL + '/products?sortBy=rating&orderBy=desc')
+            .then(({ data }) => {
+                // console.log(data)
+                this.setState({
+                    foryou: data.data.products,
+                })
+            }).catch((error) => {
+                // console.log(error.response)
+            })
+    }
+
+    Bookmark = () =>{
+        this.setState({
+            FavTrue:!this.state.FavTrue
+        })
     }
 
 
@@ -50,7 +67,7 @@ class DetailPage extends Component {
 
     addToCart = () => {
         const { navigation } = this.props
-        if (!this.props.auth.isLogin || this.props.auth.level !=1) {
+        if (!this.props.auth.isLogin || this.props.auth.level != 1) {
             alert('Anda harus login sebagai costumer terlebih dahulu')
         } else {
             if (this.state.selectedColor == 0 || this.state.selectedSize == 0) {
@@ -66,7 +83,7 @@ class DetailPage extends Component {
                     price: this.state.product[0].product_price,
                     qty: 1
                 }
-                // console.log(Items)
+                console.log(Items)
                 this.props.dispatch(addItems(Items))
                 alert('Berhasil menambahkan ke keranjang')
                 this.props.navigation.navigate('MyBag')
@@ -75,33 +92,40 @@ class DetailPage extends Component {
     }
 
     render() {
-        const { product } = this.state
+        const { product, foryou } = this.state
         let writeBtn;
         const id_productDetails = this.props.route.params.itemId
+        let FavTrue;
+        if(this.state.FavTrue){
+            FavTrue = <Image source={require('./../../assets/icons/favAct.png')} />
+        }else{
+            FavTrue = <Image source={require('./../../assets/icons/fav.png')} />
+        }
         return (
             <>
-                <Header transparent>
-                    <Left>
-                        <Button transparent
-                            onPress={() => { this.props.navigation.goBack() }}
-                        >
-                            <Image source={require('./../../assets/back.png')} />
-                        </Button>
-                    </Left>
-                    <Body >
-                        <Title style={{ color: 'black', marginLeft: 18, fontWeight: 'bold' }}>Detail Product</Title>
-                    </Body>
-                </Header>
 
                 {
-                    product && product.map(({ product_id, product_name, category_name, product_desc, product_img, product_price }) => {
+                    product && product.map(({ id, product_name, category_name, product_desc, product_img, product_price, size_name, color_name, rating }) => {
 
                         return (
                             <>
+                                <Header transparent>
+                                    <Left>
+                                        <Button transparent
+                                            onPress={() => { this.props.navigation.goBack() }}
+                                        >
+                                            <Image source={require('./../../assets/back.png')} />
+                                        </Button>
+                                    </Left>
+                                    <Body >
+                                        <Title style={{ color: 'black', fontWeight: 'bold', width: 150 }}>{product_name}</Title>
+                                    </Body>
+                                </Header>
+
                                 <Container>
                                     <Grid>
                                         <SafeAreaView>
-                                            <ScrollView id={product_id}>
+                                            <ScrollView id={id}>
                                                 <Row size={50}>
                                                     <View style={styles.imgwrap}>
                                                         <SafeAreaView>
@@ -129,11 +153,7 @@ class DetailPage extends Component {
                                                                     onValueChange={(itemValue, itemIndex) => this.setSize(itemValue)}
                                                                 >
                                                                     <Picker.Item label="Size" value="0" style={{ backgroundColor: 'gray' }} />
-                                                                    <Picker.Item label="XS" value="XS" />
-                                                                    <Picker.Item label="S" value="S" />
-                                                                    <Picker.Item label="M" value="M" />
-                                                                    <Picker.Item label="L" value="L" />
-                                                                    <Picker.Item label="XL" value="XL" />
+                                                                    <Picker.Item label={size_name} value={size_name} />
                                                                 </Picker>
                                                             </View>
                                                             <View style={styles.size}>
@@ -142,54 +162,50 @@ class DetailPage extends Component {
                                                                     onValueChange={(itemValue, itemIndex) => this.setColor(itemValue)}
                                                                 >
                                                                     <Picker.Item label="Color" value="0" />
-                                                                    <Picker.Item label="Red" value="Red" />
-                                                                    <Picker.Item label="Green" value="Green" />
-                                                                    <Picker.Item label="Blue" value="Blue" />
-                                                                    <Picker.Item label="Black" value="Black" />
+                                                                    <Picker.Item label={color_name} value={color_name} />
                                                                 </Picker>
                                                             </View>
-                                                            <TouchableOpacity>
+                                                            <TouchableOpacity
+                                                            onPress={this.Bookmark}
+                                                            >
                                                                 <View style={styles.love}>
-                                                                    <Image source={require('./../../assets/fav.png')} />
+                                                                    {FavTrue}
                                                                 </View>
                                                             </TouchableOpacity>
                                                         </View>
                                                         <View style={styles.wraptitle}>
-                                                            <Text style={styles.title}>{product_name}</Text>
+                                                            <View style={{ width: 200 }}>
+                                                                <Text style={styles.title}>{product_name}</Text>
+                                                            </View>
                                                             <Text style={styles.title}>Rp. {this.toPrice(product_price)}</Text>
                                                         </View>
                                                         <Text style={styles.PrdName}>{category_name}</Text>
                                                         <View>
                                                         </View>
+                                                        <Text>Product Description</Text>
                                                         <Text style={styles.desc}>
                                                             {product_desc}
                                                         </Text>
-
-                                                        {/* <ListBar nav={navigation} /> */}
-                                                        {/* <View style={styles.text}>
-                                                            <Text style={{ fontFamily: 'Metropolis', fontSize: 18 }}>
-                                                                You can also like this
-                                        </Text>
-                                                            <Text
-                                                                style={{
-                                                                    fontFamily: 'Metropolis-Light',
-                                                                    fontSize: 11,
-                                                                    color: '#9B9B9B',
-                                                                }}>
-                                                                3 items
-                                        </Text>
-                                                        </View>
+                                                        <Text style={{fontWeight:'bold', fontSize:24}}>Pilihan lainya untukmu</Text>
                                                         <SafeAreaView>
-                                                            <ScrollView horizontal={true}>
-                                                                <View style={styles.card}>
-                                                                    <CardProduct navigation={this.props.navigation} />
-                                                                    <CardProduct navigation={this.props.navigation} />
-                                                                    <CardProduct navigation={this.props.navigation} />
+                                                            <ScrollView 
+                                                            horizontal={true}
+                                                            >
+                                                                <View style={{ flexDirection: 'row' }}>
+                                                                    {
+                                                                        foryou && foryou.map(({ id, product_name, product_price, product_img, category_name, color_name, size_name, rating, dibeli }) => {
+                                                                            let img = product_img.split(',')[0]
+                                                                            return (
+                                                                                <>
+                                                                                    <Card navigation={this.props.navigation} key={id} product_name={product_name} product_price={product_price} product_img={img} keyId={id} category={category_name} color={color_name} size={size_name} rating={rating} dibeli={dibeli} />
+                                                                                </>
+                                                                            )
+                                                                        })
+                                                                    }
                                                                 </View>
                                                             </ScrollView>
-                                                        </SafeAreaView> */}
-                                                        {writeBtn}
-                                                        <Review idProduct={id_productDetails} />
+                                                        </SafeAreaView>
+                                                        <Review idProduct={id_productDetails} avgRating={rating} />
                                                     </View>
                                                 </Row>
                                             </ScrollView>
@@ -271,6 +287,8 @@ const styles = StyleSheet.create({
     },
     desc: {
         fontFamily: 'Metropolis',
+        color:'gray',
+        marginBottom:10
     },
     text: {
         flexDirection: 'row',
@@ -291,14 +309,16 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         paddingVertical: 13,
         borderRadius: 18,
+        marginTop: -5
     },
     size: {
-        width: 160,
+        width: 140,
         height: 40,
         backgroundColor: '#fff',
         borderRadius: 8,
         borderWidth: 1,
         borderColor: '#9B9B9B',
+        marginRight: 10
         // paddingHorizontal: 5,
     },
 });

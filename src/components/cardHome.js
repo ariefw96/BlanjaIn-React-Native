@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { View, Image, Text, TouchableOpacity } from 'react-native';
 import { Button } from 'native-base';
-import {API_KEY, BASE_URL} from '@env'
+import { API_KEY, BASE_URL } from '@env'
 
 
 export default class Card extends React.Component {
@@ -25,9 +25,9 @@ export default class Card extends React.Component {
 
         return (
             <>
-            <View key={this.props.keyId}>
+                <View key={this.props.keyId}>
 
-            </View>
+                </View>
                 <TouchableOpacity
                     onPress={() => {
                         this.props.navigation.navigate('Details', {
@@ -35,17 +35,17 @@ export default class Card extends React.Component {
                         })
                     }}
                 >
-                    <View style={{ height: 320, marginRight: 15 }}>
+                    <View style={{ height: 340,width:156, marginRight: 15 }}>
                         <Image source={{ uri: BASE_URL + this.props.product_img, width: 156, height: 215 }} />
                         {newBtn}
-                        <View style={{flexDirection:'row'}}>
-                <Text>Rating {this.props.rating} ({this.props.dibeli})</Text>
-
+                        <View style={{ flexDirection: 'row' }}>
+                            <View style={{flexDirection:'row', marginRight:5}}><Image source={require('../assets/icons/Star.png')} style={{marginTop:2.5, marginRight:5 }} /><Text>{this.props.rating}</Text></View>
+                            <Text>| Terjual ({this.props.dibeli})</Text>
                         </View>
                         <Text style={{ color: 'gray', marginTop: 5 }}>{this.props.category}</Text>
                         <Text style={{ fontWeight: 'bold', fontSize: 15 }}>{this.props.product_name}</Text>
                         <Text style={{ fontWeight: 'bold', fontSize: 15 }}>Rp. {this.toPrice(this.props.product_price)}</Text>
-                <Text>{this.props.size} - {this.props.color}</Text>
+                        <Text>{this.props.size} - {this.props.color}</Text>
                     </View>
                 </TouchableOpacity>
             </>

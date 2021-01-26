@@ -58,7 +58,7 @@ const bagReducer = (
                 mybag:
                     prevstate.mybag.map((items) =>
                         true ?
-                            { ...items, payment: action.data.payment, address: action.data.address, trxId: `TRX00${prevstate.trxId}` }
+                            { ...items, payment: action.data.payment, address: action.data.address, trxId: action.data.trxId }
                             : items
                     ),
                 trxId: prevstate.trxId + 1
