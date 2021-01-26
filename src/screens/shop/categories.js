@@ -14,7 +14,7 @@ class ShopCategory extends Component {
         products: [],
         pageInfo: [],
         modalVisible: false,
-        modalSortVisible:false,
+        modalSortVisible: false,
         isRed: false,
         isGreen: false,
         isBlue: false,
@@ -24,7 +24,7 @@ class ShopCategory extends Component {
         catSelected: 0,
         selectedBrand: 0,
         axiosData: '',
-        itemNotFound:''
+        itemNotFound: ''
     }
 
     checkedRed = () => {
@@ -154,7 +154,7 @@ class ShopCategory extends Component {
                 this.setState({
                     products: data.data.products,
                     modalVisible: false,
-                    itemNotFound:``
+                    itemNotFound: ``
                 })
             })
             .catch(err => {
@@ -162,7 +162,7 @@ class ShopCategory extends Component {
                 this.setState({
                     products: [],
                     modalVisible: false,
-                    itemNotFound:`Oops, barang tidak ditemukan`
+                    itemNotFound: `Oops, barang tidak ditemukan`
                 })
             })
     }
@@ -170,7 +170,7 @@ class ShopCategory extends Component {
     nextPage = () => {
         const nextPage = this.state.pageInfo.nextpage
         if (nextPage != null) {
-            axios.get(BASE_URL  + nextPage)
+            axios.get(BASE_URL + nextPage)
                 .then(({ data }) => {
                     this.setState({
                         products: data.data.products,
@@ -391,9 +391,9 @@ class ShopCategory extends Component {
                             </Col>
                             <Col>
                                 <TouchableOpacity
-                                onPress={() => {
-                                    this.setModalSortVisible(true)
-                                }}
+                                    onPress={() => {
+                                        this.setModalSortVisible(true)
+                                    }}
                                 >
                                     <Text style={styles.txtFilter}> Sort <Image source={require('./../../assets/icons/sort2.png')} /></Text>
                                 </TouchableOpacity>
@@ -484,40 +484,40 @@ class ShopCategory extends Component {
                     <View style={styles.centeredView}>
                         <View style={styles.modalView}>
                             <View style={{ width: '100%' }}>
-                                <View style={{flexDirection:'row', justifyContent:'space-between'}}>
-                                <Text style={{color:'white'}}>Close [x]</Text>
-                                <Text style={{ fontSize: 18, textAlign: 'center' }}>Sort By</Text>
-                                <TouchableOpacity
-                                    onPress={() => {
-                                        this.setModalSortVisible(false)
-                                    }}
-                                >
-                                <Text>Close [x]</Text>
-                                </TouchableOpacity>
+                                <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+                                    <Text style={{ color: 'white' }}>Close [x]</Text>
+                                    <Text style={{ fontSize: 18, textAlign: 'center' }}>Sort By</Text>
+                                    <TouchableOpacity
+                                        onPress={() => {
+                                            this.setModalSortVisible(false)
+                                        }}
+                                    >
+                                        <Text>Close [x]</Text>
+                                    </TouchableOpacity>
                                 </View>
                                 <Button transparent style={styles.btnModal}
-                                onPress={this.nameDesc}
+                                    onPress={this.nameDesc}
                                 >
                                     <Text style={{ fontSize: 18 }}>Sort By Name: Z-A</Text>
                                 </Button>
                                 <Button transparent style={styles.btnModal}
-                                onPress={this.nameAsc}
+                                    onPress={this.nameAsc}
                                 >
                                     <Text style={{ fontSize: 18 }}>Sort By Name: A-Z</Text>
                                 </Button><Button transparent style={styles.btnModal}
-                                onPress={this.priceAsc}
+                                    onPress={this.priceAsc}
                                 >
                                     <Text style={{ fontSize: 18 }}>Sort By Price: Low to High</Text>
                                 </Button><Button transparent style={styles.btnModal}
-                                onPress={this.priceDesc}
+                                    onPress={this.priceDesc}
                                 >
                                     <Text style={{ fontSize: 18 }}>Sort By Price: High to Low</Text>
                                 </Button><Button transparent style={styles.btnModal}
-                                onPress={this.rating}
+                                    onPress={this.rating}
                                 >
                                     <Text style={{ fontSize: 18 }}>Sort By Rating</Text>
                                 </Button><Button transparent style={styles.btnModal}
-                                onPress={this.newest}
+                                    onPress={this.newest}
                                 >
                                     <Text style={{ fontSize: 18 }}>Sort By Newest</Text>
                                 </Button>

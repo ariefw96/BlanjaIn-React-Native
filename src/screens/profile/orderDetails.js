@@ -1,18 +1,21 @@
 import React, { Component } from 'react';
-import { Container, Header, Title, Content, Button, Left, Body, Text, Item, Input, Label } from "native-base";
-import { Image, View, TouchableOpacity, StyleSheet } from 'react-native'
+import { Container, Header, Title, Content, Button, Left, Body, Text, Form, Item, Input, Label } from "native-base";
+import { Image, View, TouchableOpacity, StyleSheet, SafeAreaView, ScrollView, Modal } from 'react-native'
 import { BASE_URL } from '@env'
 import axios from 'axios'
+import { connect } from 'react-redux'
 
 import CardOrder from '../../components/cardOrderDetail'
 
-export default class ChangeAddress extends React.Component {
+class OrderDetails extends React.Component {
 
     state = {
-        orderDetails: []
+        orderDetails: [],
+        modalTrackingVisible: false,
+        trackNumb: ''
     }
 
-    componentDidMount = () => {
+    getDataTransaksi = () => {
         axios.get(BASE_URL + '/transaksi/getOrderDetail/' + this.props.route.params.trxId)
             .then(({ data }) => {
                 this.setState({
@@ -23,10 +26,110 @@ export default class ChangeAddress extends React.Component {
             })
     }
 
+    componentDidMount = () => {
+        this.getDataTransaksi()
+    }
+
+    setModalVisible = (e) => {
+        this.setState({
+            modalTrackingVisible: e
+        })
+    }
+
+    changeStatus = (e) => {
+        axios.patch(BASE_URL + `/transaksi/changeStatus/${e}/${this.state.orderDetails.TrxId}`)
+            .then(({ data }) => {
+                // alert(data.message)
+                //sukses mengubah status pesanan
+                this.getDataTransaksi()
+            }).catch(({ response }) => {
+                console.log(response.data)
+            })
+    }
+
+    kirimPesanan = () => {
+        axios.patch(BASE_URL + `/transaksi/updateResi/${this.state.orderDetails.TrxId}/${this.state.trackNumb}`)
+            .then(({ data }) => {
+                // alert(data.message + 'memasukan no. resi')
+                // sukses memasukan not. resi
+                this.changeStatus(3)
+                this.setState({
+                    modalTrackingVisible: false
+                })
+            }).catch(({ response }) => {
+                console.log(response.data)
+            })
+    }
+
     render() {
-        const { TrxId, created_at, trackingNumber, status, qty, address, city, postal, payment, total, cardOrder } = this.state.orderDetails
-        // console.log(this.state)
+        const { TrxId, created_at, trackingNumber, status, qty, address, city, postal, payment, total, cardOrder, nama_kurir, waktu, tarif } = this.state.orderDetails
+        const { trackNumb, modalTrackingVisible } = this.state
+        console.log(this.state.trackNumb)
         const newDate = `${created_at}`
+        let statusDelivery;
+        let btnAction;
+        if (status == 1) {
+            //order masuk
+            statusDelivery = <Text style={{ color: 'black', fontWeight: 'bold' }}>ORDER CREATED</Text>
+            if (this.props.auth.level == 2) {
+                btnAction =
+
+                    <Button danger rounded full
+                        onPress={() => { this.changeStatus(2) }}
+                    >
+                        <Text>Terima (Seller)</Text>
+                    </Button>
+            }
+        } else if (status == 2) {
+            //diproses
+            statusDelivery = <Text style={{ color: 'orange', fontWeight: 'bold' }}>ON PROCCESS</Text>
+            if (this.props.auth.level == 2) {
+                btnAction =
+                    <Button danger rounded full
+                        // onPress={() => { this.changeStatus(3) }}
+                        onPress={() => {
+                            this.setModalVisible(true)
+                        }}
+                    >
+                        <Text>Kirim Pesanan</Text>
+                    </Button>
+            }
+
+        } else if (status == 3) {
+            //dikirim
+            statusDelivery = <Text style={{ color: 'orange', fontWeight: 'bold' }}>ON DELIVERY</Text>
+            if (this.props.auth.level == 1) {
+                btnAction =
+                    <Button full danger rounded
+                        onPress={() => { this.changeStatus(4) }}
+                    >
+                        <Text>Konfirmasi Barang</Text>
+                    </Button>
+            }
+        } else if (status == 4) {
+            statusDelivery = <Text style={{ color: 'green', fontWeight: 'bold' }}>ORDER FINISHED</Text>
+            if (this.props.auth.level == 1) {
+                btnAction =
+                    <>
+                        <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+                            <Button full rounded bordered dark style={styles.btn}
+                                onPress={() => { this.props.navigation.navigate('Home') }}
+                            >
+                                <Text>Reorder</Text>
+                            </Button>
+                            <Button full rounded danger style={styles.btn}
+                                onPress={() => {
+                                    this.props.navigation.navigate('Review', {
+                                        trxId: TrxId
+                                    })
+                                }}
+                            >
+                                <Text>Beri Ulasan</Text>
+                            </Button>
+                        </View>
+                    </>
+            }
+        }
         return (
             <>
                 <Container>
@@ -42,75 +145,135 @@ export default class ChangeAddress extends React.Component {
                             <Title style={{ color: 'black', fontWeight: 'bold', marginLeft: 20 }}>Order Details</Title>
                         </Body>
                     </Header>
-                    <Content style={{ backgroundColor: '#f0f0f0', margin: 10 }}>
-                        <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-                            <Text style={{ fontWeight: 'bold', fontSize: 20 }}>
-                                Order No :
+                    <Content style={{ backgroundColor: '#f0f0f0', marginHorizontal: 10 }}>
+                        <View style={{ height: 90 }}>
+                            <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+                                <Text style={{ fontWeight: 'bold', fontSize: 20 }}>
+                                    Order No :
                                 <Text style={{ color: 'gray', }}> {TrxId}</Text>
-                            </Text>
-                            <Text style={{ color: 'green' }}>{newDate.substr(0, 10)}</Text>
-                        </View>
-                        <Text style={{ marginTop: 10, color: 'gray', fontSize: 18 }}>
-                            Tracking Number :
+                                </Text>
+                                <Text style={{ color: 'green' }}>{newDate.substr(0, 10)}</Text>
+                            </View>
+                            <Text style={{ marginTop: 10, color: 'gray', fontSize: 18 }}>
+                                Tracking Number :
                                         <Text style={{ fontWeight: 'bold', color: 'black' }}> {trackingNumber}</Text>
-                        </Text>
-                        <Text style={{ color: 'green', fontWeight: 'bold' }}>{status}</Text>
-                        <Text style={{ fontWeight: 'bold', marginBottom: 15, marginTop: 10 }}>{qty} Items</Text>
-                        {
-                            cardOrder && cardOrder.map(({ product_name, price, product_img, color, size, qty }) => {
-                                return (
-                                    <>
-                                        <CardOrder name={product_name} price={price} img={product_img} color={color} size={size} qty={qty} />
-                                    </>
-                                )
-                            })
-                        }
-                        <Text style={{ fontWeight: 'bold', marginBottom: 10 }}>Order Information</Text>
-                        <View style={{ flexDirection: 'row' }}>
-                            <Text style={{ color: 'gray', width: 125, marginBottom: 10 }}>Shipping Address  </Text>
-                            <Text style={{ width: 215, fontWeight: 'bold' }}>{address}, {city}, ID {postal}</Text>
+                            </Text>
+                            {statusDelivery}
                         </View>
-                        <View style={{ flexDirection: 'row', height: 30, marginBottom: 10 }}>
-                            <Text style={{ width: 125, color: 'gray' }}>Payment Method </Text>
-                            {/* <Image source={require('./../../assets/card.png')} style={{ height: 30, width: 80 }} /> */}
-                            <Text>{payment}</Text>
-                            <Text style={{ width: 135 }}>**** **** **** 3947</Text>
+                        {/* <Text style={{ color: 'green', fontWeight: 'bold' }}>{status}</Text> */}
+                        <View style={{ height: 255 }}>
+                            <Text style={{ fontWeight: 'bold', marginBottom: 15, marginTop: 10 }}>{qty} Items</Text>
+                            <SafeAreaView>
+                                <ScrollView style={{ height: 200 }}>
+                                    {
+                                        cardOrder && cardOrder.map(({ product_name, price, product_img, color, size, qty }) => {
+                                            return (
+                                                <>
+                                                    <CardOrder name={product_name} price={price} img={product_img} color={color} size={size} qty={qty} />
+                                                </>
+                                            )
+                                        })
+                                    }
+                                </ScrollView>
+                            </SafeAreaView>
                         </View>
-                        <View style={{ flexDirection: 'row', marginBottom: 10 }}>
-                            <Text style={{ color: 'gray', width: 125 }}>Delivery Method  </Text>
-                            <Text style={{ width: 215, fontWeight: 'bold' }}>SiLambat, 3 Days, Rp. 15,000</Text>
-                        </View>
-                        <View style={{ flexDirection: 'row', marginBottom: 10 }}>
-                            <Text style={{ color: 'gray', width: 125 }}>Discount  </Text>
-                            <Text style={{ width: 215, fontWeight: 'bold' }}>10% Discount Code, PALUGADA</Text>
-                        </View>
-                        <View style={{ flexDirection: 'row', marginBottom: 10 }}>
-                            <Text style={{ color: 'gray', width: 125 }}>Total Amount  </Text>
-                    <Text style={{ width: 215, fontWeight: 'bold' }}>Rp. {total}</Text>
-                        </View>
-                        <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginTop: 15 }}>
-                            <Button full rounded bordered dark style={styles.btn}
-                                onPress={() => { this.props.navigation.navigate('Home') }}
-                            >
-                                <Text>Reorder</Text>
-                            </Button>
-                            <Button full rounded danger style={styles.btn}
-                                onPress={() => {this.props.navigation.navigate('Review', {
-                                    trxId: TrxId
-                                })}}
-                            >
-                                <Text>Leave Feedback</Text>
-                            </Button>
+                        <View style={{ height: 250 }}>
+                            <Text style={{ fontWeight: 'bold', marginBottom: 10 }}>Order Information</Text>
+                            <View style={{ flexDirection: 'row' }}>
+                                <Text style={{ color: 'gray', width: 125, marginBottom: 10 }}>Shipping Address  </Text>
+                                <Text style={{ width: 215, fontWeight: 'bold' }}>{address}, {city}, ID {postal}</Text>
+                            </View>
+                            <View style={{ flexDirection: 'row', height: 30, marginBottom: 10 }}>
+                                <Text style={{ width: 125, color: 'gray' }}>Payment Method </Text>
+                                <Text>{payment}</Text>
+                                <Text style={{ width: 135 }}>**** **** **** 3947</Text>
+                            </View>
+                            <View style={{ flexDirection: 'row', marginBottom: 10 }}>
+                                <Text style={{ color: 'gray', width: 125 }}>Delivery Method  </Text>
+                                <Text style={{ width: 215, fontWeight: 'bold' }}>{nama_kurir}, {waktu}, Rp. {tarif}</Text>
+                            </View>
+                            <View style={{ flexDirection: 'row', marginBottom: 10 }}>
+                                <Text style={{ color: 'gray', width: 125 }}>Discount  </Text>
+                                <Text style={{ width: 215, fontWeight: 'bold' }}>10% Discount Code, PALUGADA</Text>
+                            </View>
+                            <View style={{ flexDirection: 'row', marginBottom: 10 }}>
+                                <Text style={{ color: 'gray', width: 125 }}>Total Amount  </Text>
+                                <Text style={{ width: 215, fontWeight: 'bold' }}>Rp. {total}</Text>
+                            </View>
+                            {btnAction}
                         </View>
                     </Content>
                 </Container>
+                <Modal
+                    animationType="slide"
+                    transparent={true}
+                    visible={modalTrackingVisible}
+                >
+                    <View style={styles.centeredView}>
+                        <View style={styles.modalView}>
+                            <Form>
+                                <Item>
+                                    {/* <Label>No. Resi</Label> */}
+                                    <Input name="product_name" value={trackNumb} onChangeText={(text) => { this.setState({ trackNumb: text }) }} placeholder='Masukan No. Resi' />
+                                </Item>
+                            </Form>
+                            <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginHorizontal: 10, marginTop: 10 }}>
+                                <Button full rounded bordered style={styles.btnTracking}
+                                    onPress={() => {
+                                        this.setModalVisible(false)
+                                    }}
+                                >
+                                    <Text style={{ color: 'black' }}>Cancel</Text>
+                                </Button>
+                                <Button full rounded danger style={styles.btnTracking}
+                                    onPress={this.kirimPesanan}
+                                >
+                                    <Text>Kirim</Text>
+                                </Button>
+                            </View>
+                        </View>
+                    </View>
+                </Modal>
             </>
         )
     }
 }
+const mapStateToProps = ({ auth, bag }) => {
+    return {
+        auth,
+        bag
+    };
+};
+
+export default connect(mapStateToProps)(OrderDetails);
 
 const styles = StyleSheet.create({
     btn: {
         width: 150
-    }
+    },
+    btnTracking: {
+        width: 130,
+        marginHorizontal: 5
+
+    },
+    centeredView: {
+        flex: 1,
+        justifyContent: "flex-end",
+    },
+    modalView: {
+        height: 130,
+        width: 350,
+        backgroundColor: "white",
+        borderTopEndRadius: 20,
+        borderTopLeftRadius: 20,
+        padding: 10,
+        shadowColor: "#000",
+        shadowOffset: {
+            width: 0,
+            height: 2
+        },
+        shadowOpacity: 0.25,
+        shadowRadius: 3.84,
+        elevation: 5
+    },
 })

@@ -41,13 +41,21 @@ import UserStore from './screens/profile/seller'
 import ListProduct from './screens/profile/seller/ListProduct'
 import AddProduct from './screens/profile/seller/addProduct'
 import EditProduct from './screens/profile/seller/editProduct'
+import OrderedItem from './screens/profile/seller/ordererItem'
 
 import Splash from './screens/splash'
+
+import {useSelector} from 'react-redux'
+
+import Chat from './screens/profile/chat'
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
 
+
+
 const MyTabs = ({ auth }) => {
+  const level = useSelector((state) => (state.auth.level))
   return (
     <Tab.Navigator
       headerMode="none"
@@ -69,6 +77,17 @@ const MyTabs = ({ auth }) => {
           },
         }}
       />
+      {level==1 &&
+          <Tab.Screen
+          name="MyBag"
+          component={myBag}
+          options={{
+            tabBarIcon: ({ color }) => {
+              return <Icon name="shopping-bag" size={25} color={color} />;
+            },
+          }}
+        />
+      }
       <Tab.Screen
         name="Shop"
         component={ShopPage}
@@ -78,24 +97,7 @@ const MyTabs = ({ auth }) => {
           },
         }}
       />
-      <Tab.Screen
-        name="MyBag"
-        component={myBag}
-        options={{
-          tabBarIcon: ({ color }) => {
-            return <Icon name="shopping-bag" size={25} color={color} />;
-          },
-        }}
-      />
-      <Tab.Screen
-        name="Favorite"
-        component={Login}
-        options={{
-          tabBarIcon: ({ color }) => {
-            return <Icon name="heart" size={25} color={color} />;
-          },
-        }}
-      />
+      
       <Tab.Screen
         name="Profile"
         component={MainProfile}
@@ -144,6 +146,8 @@ const MainProfile = () => {
         <Stack.Screen name="ListProduct" component={ListProduct} />
         <Stack.Screen name="AddProduct" component={AddProduct} />
         <Stack.Screen name="EditProduct" component={EditProduct} />
+        <Stack.Screen name="Chat" component={Chat} />
+        <Stack.Screen name="OrderedItem" component={OrderedItem} />
       </>
     </Stack.Navigator>
   );

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Container, Header, Title, Content, Button, Left, Body, Text, Item, Input, CheckBox } from "native-base";
-import { Image, View, TouchableOpacity, StyleSheet } from 'react-native'
+import { Image, View, TouchableOpacity, StyleSheet, Picker } from 'react-native'
 import { connect } from 'react-redux'
 import { orderItems } from './../../utils/redux/ActionCreators/bag'
 import axios from 'axios'
@@ -8,7 +8,7 @@ import { BASE_URL } from '@env'
 import CardAdress from './../../components/cardAdress'
 import PushNotification from 'react-native-push-notification';
 import { showNotification } from '../../notif';
-import {addNotification} from './../../utils/redux/ActionCreators/notification'
+import { addNotification } from './../../utils/redux/ActionCreators/notification'
 
 const channel = 'notif';
 const shippingPrice = 15000;
@@ -20,6 +20,8 @@ class CheckOut extends React.Component {
         isCheckedGopay: false,
         selectedPayment: 0,
         address: [],
+        kurir: [],
+        jasaKirim: 0
     }
 
     checkedMaster = () => {
@@ -27,6 +29,7 @@ class CheckOut extends React.Component {
             isCheckedMaster: !this.state.isCheckedMaster,
             isCheckedPost: false,
             isCheckedGopay: false,
+            selectedPayment:1
         })
     }
 
@@ -35,6 +38,7 @@ class CheckOut extends React.Component {
             isCheckedMaster: false,
             isCheckedPost: !this.state.isCheckedPost,
             isCheckedGopay: false,
+            selectedPayment:2
         })
     }
 
@@ -43,6 +47,7 @@ class CheckOut extends React.Component {
             isCheckedMaster: false,
             isCheckedPost: false,
             isCheckedGopay: !this.state.isCheckedGopay,
+            selectedPayment:3
         })
     }
 
@@ -57,40 +62,40 @@ class CheckOut extends React.Component {
         }
         if (payment != 0 && this.props.address.activeAddress != null) {
             const Order = {
-                trxId:`TRX${this.props.bag.trxId}`,
+                trxId: `TRX${this.props.bag.trxId}`,
                 payment: payment,
                 address: this.props.address.activeAddress
             }
             if (this.props.dispatch(orderItems(Order))) {
                 const newTrx = {
-                    user_id:this.props.auth.id,
+                    user_id: this.props.auth.id,
                     TrxId: Order.trxId,
                     payment: payment,
                     address: this.props.address.activeAddress,
                     qty: this.props.bag.mybag.length,
                     total: this.props.bag.totalAmmount + shippingPrice,
-                    trackingNumber: `XXXXXXXXXXXXXXX-0${this.props.bag.trxId}`
+                    trackingNumber: `BELUM ADA DATA`
                 }
-                axios.post(BASE_URL+'/transaksi', newTrx)
-                .then((result) =>{
-                    axios.post(BASE_URL+'/transaksi/itemOrder', this.props.bag.mybag)
-                    .then((res) =>{
-                        showNotification('Notification', 'Checkout Succes', channel);
-                        const notifData = {
-                            title:`Checkout berhasil pada transaksi ${Order.trxId}`,
-                            content:`Hore checkout kamu berhasil, share ke temenmu dan dapetin kupon cashbacknya`
-                        }
-                        this.props.dispatch(addNotification(notifData))
-                        this.props.navigation.navigate('Success')
-                    }).catch(({response}) =>{
-                        console.log(response.data)
+                axios.post(BASE_URL + '/transaksi', newTrx)
+                    .then((result) => {
+                        axios.post(BASE_URL + '/transaksi/itemOrder', this.props.bag.mybag)
+                            .then((res) => {
+                                showNotification('Notification', 'Checkout Succes', channel);
+                                const notifData = {
+                                    title: `Checkout berhasil pada transaksi ${Order.trxId}`,
+                                    content: `Hore checkout kamu berhasil, share ke temenmu dan dapetin kupon cashbacknya`
+                                }
+                                this.props.dispatch(addNotification(notifData))
+                                this.props.navigation.navigate('Success')
+                            }).catch(({ response }) => {
+                                console.log(response.data)
+                            })
+                    }).catch((error) => {
+                        console.log(error.response.data)
                     })
-                }).catch((error) =>{
-                    console.log(error.response.data)
-                })
             }
 
-        }else{
+        } else {
             alert('Harap lengkapi alamat dan payment')
         }
 
@@ -102,6 +107,14 @@ class CheckOut extends React.Component {
                 .then(({ data }) => {
                     this.setState({
                         address: data.data
+                    })
+                }).catch(({ response }) => {
+                    console.log(response.data)
+                })
+            axios.get(BASE_URL + '/kurir/jasa_pengiriman')
+                .then(({ data }) => {
+                    this.setState({
+                        kurir: data.data
                     })
                 }).catch(({ response }) => {
                     console.log(response.data)
@@ -130,9 +143,16 @@ class CheckOut extends React.Component {
         this._unsubscribe()
     }
 
+    setKurir = (e) => {
+        this.setState({
+            jasaKirim: e
+        })
+    }
+
     render() {
         // console.log(this.props.bag.mybag[0])
-        const { address } = this.state
+        const { address, kurir, jasaKirim } = this.state
+        console.log(jasaKirim, this.state.selectedPayment)
         let cardAdress;
         if (this.props.address.activeAddress != null) {
             cardAdress =
@@ -190,7 +210,19 @@ class CheckOut extends React.Component {
                             </View>
                             <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginHorizontal: 15, marginVertical: 5 }}>
                                 <Text style={{ width: 100, color: 'gray' }}>Shipping :</Text>
-                                <Text>Rp. {shippingPrice}</Text>
+                                <View style={{width:40, height:20, marginTop:-10}}>
+                                <Picker
+                                    selectedValue={jasaKirim}
+                                    onValueChange={(itemValue, itemIndex) => this.setKurir(itemValue)}
+                                >
+                                    <Picker.Item label="Jasa Kirim" value="0" style={{ backgroundColor: 'gray' }} />
+                                    {
+                                        kurir && kurir.map(({ id, nama_kurir, waktu, tarif }) => {
+                                            return <Picker.Item label={nama_kurir + ', ' + waktu + ', ' + 'Rp.' + tarif} value={id} />
+                                        })
+                                    }
+                                </Picker>
+                                </View>
                             </View>
                             <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginHorizontal: 15, marginVertical: 5 }}>
                                 <Text style={{ width: 100, color: 'gray' }}>Summary :</Text>

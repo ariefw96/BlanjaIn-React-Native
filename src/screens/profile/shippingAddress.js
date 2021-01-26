@@ -79,15 +79,16 @@ class Shipping extends React.Component {
                             </TouchableOpacity>
                         </View>
                         <SafeAreaView>
-                            <ScrollView style={{ height: 380, marginBottom: 20, marginTop: -20 }}>
+                            <ScrollView style={{ height: 380, marginBottom: 20, marginTop: 20 }}>
                                 {
-                                    shippingAddress && shippingAddress.map(({ id, recipient_name, city, postal, phone }) => {
+                                    shippingAddress && shippingAddress.map(({ id, recipient_name, city, postal, phone, address_type }) => {
+                                        const color= this.state.selectedAddress == id? '#dedede' : 'white'
                                         return (
                                             <>
                                                 <TouchableOpacity
                                                     onPress={() => { this.setAddress(id) }}
                                                 >
-                                                    <CardAdress key={id} addressId={id} name={recipient_name} city={city} postal={postal} phone={phone} navigation={this.props.navigation} />
+                                                    <CardAdress key={id} addressId={id} type={address_type} color={color} name={recipient_name} city={city} postal={postal} phone={phone} navigation={this.props.navigation} />
                                                 </TouchableOpacity>
                                             </>
                                         )

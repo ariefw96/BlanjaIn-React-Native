@@ -10,6 +10,7 @@ import axios from 'axios';
 class Orders extends React.Component {
     state = {
         cardOrder: [],
+        emptyOrder:''
     }
     getMyOrder = () => {
         axios.get(BASE_URL + '/transaksi/myTransaction/' + this.props.auth.id)
@@ -18,6 +19,9 @@ class Orders extends React.Component {
                     cardOrder: data.data
                 })
             }).catch(({ response }) => {
+                this.setState({
+                    emptyOrder:'Belum ada daftar transaksi...'
+                })
                 console.log(response.data)
             })
     }
@@ -39,10 +43,10 @@ class Orders extends React.Component {
             orderContent =
                 <>
                     {
-                        cardOrder && cardOrder.map(({ trxId, trackingNumber, qty, total, created_at, status }) => {
+                        cardOrder && cardOrder.map(({ trxId, trackingNumber, qty, total, created_at, status, status_id }) => {
                             return (
                                 <>
-                                    <CardOrder trxId={trxId} trackingNumber={trackingNumber} qty={qty} total={total} created_at={created_at} status={status} navigation={this.props.navigation} />
+                                    <CardOrder trxId={trxId} trackingNumber={trackingNumber} qty={qty} total={total} created_at={created_at} idStatus={status_id} status={status} navigation={this.props.navigation} />
                                 </>
                             )
                         })
@@ -51,7 +55,7 @@ class Orders extends React.Component {
         } else {
             orderContent =
                 <>
-                    <Text style={{ fontSize: 20, fontWeight: 'bold' }}>Belum ada daftar transaksi...</Text>
+                    <Text style={{ fontSize: 20, fontWeight: 'bold' }}>{this.state.emptyOrder}</Text>
                 </>
         }
         // console.log(this.state.cardOrder)

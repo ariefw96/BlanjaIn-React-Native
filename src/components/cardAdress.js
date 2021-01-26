@@ -11,10 +11,10 @@ class cardAddress extends React.Component {
         return (
             <>
                 <View style={styles.order} >
-                    <View style={{ margin: 10, }}>
+                    <View style={{ padding:10, borderRadius:5, borderColor:this.props.color }}>
                         <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
                             <Text style={{ fontWeight: 'bold', fontSize: 20 }}>
-                                {this.props.name}
+                                {this.props.name+' ('+this.props.type+')'}
                             </Text>
                             <TouchableOpacity
                                 onPress={() => {
@@ -56,7 +56,7 @@ export default connect(mapStateToProps)(cardAddress);
 
 const styles = StyleSheet.create({
     order: {
-        borderRadius: 10, height: 105,
+        borderRadius: 10, height: 100,
         width: 328, backgroundColor: 'white',
         marginTop: 10,
         marginLeft: 5, marginRight: 10,
