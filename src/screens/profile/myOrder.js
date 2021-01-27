@@ -10,7 +10,7 @@ import axios from 'axios';
 class Orders extends React.Component {
     state = {
         cardOrder: [],
-        emptyOrder:''
+        emptyOrder: ''
     }
     getMyOrder = () => {
         axios.get(BASE_URL + '/transaksi/myTransaction/' + this.props.auth.id)
@@ -20,7 +20,7 @@ class Orders extends React.Component {
                 })
             }).catch(({ response }) => {
                 this.setState({
-                    emptyOrder:'Belum ada daftar transaksi...'
+                    emptyOrder: 'Belum ada daftar transaksi...'
                 })
                 console.log(response.data)
             })
@@ -79,11 +79,7 @@ class Orders extends React.Component {
                         <View>
                             <Text style={{ fontWeight: 'bold', fontSize: 42, marginRight: 10, marginTop: 20, marginBottom: 10 }}>My Orders</Text>
                         </View>
-                        <SafeAreaView>
-                            <ScrollView style={{ height: 480 }}>
-                                {orderContent}
-                            </ScrollView>
-                        </SafeAreaView>
+                        {orderContent}
                     </Content>
                 </Container>
             </>

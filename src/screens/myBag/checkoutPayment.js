@@ -21,7 +21,7 @@ class CheckOut extends React.Component {
         address: [],
         kurir: [],
         jasaKirim: '0',
-        shippingPrice:0
+        shippingPrice: 0
     }
 
     checkedMaster = () => {
@@ -72,6 +72,7 @@ class CheckOut extends React.Component {
                     TrxId: Order.trxId,
                     payment: payment,
                     address: this.props.address.activeAddress,
+                    kurir:this.state.jasaKirim,
                     qty: this.props.bag.mybag.length,
                     total: this.props.bag.totalAmmount + this.state.shippingPrice,
                     trackingNumber: `BELUM ADA DATA`
@@ -144,34 +145,20 @@ class CheckOut extends React.Component {
     }
 
     setKurir = (e) => {
-        if (e == 1) {
-            this.setState({
-                jasaKirim: e,
-                shippingPrice:15000
-            })
-            
-        } else if (e == 2) {
-            this.setState({
-                jasaKirim: e,
-                shippingPrice:10000
-            })
-        } else if (e == 3) {
-            this.setState({
-                jasaKirim: e,
-                shippingPrice:20000
-            })
-        } else if (e == 4) {
-            this.setState({
-                jasaKirim: e,
-                shippingPrice:17000
-            })
-        }
+        const price = this.state.kurir.filter((jasa) =>{
+            return jasa.id == e
+        })
+        console.log(price)
+        this.setState({
+            jasaKirim:e,
+            shippingPrice:price[0].tarif
+        })
     }
 
     render() {
         // console.log(this.props.bag.mybag[0])
-        const { address, kurir, jasaKirim } = this.state
-        console.log(jasaKirim, this.state.selectedPayment)
+        const { address, kurir, jasaKirim, shippingPrice, selectedPayment } = this.state
+        console.log(jasaKirim, shippingPrice, selectedPayment)
         let cardAdress;
         if (this.props.address.activeAddress != null) {
             cardAdress =
@@ -179,14 +166,10 @@ class CheckOut extends React.Component {
                     <CardAdress key={address.id} type={address.address_type} addressId={address.id} name={address.recipient_name} city={address.city} postal={address.postal} phone={address.phone} navigation={this.props.navigation} />
                 </>
         } else {
-            cardAdress = 
-            <>
-            <TouchableOpacity
-            onPress={()=>{this.props.navigation.navigate('Shipping')}}
-            >
-            <Text>Belum ada alamat terpilih</Text>
-            </TouchableOpacity>
-            </>
+            cardAdress =
+
+                <Text>Belum ada alamat terpilih</Text>
+
         }
         return (
             <>
@@ -205,9 +188,18 @@ class CheckOut extends React.Component {
                     </Header>
                     <Content style={{ backgroundColor: '#f0f0f0' }}>
                         <View style={{ margin: 10 }}>
-                            <Text style={{ marginLeft: 5, fontWeight: 'bold', fontSize: 18 }}>Shipping Address</Text>
+                            <View style={{ height: 150 }}>
+                                <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginBottom:10 }}>
+                                    <Text style={{ marginLeft: 5, fontWeight: 'bold', fontSize: 18 }}>Shipping Address</Text>
+                                    <TouchableOpacity
+                                        onPress={() => { this.props.navigation.navigate('Shipping') }}
+                                    >
+                                        <Text style={{ marginRight: 5, fontWeight: 'bold', fontSize: 18 }}>Change Address</Text>
+                                    </TouchableOpacity>
+                                </View>
 
-                            {cardAdress}
+                                {cardAdress}
+                            </View>
 
                             <Text style={{ marginTop: 20, marginLeft: 5, fontWeight: 'bold', fontSize: 18 }}>Payment</Text>
                             <View style={{ flexDirection: 'row', marginRight: 10, height: 60, }}>
@@ -234,17 +226,18 @@ class CheckOut extends React.Component {
                                 <Text style={{ width: 100, color: 'gray' }}>Order :</Text>
                                 <Text>Rp. {this.props.bag.totalAmmount}</Text>
                             </View>
-                            <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginHorizontal: 15, marginVertical: 5 }}>
-                                <Text style={{ width: 100, color: 'gray' }}>Shipping :</Text>
-                                <View style={{ width: 40, height: 20, marginTop: -10 }}>
+                            <View style={{ flexDirection: 'row',justifyContent:'space-between', marginLeft:15, marginVertical: 5 }}>
+                                <Text style={{ width: 80, color: 'gray' }}>Shipping :</Text>
+                                <View style={{ width: 100, height: 40, marginTop: -15}}>
                                     <Picker
-                                        selectedValue={this.state.jasaKirim}
+                                        // selectedValue={this.state.jasaKirim}
+                                        selectedValue={jasaKirim}
                                         onValueChange={(itemValue, itemIndex) => this.setKurir(itemValue)}
                                     >
                                         <Picker.Item label="Jasa Kirim" value="0" style={{ backgroundColor: 'gray' }} />
                                         {
                                             kurir && kurir.map(({ id, nama_kurir, waktu, tarif }) => {
-                                                return <Picker.Item label={nama_kurir + ', ' + waktu + ', ' + 'Rp.' + tarif} value={id} />
+                                                return <Picker.Item label={nama_kurir + ', ' + waktu + ', ' + 'Rp.' + tarif} value={`${id}`} />
                                             })
                                         }
                                     </Picker>

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Container, Header, Title, Content, Button, Left, Body, Text, Form, Item, Input, Label } from "native-base";
-import { Image, View, TouchableOpacity, StyleSheet, SafeAreaView, ScrollView, Modal } from 'react-native'
+import { Image, View, TouchableOpacity, StyleSheet, SafeAreaView, ScrollView, Modal, Alert } from 'react-native'
 import { BASE_URL } from '@env'
 import axios from 'axios'
 import { connect } from 'react-redux'
@@ -48,7 +48,8 @@ class OrderDetails extends React.Component {
     }
 
     kirimPesanan = () => {
-        axios.patch(BASE_URL + `/transaksi/updateResi/${this.state.orderDetails.TrxId}/${this.state.trackNumb}`)
+        if(this.state.trackNumb != ''){
+            axios.patch(BASE_URL + `/transaksi/updateResi/${this.state.orderDetails.TrxId}/${this.state.trackNumb}`)
             .then(({ data }) => {
                 // alert(data.message + 'memasukan no. resi')
                 // sukses memasukan not. resi
@@ -59,6 +60,15 @@ class OrderDetails extends React.Component {
             }).catch(({ response }) => {
                 console.log(response.data)
             })
+        }else{
+            Alert.alert(
+                'No. Resi tidak valid',
+                'Harap masukan No. Resi yang valid!',
+                [
+                  {text: 'OK', style: 'cancel'},
+                  
+                ])
+        }
     }
 
     render() {
@@ -70,22 +80,22 @@ class OrderDetails extends React.Component {
         let btnAction;
         if (status == 1) {
             //order masuk
-            statusDelivery = <Text style={{ color: 'black', fontWeight: 'bold' }}>ORDER CREATED</Text>
+            statusDelivery = <Text style={{ color: 'black', fontWeight: 'bold' }}>Status : ORDER CREATED</Text>
             if (this.props.auth.level == 2) {
                 btnAction =
 
-                    <Button danger rounded full
+                    <Button full rounded danger
                         onPress={() => { this.changeStatus(2) }}
                     >
-                        <Text>Terima (Seller)</Text>
+                        <Text>Terima Pesanan</Text>
                     </Button>
             }
         } else if (status == 2) {
             //diproses
-            statusDelivery = <Text style={{ color: 'orange', fontWeight: 'bold' }}>ON PROCCESS</Text>
+            statusDelivery = <Text style={{ color: 'orange', fontWeight: 'bold' }}>Status : ON PROCCESS</Text>
             if (this.props.auth.level == 2) {
                 btnAction =
-                    <Button danger rounded full
+                    <Button full rounded danger
                         // onPress={() => { this.changeStatus(3) }}
                         onPress={() => {
                             this.setModalVisible(true)
@@ -97,7 +107,7 @@ class OrderDetails extends React.Component {
 
         } else if (status == 3) {
             //dikirim
-            statusDelivery = <Text style={{ color: 'orange', fontWeight: 'bold' }}>ON DELIVERY</Text>
+            statusDelivery = <Text style={{ color: 'orange', fontWeight: 'bold' }}>Status : ON DELIVERY</Text>
             if (this.props.auth.level == 1) {
                 btnAction =
                     <Button full danger rounded
@@ -107,7 +117,7 @@ class OrderDetails extends React.Component {
                     </Button>
             }
         } else if (status == 4) {
-            statusDelivery = <Text style={{ color: 'green', fontWeight: 'bold' }}>ORDER FINISHED</Text>
+            statusDelivery = <Text style={{ color: 'green', fontWeight: 'bold' }}>Status : ORDER FINISHED</Text>
             if (this.props.auth.level == 1) {
                 btnAction =
                     <>
@@ -146,62 +156,54 @@ class OrderDetails extends React.Component {
                         </Body>
                     </Header>
                     <Content style={{ backgroundColor: '#f0f0f0', marginHorizontal: 10 }}>
-                        <View style={{ height: 90 }}>
-                            <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-                                <Text style={{ fontWeight: 'bold', fontSize: 20 }}>
-                                    Order No :
+                        <View style={{minHeight:350}}>
+                        <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+                            <Text style={{ fontWeight: 'bold', fontSize: 20 }}>
+                                Order No :
                                 <Text style={{ color: 'gray', }}> {TrxId}</Text>
-                                </Text>
-                                <Text style={{ color: 'green' }}>{newDate.substr(0, 10)}</Text>
-                            </View>
-                            <Text style={{ marginTop: 10, color: 'gray', fontSize: 18 }}>
-                                Tracking Number :
-                                        <Text style={{ fontWeight: 'bold', color: 'black' }}> {trackingNumber}</Text>
                             </Text>
-                            {statusDelivery}
+                            <Text style={{ color: 'green' }}>{newDate.substr(0, 10)}</Text>
                         </View>
-                        {/* <Text style={{ color: 'green', fontWeight: 'bold' }}>{status}</Text> */}
-                        <View style={{ height: 255 }}>
-                            <Text style={{ fontWeight: 'bold', marginBottom: 15, marginTop: 10 }}>{qty} Items</Text>
-                            <SafeAreaView>
-                                <ScrollView style={{ height: 200 }}>
-                                    {
-                                        cardOrder && cardOrder.map(({ product_name, price, product_img, color, size, qty }) => {
-                                            return (
-                                                <>
-                                                    <CardOrder name={product_name} price={price} img={product_img} color={color} size={size} qty={qty} />
-                                                </>
-                                            )
-                                        })
-                                    }
-                                </ScrollView>
-                            </SafeAreaView>
+                        <Text style={{ marginTop: 10, color: 'gray', fontSize: 18 }}>
+                            Tracking Number :
+                                        <Text style={{ fontWeight: 'bold', color: 'black' }}> {trackingNumber}</Text>
+                        </Text>
+                        {statusDelivery}
+                        <Text style={{ fontWeight: 'bold', marginBottom: 15, marginTop: 10 }}>{qty} Items</Text>
+
+                        {
+                            cardOrder && cardOrder.map(({ product_name, price, product_img, color, size, qty }) => {
+                                return (
+                                    <>
+                                        <CardOrder name={product_name} price={price} img={product_img} color={color} size={size} qty={qty} />
+                                    </>
+                                )
+                            })
+                        }
                         </View>
-                        <View style={{ height: 250 }}>
-                            <Text style={{ fontWeight: 'bold', marginBottom: 10 }}>Order Information</Text>
-                            <View style={{ flexDirection: 'row' }}>
-                                <Text style={{ color: 'gray', width: 125, marginBottom: 10 }}>Shipping Address  </Text>
-                                <Text style={{ width: 215, fontWeight: 'bold' }}>{address}, {city}, ID {postal}</Text>
-                            </View>
-                            <View style={{ flexDirection: 'row', height: 30, marginBottom: 10 }}>
-                                <Text style={{ width: 125, color: 'gray' }}>Payment Method </Text>
-                                <Text>{payment}</Text>
-                                <Text style={{ width: 135 }}>**** **** **** 3947</Text>
-                            </View>
-                            <View style={{ flexDirection: 'row', marginBottom: 10 }}>
-                                <Text style={{ color: 'gray', width: 125 }}>Delivery Method  </Text>
-                                <Text style={{ width: 215, fontWeight: 'bold' }}>{nama_kurir}, {waktu}, Rp. {tarif}</Text>
-                            </View>
-                            <View style={{ flexDirection: 'row', marginBottom: 10 }}>
-                                <Text style={{ color: 'gray', width: 125 }}>Discount  </Text>
-                                <Text style={{ width: 215, fontWeight: 'bold' }}>10% Discount Code, PALUGADA</Text>
-                            </View>
-                            <View style={{ flexDirection: 'row', marginBottom: 10 }}>
-                                <Text style={{ color: 'gray', width: 125 }}>Total Amount  </Text>
-                                <Text style={{ width: 215, fontWeight: 'bold' }}>Rp. {total}</Text>
-                            </View>
-                            {btnAction}
+                        <Text style={{ fontWeight: 'bold', marginBottom: 10 }}>Order Information</Text>
+                        <View style={{ flexDirection: 'row' }}>
+                            <Text style={{ color: 'gray', width: 125, marginBottom: 10 }}>Shipping Address  </Text>
+                            <Text style={{ width: 215, fontWeight: 'bold' }}>{address}, {city}, ID {postal}</Text>
                         </View>
+                        <View style={{ flexDirection: 'row', height: 30, marginBottom: 10 }}>
+                            <Text style={{ width: 125, color: 'gray' }}>Payment Method </Text>
+                            <Text>{payment}</Text>
+                            <Text style={{ width: 135 }}> **** 8932</Text>
+                        </View>
+                        <View style={{ flexDirection: 'row', marginBottom: 10 }}>
+                            <Text style={{ color: 'gray', width: 125 }}>Delivery Method  </Text>
+                            <Text style={{ width: 215, fontWeight: 'bold' }}>{nama_kurir}, {waktu}, Rp. {tarif}</Text>
+                        </View>
+                        <View style={{ flexDirection: 'row', marginBottom: 10 }}>
+                            <Text style={{ color: 'gray', width: 125 }}>Discount  </Text>
+                            <Text style={{ width: 215, fontWeight: 'bold' }}>-</Text>
+                        </View>
+                        <View style={{ flexDirection: 'row', marginBottom: 10 }}>
+                            <Text style={{ color: 'gray', width: 125 }}>Total Amount  </Text>
+                            <Text style={{ width: 215, fontWeight: 'bold' }}>Rp. {total}</Text>
+                        </View>
+                        {btnAction}
                     </Content>
                 </Container>
                 <Modal
@@ -228,7 +230,7 @@ class OrderDetails extends React.Component {
                                 <Button full rounded danger style={styles.btnTracking}
                                     onPress={this.kirimPesanan}
                                 >
-                                    <Text>Kirim</Text>
+                                    <Text style={{color:'white'}}>Kirim</Text>
                                 </Button>
                             </View>
                         </View>

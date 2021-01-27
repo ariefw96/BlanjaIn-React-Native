@@ -6,7 +6,7 @@ export default class cardOrder extends React.Component {
         const {idStatus} = this.props
         let strStatus;
         if(idStatus ==1){
-            strStatus = <Text style={{ color: 'black', fontSize: 18, fontWeight: 'bold', width:70, marginTop: 10,  }}>{this.props.status}</Text>
+            strStatus = <Text style={{ color: 'black', fontSize: 18, fontWeight: 'bold', width:80, marginTop: 10,  }}>{this.props.status}</Text>
         }else if(idStatus==2){
             strStatus = <Text style={{ color: 'orange', fontSize: 18, fontWeight: 'bold', width:80, marginTop: 10,  }}>{this.props.status}</Text>
         }else if(idStatus ==3){
