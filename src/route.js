@@ -45,7 +45,7 @@ import OrderedItem from './screens/profile/seller/ordererItem'
 
 import Splash from './screens/splash'
 
-import {useSelector} from 'react-redux'
+import { useSelector } from 'react-redux'
 
 import Chat from './screens/profile/chat'
 
@@ -77,17 +77,6 @@ const MyTabs = ({ auth }) => {
           },
         }}
       />
-      {level==1 &&
-          <Tab.Screen
-          name="MyBag"
-          component={myBag}
-          options={{
-            tabBarIcon: ({ color }) => {
-              return <Icon name="shopping-bag" size={25} color={color} />;
-            },
-          }}
-        />
-      }
       <Tab.Screen
         name="Shop"
         component={ShopPage}
@@ -97,7 +86,26 @@ const MyTabs = ({ auth }) => {
           },
         }}
       />
-      
+      {level == 1 &&
+        <Tab.Screen
+          name="MyBag"
+          component={myBag}
+          options={{
+            tabBarIcon: ({ color }) => {
+              return <Icon name="shopping-bag" size={25} color={color} />;
+            },
+          }}
+        />
+      }
+      {/* {level == 1 && <Tab.Screen
+        name="Favorite"
+        component={Login}
+        options={{
+          tabBarIcon: ({ color }) => {
+            return <Icon name="heart" size={25} color={color} />;
+          },
+        }}
+      />} */}
       <Tab.Screen
         name="Profile"
         component={MainProfile}
@@ -116,6 +124,9 @@ const myBag = () => {
     <Stack.Navigator headerMode="none">
       <Stack.Screen name="Bag" component={Bag} />
       <Stack.Screen name="Checkout" component={Checkout} />
+      <Stack.Screen name="Shipping" component={Shipping} />
+        <Stack.Screen name="ChangeAddress" component={ChangeAddress} />
+        <Stack.Screen name="AddAddress" component={AddAddress} />
     </Stack.Navigator>
   )
 };

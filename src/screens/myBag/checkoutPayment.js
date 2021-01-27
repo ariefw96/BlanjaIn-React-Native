@@ -11,7 +11,6 @@ import { showNotification } from '../../notif';
 import { addNotification } from './../../utils/redux/ActionCreators/notification'
 
 const channel = 'notif';
-const shippingPrice = 15000;
 
 class CheckOut extends React.Component {
     state = {
@@ -21,7 +20,8 @@ class CheckOut extends React.Component {
         selectedPayment: 0,
         address: [],
         kurir: [],
-        jasaKirim: 0
+        jasaKirim: '0',
+        shippingPrice:0
     }
 
     checkedMaster = () => {
@@ -29,7 +29,7 @@ class CheckOut extends React.Component {
             isCheckedMaster: !this.state.isCheckedMaster,
             isCheckedPost: false,
             isCheckedGopay: false,
-            selectedPayment:1
+            selectedPayment: 1
         })
     }
 
@@ -38,7 +38,7 @@ class CheckOut extends React.Component {
             isCheckedMaster: false,
             isCheckedPost: !this.state.isCheckedPost,
             isCheckedGopay: false,
-            selectedPayment:2
+            selectedPayment: 2
         })
     }
 
@@ -47,7 +47,7 @@ class CheckOut extends React.Component {
             isCheckedMaster: false,
             isCheckedPost: false,
             isCheckedGopay: !this.state.isCheckedGopay,
-            selectedPayment:3
+            selectedPayment: 3
         })
     }
 
@@ -73,7 +73,7 @@ class CheckOut extends React.Component {
                     payment: payment,
                     address: this.props.address.activeAddress,
                     qty: this.props.bag.mybag.length,
-                    total: this.props.bag.totalAmmount + shippingPrice,
+                    total: this.props.bag.totalAmmount + this.state.shippingPrice,
                     trackingNumber: `BELUM ADA DATA`
                 }
                 axios.post(BASE_URL + '/transaksi', newTrx)
@@ -144,9 +144,28 @@ class CheckOut extends React.Component {
     }
 
     setKurir = (e) => {
-        this.setState({
-            jasaKirim: e
-        })
+        if (e == 1) {
+            this.setState({
+                jasaKirim: e,
+                shippingPrice:15000
+            })
+            
+        } else if (e == 2) {
+            this.setState({
+                jasaKirim: e,
+                shippingPrice:10000
+            })
+        } else if (e == 3) {
+            this.setState({
+                jasaKirim: e,
+                shippingPrice:20000
+            })
+        } else if (e == 4) {
+            this.setState({
+                jasaKirim: e,
+                shippingPrice:17000
+            })
+        }
     }
 
     render() {
@@ -157,10 +176,17 @@ class CheckOut extends React.Component {
         if (this.props.address.activeAddress != null) {
             cardAdress =
                 <>
-                    <CardAdress key={address.id} addressId={address.id} name={address.recipient_name} city={address.city} postal={address.postal} phone={address.phone} navigation={this.props.navigation} />
+                    <CardAdress key={address.id} type={address.address_type} addressId={address.id} name={address.recipient_name} city={address.city} postal={address.postal} phone={address.phone} navigation={this.props.navigation} />
                 </>
         } else {
-            cardAdress = <Text>Belum ada alamat terpilih</Text>
+            cardAdress = 
+            <>
+            <TouchableOpacity
+            onPress={()=>{this.props.navigation.navigate('Shipping')}}
+            >
+            <Text>Belum ada alamat terpilih</Text>
+            </TouchableOpacity>
+            </>
         }
         return (
             <>
@@ -210,23 +236,23 @@ class CheckOut extends React.Component {
                             </View>
                             <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginHorizontal: 15, marginVertical: 5 }}>
                                 <Text style={{ width: 100, color: 'gray' }}>Shipping :</Text>
-                                <View style={{width:40, height:20, marginTop:-10}}>
-                                <Picker
-                                    selectedValue={jasaKirim}
-                                    onValueChange={(itemValue, itemIndex) => this.setKurir(itemValue)}
-                                >
-                                    <Picker.Item label="Jasa Kirim" value="0" style={{ backgroundColor: 'gray' }} />
-                                    {
-                                        kurir && kurir.map(({ id, nama_kurir, waktu, tarif }) => {
-                                            return <Picker.Item label={nama_kurir + ', ' + waktu + ', ' + 'Rp.' + tarif} value={id} />
-                                        })
-                                    }
-                                </Picker>
+                                <View style={{ width: 40, height: 20, marginTop: -10 }}>
+                                    <Picker
+                                        selectedValue={this.state.jasaKirim}
+                                        onValueChange={(itemValue, itemIndex) => this.setKurir(itemValue)}
+                                    >
+                                        <Picker.Item label="Jasa Kirim" value="0" style={{ backgroundColor: 'gray' }} />
+                                        {
+                                            kurir && kurir.map(({ id, nama_kurir, waktu, tarif }) => {
+                                                return <Picker.Item label={nama_kurir + ', ' + waktu + ', ' + 'Rp.' + tarif} value={id} />
+                                            })
+                                        }
+                                    </Picker>
                                 </View>
                             </View>
                             <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginHorizontal: 15, marginVertical: 5 }}>
                                 <Text style={{ width: 100, color: 'gray' }}>Summary :</Text>
-                                <Text style={{ fontWeight: 'bold', fontSize: 18 }}>Rp. {this.props.bag.totalAmmount + shippingPrice}</Text>
+                                <Text style={{ fontWeight: 'bold', fontSize: 18 }}>Rp. {this.props.bag.totalAmmount + this.state.shippingPrice}</Text>
                             </View>
                             <Button full rounded danger style={{ margin: 10 }}
                                 onPress={this.submitOrder}
