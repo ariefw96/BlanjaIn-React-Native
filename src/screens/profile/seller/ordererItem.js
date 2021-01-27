@@ -14,7 +14,7 @@ export default class componentName extends Component {
         orderData: [],
     }
 
-    componentDidMount = () => {
+    getOrderData = () => {
         axios.get(BASE_URL + '/transaksi/OrderData')
             .then(({ data }) => {
                 this.setState({
@@ -23,6 +23,14 @@ export default class componentName extends Component {
             }).catch(({ response }) => {
                 console.log(response.data)
             })
+    }
+
+    refresh = () => {
+        this.getOrderData()
+    }
+
+    componentDidMount = () => {
+        this.getOrderData()
     }
     render() {
         const { orderData } = this.state
@@ -38,6 +46,13 @@ export default class componentName extends Component {
                             </Button>
                         </Left>
                         <Body />
+                        <Right>
+                            <Button transparent
+                                onPress={this.refresh}
+                            >
+                                <Image source={require('./../../../assets/icons/refresh.png')} />
+                            </Button>
+                        </Right>
                     </Header>
                     <Content style={{ marginHorizontal: 10 }}>
                         <View>

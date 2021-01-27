@@ -47,10 +47,11 @@ class OrderDetails extends React.Component {
     }
 
     kirimPesanan = () => {
-        if(this.state.trackNumb != ''){
+        const regexKurir = RegExp(this.state.orderDetails.regex)
+        if(this.state.trackNumb != '' && regexKurir.test(this.state.trackNumb) && this.state.trackNumb.length == 10){
             axios.patch(BASE_URL + `/transaksi/updateResi/${this.state.orderDetails.TrxId}/${this.state.trackNumb}`)
             .then(({ data }) => {
-                ToastAndroid.show(data.message+'memasukan no. resi', ToastAndroid.SHORT, ToastAndroid.BOTTOM);
+                ToastAndroid.show(data.message+' memasukan no. resi', ToastAndroid.SHORT, ToastAndroid.BOTTOM);
                 this.changeStatus(3)
                 this.setState({
                     modalTrackingVisible: false
@@ -214,7 +215,7 @@ class OrderDetails extends React.Component {
                             <Form>
                                 <Item>
                                     {/* <Label>No. Resi</Label> */}
-                                    <Input name="product_name" value={trackNumb} onChangeText={(text) => { this.setState({ trackNumb: text }) }} placeholder='Masukan No. Resi' />
+                                    <Input name="product_name" value={trackNumb} onChangeText={(text) => { this.setState({ trackNumb: text }) }} placeholder='Masukan No. Resi (10 Karakter)' />
                                 </Item>
                             </Form>
                             <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginHorizontal: 10, marginTop: 10 }}>

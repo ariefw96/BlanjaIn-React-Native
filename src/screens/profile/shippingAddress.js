@@ -41,7 +41,7 @@ class Shipping extends React.Component {
         })
     }
     setActiveAddress = () => {
-        ToastAndroid.show('Adress ' + this.state.selectedAddress + ' terpilih', ToastAndroid.SHORT, ToastAndroid.BOTTOM);
+        // ToastAndroid.show('Adress ' + this.state.selectedAddress + ' terpilih', ToastAndroid.SHORT, ToastAndroid.BOTTOM);
         this.props.dispatch(setAddress(this.state.selectedAddress))
     }
 

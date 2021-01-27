@@ -21,26 +21,28 @@ export default class ChangeAddress extends React.Component {
         const regexPhone = /^(^\+62|62|^08)(\d{3,4}-?){2}\d{3,4}$/g
         if (!(this.state.phone.length >= 11) || !(this.state.phone.length <= 15) || !regexPhone.test(this.state.phone)) {
             ToastAndroid.show('Format pengisian no. HP salah', ToastAndroid.SHORT, ToastAndroid.BOTTOM);
-        } else if (this.state.address_type !== '') {
-            const addressData = {
-                address_type: this.state.address_type,
-                recipient_name: this.state.recipient_name,
-                address: this.state.address,
-                city: this.state.city,
-                postal: this.state.postal,
-                phone: this.state.phone,
-            }
-            axios.patch(BASE_URL + `/address/update/${this.props.route.params.addressId}`, addressData)
-                .then(({ data }) => {
-                    ToastAndroid.show(data.message, ToastAndroid.SHORT, ToastAndroid.BOTTOM);
-                    this.props.navigation.navigate('Shipping')
-                }).catch(({ response }) => {
-                    console.log(response.data)
-                })
         } else {
-            this.setState({
-                errorForm: 'Data tidak boleh kosong'
-            })
+            if (this.state.address_type !== '') {
+                const addressData = {
+                    address_type: this.state.address_type,
+                    recipient_name: this.state.recipient_name,
+                    address: this.state.address,
+                    city: this.state.city,
+                    postal: this.state.postal,
+                    phone: this.state.phone,
+                }
+                axios.patch(BASE_URL + `/address/update/${this.props.route.params.addressId}`, addressData)
+                    .then(({ data }) => {
+                        ToastAndroid.show(data.message, ToastAndroid.SHORT, ToastAndroid.BOTTOM);
+                        this.props.navigation.navigate('Shipping')
+                    }).catch(({ response }) => {
+                        console.log(response.data)
+                    })
+            } else {
+                this.setState({
+                    errorForm: 'Data tidak boleh kosong'
+                })
+            }
         }
     }
 

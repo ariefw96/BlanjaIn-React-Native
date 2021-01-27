@@ -31,7 +31,7 @@ class Profile extends React.Component {
     getAddress = () => {
         axios.get(BASE_URL + `/address/${this.props.auth.id}`)
             .then(({ data }) => {
-                console.log(data)
+                // console.log(data)
                 this.setState({
                     address: data.data
                 })

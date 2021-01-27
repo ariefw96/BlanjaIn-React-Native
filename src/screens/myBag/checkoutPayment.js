@@ -5,7 +5,7 @@ import { connect } from 'react-redux'
 import { orderItems } from './../../utils/redux/ActionCreators/bag'
 import axios from 'axios'
 import { BASE_URL } from '@env'
-import CardAdress from './../../components/cardAdress'
+import CardAdress from './../../components/cardAddressPayment'
 import PushNotification from 'react-native-push-notification';
 import { showNotification } from '../../notif';
 import { addNotification } from './../../utils/redux/ActionCreators/notification'
@@ -158,7 +158,7 @@ class CheckOut extends React.Component {
     render() {
         // console.log(this.props.bag.mybag[0])
         const { address, kurir, jasaKirim, shippingPrice, selectedPayment } = this.state
-        console.log(jasaKirim, shippingPrice, selectedPayment)
+        // console.log(jasaKirim, shippingPrice, selectedPayment)
         let cardAdress;
         if (this.props.address.activeAddress != null) {
             cardAdress =
