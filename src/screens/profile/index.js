@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Container, Header, Title, Content, Button, Left, Body, Text, Right } from "native-base";
-import { Image, View, TouchableOpacity } from 'react-native'
+import { Image, View, TouchableOpacity, Alert } from 'react-native'
 import { connect } from 'react-redux'
 import { setLoginfalse, removeEmail, removeId, removeName } from './../../utils/redux/ActionCreators/auth'
 // import EmptyPage from './../emptyScreen/index'
@@ -38,6 +38,17 @@ class Profile extends React.Component {
             }).catch(({ response }) => {
                 console.log(response)
             })
+    }
+
+    promptLogout = () =>{
+        Alert.alert(
+            'Logout',
+            'Apakah anda yakin ingin logout',
+            [
+              {text: 'NO', style: 'cancel'},
+              {text: 'YES', onPress: () => this.Logout()},
+              
+            ])
     }
 
     Logout = () => {
@@ -147,7 +158,7 @@ class Profile extends React.Component {
                         </TouchableOpacity>
                     </Content>
                     <Button full rounded danger style={{ marginHorizontal: 10, marginBottom: 15 }}
-                        onPress={this.Logout}
+                        onPress={this.promptLogout}
                     >
                         <Text>Logout</Text>
                     </Button>
