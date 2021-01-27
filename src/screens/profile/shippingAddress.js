@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Container, Header, Title, Content, Button, Left, Body, Text, Item, Input } from "native-base";
-import { Image, View, TouchableOpacity, StyleSheet, SafeAreaView, ScrollView } from 'react-native'
+import { Image, View, TouchableOpacity, StyleSheet, SafeAreaView, ScrollView, ToastAndroid } from 'react-native'
 import { connect } from 'react-redux'
 import axios from 'axios'
 import { setAddress } from './../../utils/redux/ActionCreators/adress'
@@ -41,7 +41,7 @@ class Shipping extends React.Component {
         })
     }
     setActiveAddress = () => {
-        alert('Adress ' + this.state.selectedAddress + ' terpilih')
+        ToastAndroid.show('Adress ' + this.state.selectedAddress + ' terpilih', ToastAndroid.SHORT, ToastAndroid.BOTTOM);
         this.props.dispatch(setAddress(this.state.selectedAddress))
     }
 

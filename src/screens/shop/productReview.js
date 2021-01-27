@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { Container, Header, Title, Content, Button, Footer, FooterTab, Icon, Left, Body, Textarea, View, Form, Text, Label } from "native-base";
-import { Image, Picker, TouchableOpacity } from 'react-native'
+import { Image, Picker, TouchableOpacity, ToastAndroid, Alert } from 'react-native'
 import { BASE_URL } from '@env'
 import { connect } from 'react-redux'
 import axios from 'axios'
@@ -47,13 +47,19 @@ class writeReview extends Component {
             }
             axios.post(BASE_URL + '/user/addReview', reviewData)
                 .then(({ data }) => {
-                    alert(data.message)
+                    ToastAndroid.show(data.message, ToastAndroid.SHORT, ToastAndroid.BOTTOM);
                     this.props.navigation.goBack()
                 }).catch(({ response }) => {
                     console.log(response.data)
                 })
         } else {
-            alert('Silahkan pilih produk terlebih dahulu')
+            Alert.alert(
+                'Kesalahan',
+                'Harap pilih produk yang ingin direview',
+                [
+                  {text: 'OK', style: 'cancel'},
+                  
+                ])
         }
     }
 

@@ -1,5 +1,5 @@
 import React from 'react'
-import { View, Text, StyleSheet, Image, ScrollView, TouchableOpacity, Picker } from 'react-native'
+import { View, Text, StyleSheet, Image, ScrollView, TouchableOpacity, Picker, ToastAndroid } from 'react-native'
 import { Container, Header, Content, Form, Item, Input, Button, Label, Textarea, Left, Body, Right } from 'native-base';
 import { BASE_URL } from "@env"
 import axios from 'axios'
@@ -78,6 +78,7 @@ class AddProduct extends React.Component {
     };
 
     postProduct = () => {
+        ToastAndroid.show('Harap tunggu', ToastAndroid.SHORT, ToastAndroid.CENTER);
         const config = {
             headers: {
                 'x-access-token': 'Bearer ' + this.props.auth.token,
@@ -123,7 +124,7 @@ class AddProduct extends React.Component {
             .post(BASE_URL + `/product/addProduct`, data, config)
             .then((data) => {
                 console.log(data.data);
-                alert('produk berhasil ditambahkan')
+                ToastAndroid.show('Produk berhasil ditambahkan', ToastAndroid.SHORT, ToastAndroid.BOTTOM);
                 this.props.navigation.push('ListProduct')
             })
             .catch((err) => {

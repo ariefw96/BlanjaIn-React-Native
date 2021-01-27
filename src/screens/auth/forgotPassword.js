@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Container, Header, Content, Form, Item, Input, Label, Button, Right } from 'native-base';
+import {ToastAndroid} from 'react-native'
 import { setEmail } from './../../utils/redux/ActionCreators/auth'
 import { connect } from 'react-redux'
 import {
@@ -27,14 +28,12 @@ class ForgotPassword extends React.Component {
                 this.setState({
                     errorForm:''
                 })
-                
-                alert(data.message)
-                
+                ToastAndroid.show(data.message, ToastAndroid.SHORT);
                 this.props.dispatch(setEmail(this.state.email))
                 this.props.navigation.navigate('Otp')
             }).catch(({response}) => {
                 console.log(response.data)
-                alert(response.data.message)
+                ToastAndroid.show(response.data.message, ToastAndroid.SHORT);
             })
         }else{
             this.setState({

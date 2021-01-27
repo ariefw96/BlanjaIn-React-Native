@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Image, Dimensions, StyleSheet, Text, View, ScrollView, TouchableOpacity, SafeAreaView, Picker } from 'react-native';
+import { Image, Dimensions, StyleSheet, Text, View, ScrollView, TouchableOpacity, SafeAreaView, Picker, ToastAndroid, Alert } from 'react-native';
 import CardProduct from '../../components/cardHome'
 import Review from './../../components/review'
 import { Left, Body, Title, Button, Container, Header, Form, Textarea, } from 'native-base'
@@ -15,7 +15,7 @@ class DetailPage extends Component {
     state = {
         product: [],
         foryou: [],
-        FavTrue:false,
+        FavTrue: false,
         itemsId: this.props.route.params.itemId,
         selectedSize: 0,
         selectedColor: 0
@@ -38,13 +38,13 @@ class DetailPage extends Component {
                     foryou: data.data.products,
                 })
             }).catch((error) => {
-                // console.log(error.response)
+                console.log(error.response.data)
             })
     }
 
-    Bookmark = () =>{
+    Bookmark = () => {
         this.setState({
-            FavTrue:!this.state.FavTrue
+            FavTrue: !this.state.FavTrue
         })
     }
 
@@ -67,27 +67,28 @@ class DetailPage extends Component {
 
     addToCart = () => {
         const { navigation } = this.props
-        if (!this.props.auth.isLogin || this.props.auth.level != 1) {
-            alert('Anda harus login sebagai costumer terlebih dahulu')
+        if (this.state.selectedColor == 0 || this.state.selectedSize == 0) {
+            Alert.alert(
+                'Kesalahan',
+                'Harap memilih warna dan ukuran',
+                [
+                  {text: 'OK', style: 'cancel'},
+                  
+                ])
         } else {
-            if (this.state.selectedColor == 0 || this.state.selectedSize == 0) {
-                alert('Harap pilih warna dan ukuran')
-            } else {
-                const Items = {
-                    user_id: this.props.auth.id,
-                    product_id: this.props.route.params.itemId,
-                    product_name: this.state.product[0].product_name,
-                    product_img: this.state.product[0].product_img.split(',')[0],
-                    color: this.state.selectedColor,
-                    size: this.state.selectedSize,
-                    price: this.state.product[0].product_price,
-                    qty: 1
-                }
-                console.log(Items)
-                this.props.dispatch(addItems(Items))
-                alert('Berhasil menambahkan ke keranjang')
-                this.props.navigation.navigate('MyBag')
+            const Items = {
+                user_id: this.props.auth.id,
+                product_id: this.props.route.params.itemId,
+                product_name: this.state.product[0].product_name,
+                product_img: this.state.product[0].product_img.split(',')[0],
+                color: this.state.selectedColor,
+                size: this.state.selectedSize,
+                price: this.state.product[0].product_price,
+                qty: 1
             }
+            console.log(Items)
+            this.props.dispatch(addItems(Items))
+            ToastAndroid.show("Berhasil menambah item ke keranjang.", ToastAndroid.SHORT);
         }
     }
 
@@ -96,9 +97,9 @@ class DetailPage extends Component {
         let writeBtn;
         const id_productDetails = this.props.route.params.itemId
         let FavTrue;
-        if(this.state.FavTrue){
+        if (this.state.FavTrue) {
             FavTrue = <Image source={require('./../../assets/icons/favAct.png')} />
-        }else{
+        } else {
             FavTrue = <Image source={require('./../../assets/icons/fav.png')} />
         }
         return (
@@ -166,7 +167,7 @@ class DetailPage extends Component {
                                                                 </Picker>
                                                             </View>
                                                             <TouchableOpacity
-                                                            onPress={this.Bookmark}
+                                                                onPress={this.Bookmark}
                                                             >
                                                                 <View style={styles.love}>
                                                                     {FavTrue}
@@ -186,10 +187,10 @@ class DetailPage extends Component {
                                                         <Text style={styles.desc}>
                                                             {product_desc}
                                                         </Text>
-                                                        <Text style={{fontWeight:'bold', fontSize:24}}>Pilihan lainya untukmu</Text>
+                                                        <Text style={{ fontWeight: 'bold', fontSize: 24 }}>Pilihan lainya untukmu</Text>
                                                         <SafeAreaView>
-                                                            <ScrollView 
-                                                            horizontal={true}
+                                                            <ScrollView
+                                                                horizontal={true}
                                                             >
                                                                 <View style={{ flexDirection: 'row' }}>
                                                                     {
@@ -287,8 +288,8 @@ const styles = StyleSheet.create({
     },
     desc: {
         fontFamily: 'Metropolis',
-        color:'gray',
-        marginBottom:10
+        color: 'gray',
+        marginBottom: 10
     },
     text: {
         flexDirection: 'row',

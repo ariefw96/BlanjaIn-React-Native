@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Form, Item, Input, Label, Button, Toast } from 'native-base';
-import { TextInput } from 'react-native'
+import { TextInput, ToastAndroid } from 'react-native'
 import {
     Text,
     View,
@@ -30,11 +30,12 @@ class Register extends React.Component {
         } else {
             axios.get(BASE_URL + `/auth/activate/${this.state.email}/${this.state.otp}`)
                 .then(({ data }) => {
-                    alert(data.message)
+                    // alert(data.message)
+                    ToastAndroid.show(data.message, ToastAndroid.SHORT);
                     // console.log(data)
                     this.props.navigation.navigate('Login')
                 }).catch(({ response }) => {
-                    alert(response.data.message)
+                    ToastAndroid.show(response.data.message, ToastAndroid.SHORT);
                     console.log(response.data)
                 })
         }

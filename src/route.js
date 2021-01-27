@@ -20,7 +20,6 @@ import Reset from './screens/auth/resetPassword'
 import Shop from './screens/shop/index';
 import Search from './screens/shop/search'
 import Categories from './screens/shop/categories'
-import Filter from './screens/shop/filter'
 import DetailPage from './screens/shop/detailProduct'
 import Review from './screens/shop/productReview'
 
@@ -137,7 +136,6 @@ const ShopPage = () => {
       <Stack.Screen name="Shop" component={Shop} />
       <Stack.Screen name="Categories" component={Categories} />
       <Stack.Screen name="Search" component={Search} />
-      <Stack.Screen name="Filter" component={Filter} />
     </Stack.Navigator>
   );
 };

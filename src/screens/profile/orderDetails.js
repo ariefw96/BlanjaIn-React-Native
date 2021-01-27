@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Container, Header, Title, Content, Button, Left, Body, Text, Form, Item, Input, Label } from "native-base";
-import { Image, View, TouchableOpacity, StyleSheet, SafeAreaView, ScrollView, Modal, Alert } from 'react-native'
+import { Image, View, TouchableOpacity, StyleSheet, SafeAreaView, ScrollView, Modal, Alert, ToastAndroid} from 'react-native'
 import { BASE_URL } from '@env'
 import axios from 'axios'
 import { connect } from 'react-redux'
@@ -39,8 +39,7 @@ class OrderDetails extends React.Component {
     changeStatus = (e) => {
         axios.patch(BASE_URL + `/transaksi/changeStatus/${e}/${this.state.orderDetails.TrxId}`)
             .then(({ data }) => {
-                // alert(data.message)
-                //sukses mengubah status pesanan
+                ToastAndroid.show(data.message, ToastAndroid.SHORT, ToastAndroid.BOTTOM);
                 this.getDataTransaksi()
             }).catch(({ response }) => {
                 console.log(response.data)
@@ -51,8 +50,7 @@ class OrderDetails extends React.Component {
         if(this.state.trackNumb != ''){
             axios.patch(BASE_URL + `/transaksi/updateResi/${this.state.orderDetails.TrxId}/${this.state.trackNumb}`)
             .then(({ data }) => {
-                // alert(data.message + 'memasukan no. resi')
-                // sukses memasukan not. resi
+                ToastAndroid.show(data.message+'memasukan no. resi', ToastAndroid.SHORT, ToastAndroid.BOTTOM);
                 this.changeStatus(3)
                 this.setState({
                     modalTrackingVisible: false

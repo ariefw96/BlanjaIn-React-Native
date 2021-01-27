@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Container, Header, Title, Content, Button, Left, Body, Text, Item, Input, CheckBox } from "native-base";
-import { Image, View, TouchableOpacity, StyleSheet, Picker } from 'react-native'
+import { Image, View, TouchableOpacity, StyleSheet, Picker, ToastAndroid } from 'react-native'
 import { connect } from 'react-redux'
 import { orderItems } from './../../utils/redux/ActionCreators/bag'
 import axios from 'axios'
@@ -97,7 +97,7 @@ class CheckOut extends React.Component {
             }
 
         } else {
-            alert('Harap lengkapi alamat dan payment')
+            ToastAndroid.show('Harap lengkapi alamat dan pembayaran', ToastAndroid.SHORT, ToastAndroid.CENTER);
         }
 
     }

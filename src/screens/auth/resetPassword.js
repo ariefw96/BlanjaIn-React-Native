@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Container, Header, Content, Form, Item, Input, Label, Button, Right } from 'native-base';
+import {ToastAndroid} from 'react-native'
 import { connect } from 'react-redux'
 import {removeEmail} from './../../utils/redux/ActionCreators/auth'
 import {
@@ -36,11 +37,11 @@ class ResetPassword extends React.Component {
                 axios.patch(BASE_URL + '/auth/reset', resetData)
                     .then(({ data }) => {
                         console.log(data)
-                        alert(data.message)
+                        ToastAndroid.show(data.message, ToastAndroid.SHORT, ToastAndroid.CENTER);
                         this.props.dispatch(removeEmail())
                         this.props.navigation.navigate('Login')
                     }).catch(({ response }) => {
-                        alert('Gagal!')
+                        ToastAndroid.show('Gagal!', ToastAndroid.SHORT, ToastAndroid.CENTER);
                     })
             }
         }

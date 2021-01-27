@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Form, Item, Input, Label, Button, } from 'native-base';
 import { setLogintrue } from './../../utils/redux/ActionCreators/auth'
+import {ToastAndroid} from 'react-native'
 import { connect } from 'react-redux'
 import {
     Text,
@@ -41,12 +42,13 @@ class Login extends React.Component {
                         id:data.result.user_id,
                         token:data.result.token
                     }
-                    console.log(dataLogin)
+                    // console.log(dataLogin)
+                    ToastAndroid.show(data.message, ToastAndroid.SHORT, ToastAndroid.CENTER);
                     this.props.dispatch(setLogintrue(dataLogin))
                     this.props.navigation.navigate('Home')
                 }).catch(({ response }) => {
                     console.log(response.data)
-                    alert(response.data.msg)
+                    ToastAndroid.show(response.data.msg, ToastAndroid.SHORT);
                 })
         }
 
