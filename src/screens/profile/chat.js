@@ -14,8 +14,8 @@ const Chat = ({ route, navigation }) => {
   const [chatMessage, setChatMessage] = useState('');
   const [chatMessages, setChatMessages] = useState([]);
 
-  const user_id = useSelector((state) => state.auth.id);
-  // const recipient = user_id == 3 ? 18 : 3
+  const user_id = useSelector((state) => state.auth.name);
+  // const recipient = user_id == 3 ? 18 : 3 
 
   useEffect(() => {
     if (route.params && route.params.sellerId) {

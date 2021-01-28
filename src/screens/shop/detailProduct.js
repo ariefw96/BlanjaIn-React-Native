@@ -104,7 +104,7 @@ class DetailPage extends Component {
             btnChat = <TouchableOpacity
                 onPress={() => {
                     this.props.navigation.navigate('Chat', {
-                        sellerId: product[0].seller_id
+                        sellerId: product[0].fullname
                     })
                 }}>
                 <View style={styles.love}>
@@ -133,7 +133,7 @@ class DetailPage extends Component {
             <>
 
                 {
-                    product && product.map(({ id, seller_id, product_name, category_name, product_desc, product_img, product_price, size_name, color_name, rating }) => {
+                    product && product.map(({ id, product_name,fullname, category_name, product_desc, product_img, product_price, size_name, color_name, rating }) => {
 
                         return (
                             <>
@@ -201,7 +201,8 @@ class DetailPage extends Component {
                                                             </View>
                                                             <Text style={styles.title}>Rp. {this.toPrice(product_price)}</Text>
                                                         </View>
-                                                        <Text style={styles.PrdName}>{category_name}</Text>
+                                                        <Text style={{color:'gray'}}>STORE : {fullname}</Text>
+                                                        <Text style={styles.PrdName}>Category  {category_name}</Text>
                                                         <View>
                                                         </View>
                                                         <Text>Product Description</Text>

@@ -10,8 +10,11 @@ import PushNotification from 'react-native-push-notification';
 import { showNotification } from '../../notif';
 import { addNotification } from './../../utils/redux/ActionCreators/notification'
 
-const channel = 'notif';
+import {useSocket} from './../../utils/context/SocketProvider'
+// const socket = useSocket()
 
+const channel = 'notif';
+ 
 class CheckOut extends React.Component {
     state = {
         isCheckedMaster: false,

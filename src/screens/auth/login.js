@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Form, Item, Input, Label, Button, } from 'native-base';
 import { setLogintrue } from './../../utils/redux/ActionCreators/auth'
-import {ToastAndroid} from 'react-native'
+import {ToastAndroid, Alert} from 'react-native'
 import { connect } from 'react-redux'
 import {
     Text,
@@ -11,6 +11,8 @@ import {
 } from 'react-native';
 import axios from 'axios'
 import { BASE_URL } from '@env'
+
+const regexEmail = /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
 
 class Login extends React.Component {
     state = {
@@ -25,31 +27,42 @@ class Login extends React.Component {
                 errorForm: 'Semua kolom harus diisi!'
             })
         } else {
-            const data = {
-                email: this.state.email,
-                password: this.state.password
-            }
-
-            axios.post(BASE_URL + '/auth/login', data)
-                .then(({ data }) => {
-                    this.setState({
-                        errorForm: ''
+            if(regexEmail.test(this.state.email)){
+                const data = {
+                    email: this.state.email,
+                    password: this.state.password
+                }
+    
+                axios.post(BASE_URL + '/auth/login', data)
+                    .then(({ data }) => {
+                        this.setState({
+                            errorForm: ''
+                        })
+                        const dataLogin = {
+                            name:data.result.name,
+                            email:data.result.email,
+                            level:data.result.level,
+                            id:data.result.user_id,
+                            token:data.result.token
+                        }
+                        // console.log(dataLogin)
+                        ToastAndroid.show(data.message, ToastAndroid.SHORT, ToastAndroid.CENTER);
+                        this.props.dispatch(setLogintrue(dataLogin))
+                        this.props.navigation.navigate('Home')
+                    }).catch(({ response }) => {
+                        console.log(response.data)
+                        ToastAndroid.show(response.data.msg, ToastAndroid.SHORT);
                     })
-                    const dataLogin = {
-                        name:data.result.name,
-                        email:data.result.email,
-                        level:data.result.level,
-                        id:data.result.user_id,
-                        token:data.result.token
-                    }
-                    // console.log(dataLogin)
-                    ToastAndroid.show(data.message, ToastAndroid.SHORT, ToastAndroid.CENTER);
-                    this.props.dispatch(setLogintrue(dataLogin))
-                    this.props.navigation.navigate('Home')
-                }).catch(({ response }) => {
-                    console.log(response.data)
-                    ToastAndroid.show(response.data.msg, ToastAndroid.SHORT);
-                })
+            }else{
+                Alert.alert(
+                    'WARNING',
+                    'Format email tidak sesuai',
+                    [
+                        { text: 'OK', style: 'cancel' },
+        
+                    ])
+            }
+            
         }
 
     }

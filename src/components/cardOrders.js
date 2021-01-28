@@ -12,7 +12,7 @@ export default class cardOrder extends React.Component {
         }else if(idStatus ==3){
             strStatus = <Text style={{ color: 'orange', fontSize: 18, fontWeight: 'bold', width:70, marginTop: 10,  }}>{this.props.status}</Text>
         }else if(idStatus==4){
-            strStatus = <Text style={{ color: 'green', fontSize: 18, fontWeight: 'bold', width:70, marginTop: 10,  }}>{this.props.status}</Text>
+            strStatus = <Text style={{ color: 'green', fontSize: 18, fontWeight: 'bold', width:80, marginTop: 10,  }}>{this.props.status}</Text>
         }
         return (
             <>
@@ -58,7 +58,7 @@ export default class cardOrder extends React.Component {
 const styles = StyleSheet.create({
     order: {
         borderRadius: 10, height: 164,
-        width: 325, backgroundColor: 'white',
+        width: '95%', backgroundColor: 'white',
         marginTop: 10,
         marginHorizontal: 5,
         marginBottom: 10,
