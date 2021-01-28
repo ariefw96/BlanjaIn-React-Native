@@ -65,6 +65,10 @@ class DetailPage extends Component {
         return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
     }
 
+    loginDuluhehe = () => {
+        ToastAndroid.show("Bukan Costumer Hehe.", ToastAndroid.SHORT);
+    }
+
     addToCart = () => {
         const { navigation } = this.props
         if (this.state.selectedColor == 0 || this.state.selectedSize == 0) {
@@ -72,8 +76,8 @@ class DetailPage extends Component {
                 'Kesalahan',
                 'Harap memilih warna dan ukuran',
                 [
-                  {text: 'OK', style: 'cancel'},
-                  
+                    { text: 'OK', style: 'cancel' },
+
                 ])
         } else {
             const Items = {
@@ -94,19 +98,42 @@ class DetailPage extends Component {
 
     render() {
         const { product, foryou } = this.state
-        let writeBtn;
-        const id_productDetails = this.props.route.params.itemId
-        let FavTrue;
-        if (this.state.FavTrue) {
-            FavTrue = <Image source={require('./../../assets/icons/favAct.png')} />
+        let btnChat;
+        let btnAddCart;
+        if (this.props.auth.level==1) {
+            btnChat = <TouchableOpacity
+                onPress={() => {
+                    this.props.navigation.navigate('Chat', {
+                        sellerId: product[0].seller_id
+                    })
+                }}>
+                <View style={styles.love}>
+                    <Image source={require('./../../assets/icons/chat.png')} />
+                </View>
+            </TouchableOpacity>
+            btnAddCart =
+                <Button danger full rounded style={{ marginVertical: 15 }}
+                    onPress={this.addToCart}
+                >
+
+                    <Text style={{ color: '#fff' }}> Add to Cart </Text>
+                </Button>
         } else {
-            FavTrue = <Image source={require('./../../assets/icons/fav.png')} />
+            btnChat =
+                <TouchableOpacity
+                    onPress={this.loginDuluhehe}
+                >
+                    <View style={styles.love}>
+                        <Image source={require('./../../assets/icons/chat.png')} />
+                    </View>
+                </TouchableOpacity>
         }
+        const id_productDetails = this.props.route.params.itemId
         return (
             <>
 
                 {
-                    product && product.map(({ id, product_name, category_name, product_desc, product_img, product_price, size_name, color_name, rating }) => {
+                    product && product.map(({ id, seller_id, product_name, category_name, product_desc, product_img, product_price, size_name, color_name, rating }) => {
 
                         return (
                             <>
@@ -147,7 +174,7 @@ class DetailPage extends Component {
 
                                                 <Row size={50}>
                                                     <View style={styles.container}>
-                                                        <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+                                                        <View style={{ flexDirection: 'row' }}>
                                                             <View style={styles.size}>
                                                                 <Picker
                                                                     selectedValue={this.state.selectedSize}
@@ -166,13 +193,7 @@ class DetailPage extends Component {
                                                                     <Picker.Item label={color_name} value={color_name} />
                                                                 </Picker>
                                                             </View>
-                                                            <TouchableOpacity
-                                                                onPress={this.Bookmark}
-                                                            >
-                                                                <View style={styles.love}>
-                                                                    {FavTrue}
-                                                                </View>
-                                                            </TouchableOpacity>
+                                                            {btnChat}
                                                         </View>
                                                         <View style={styles.wraptitle}>
                                                             <View style={{ width: 200 }}>
@@ -212,13 +233,7 @@ class DetailPage extends Component {
                                             </ScrollView>
                                         </SafeAreaView>
                                     </Grid>
-
-                                    <Button danger full rounded style={{ marginVertical: 15 }}
-                                        onPress={this.addToCart}
-                                    >
-
-                                        <Text style={{ color: '#fff' }}> Add to Cart </Text>
-                                    </Button>
+                                    {btnAddCart}
                                 </Container>
                             </>
                         )
@@ -310,7 +325,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         paddingVertical: 13,
         borderRadius: 18,
-        marginTop: -5
+        marginTop: -5,
     },
     size: {
         width: 140,

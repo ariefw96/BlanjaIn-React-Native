@@ -17,7 +17,7 @@ class cardAddress extends React.Component {
     }
 
     deleteAddress = () => {
-        if(this.props.addressId == this.props.activeAddress){
+        if(this.props.address.activeAddress == this.props.addressId){
             Alert.alert(
                 'GAGAL!',
                 'Alamat anda masih di set sebagai alamat aktif',
@@ -25,7 +25,7 @@ class cardAddress extends React.Component {
                     { text: 'OK', style: 'cancel' },
                 ])
         }else{
-            axios.delete(BASE_URL + '/delete/' + this.props.addressId)
+            axios.delete(BASE_URL + '/address/delete/' + this.props.addressId)
             .then(({ data }) => {
                 ToastAndroid.show('Berhasil menghapus alamat', ToastAndroid.SHORT, ToastAndroid.BOTTOM);
                 this.props.navigation.push('Shipping')

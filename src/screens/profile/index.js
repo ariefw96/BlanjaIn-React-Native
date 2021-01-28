@@ -13,8 +13,8 @@ class Profile extends React.Component {
     }
 
     state = {
-        order:[],
-        address:[],
+        order: [],
+        address: [],
     }
 
     getMyOrder = () => {
@@ -40,14 +40,14 @@ class Profile extends React.Component {
             })
     }
 
-    promptLogout = () =>{
+    promptLogout = () => {
         Alert.alert(
             'Logout',
             'Apakah anda yakin ingin logout',
             [
-              {text: 'NO', style: 'cancel'},
-              {text: 'YES', onPress: () => this.Logout()},
-              
+                { text: 'NO', style: 'cancel' },
+                { text: 'YES', onPress: () => this.Logout() },
+
             ])
     }
 
@@ -93,6 +93,15 @@ class Profile extends React.Component {
                             <Text style={{ color: 'gray', marginBottom: 10 }}>Manage your Ordered Item</Text>
                         </View>
                     </TouchableOpacity>
+                    <TouchableOpacity style={{ borderBottomColor: 'gray', borderBottomWidth: 0.2, marginLeft: 10, marginRight: 40 }}
+                            onPress={() => { this.props.navigation.navigate('Chat') }}
+                        >
+
+                            <View style={{ paddingLeft: 10, marginTop: 5 }}>
+                                <Text style={{ fontWeight: 'bold', fontSize: 20, marginBottom: 5 }}>Chat</Text>
+                                <Text style={{ color: 'gray', marginBottom: 10 }}>Chat Fiture</Text>
+                            </View>
+                        </TouchableOpacity>
                 </>
         } else {
             componentProfile = <>
@@ -150,11 +159,6 @@ class Profile extends React.Component {
                                 <Text style={{ fontWeight: 'bold', fontSize: 20, marginBottom: 5 }}>Settings</Text>
                                 <Text style={{ color: 'gray', marginBottom: 10 }}>Notification, Password</Text>
                             </View>
-                        </TouchableOpacity>
-                        <TouchableOpacity
-                            onPress={() => this.props.navigation.navigate('Chat')}
-                        >
-                            <Text>Chat</Text>
                         </TouchableOpacity>
                     </Content>
                     <Button full rounded danger style={{ marginHorizontal: 10, marginBottom: 15 }}

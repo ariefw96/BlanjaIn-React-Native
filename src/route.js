@@ -10,6 +10,8 @@ import Home from './screens/home/index';
 
 import Profile from './screens/profile/index';
 
+import { SocketProvider } from './utils/context/SocketProvider';
+
 import Login from './screens/auth/login';
 import Signup from './screens/auth/register';
 import Activate from './screens/auth/activate';
@@ -124,8 +126,8 @@ const myBag = () => {
       <Stack.Screen name="Bag" component={Bag} />
       <Stack.Screen name="Checkout" component={Checkout} />
       <Stack.Screen name="Shipping" component={Shipping} />
-        <Stack.Screen name="ChangeAddress" component={ChangeAddress} />
-        <Stack.Screen name="AddAddress" component={AddAddress} />
+      <Stack.Screen name="ChangeAddress" component={ChangeAddress} />
+      <Stack.Screen name="AddAddress" component={AddAddress} />
     </Stack.Navigator>
   )
 };
@@ -155,7 +157,6 @@ const MainProfile = () => {
         <Stack.Screen name="ListProduct" component={ListProduct} />
         <Stack.Screen name="AddProduct" component={AddProduct} />
         <Stack.Screen name="EditProduct" component={EditProduct} />
-        <Stack.Screen name="Chat" component={Chat} />
         <Stack.Screen name="OrderedItem" component={OrderedItem} />
       </>
     </Stack.Navigator>
@@ -163,26 +164,28 @@ const MainProfile = () => {
 };
 
 const appRouter = () => {
-
+  const user_id = useSelector((state) => state.auth.id);
   return (
     <>
+      <SocketProvider id={user_id}>
+        <Stack.Navigator headerMode="none">
+          {/* <Stack.Screen name="Splash" component={Splash} /> */}
 
-      <Stack.Navigator headerMode="none">
-        {/* <Stack.Screen name="Splash" component={Splash} /> */}
-
-        <Stack.Screen name="Tab" component={MyTabs} />
-        <Stack.Screen name="Notification" component={Notification} />
-        <Stack.Screen name="Details" component={DetailPage} />
-        <Stack.Screen name="Login" component={Login} />
-        <Stack.Screen name="Register" component={Signup} />
-        <Stack.Screen name="Activate" component={Activate} />
-        <Stack.Screen name="ForgotPassword" component={Forgot} />
-        <Stack.Screen name="Otp" component={Otp} />
-        <Stack.Screen name="ResetPassword" component={Reset} />
-        <Stack.Screen name="Success" component={Success} />
-        <Stack.Screen name="Review" component={Review} />
-        <Stack.Screen name="Search" component={Search} />
-      </Stack.Navigator>
+          <Stack.Screen name="Tab" component={MyTabs} />
+          <Stack.Screen name="Notification" component={Notification} />
+          <Stack.Screen name="Details" component={DetailPage} />
+          <Stack.Screen name="Login" component={Login} />
+          <Stack.Screen name="Register" component={Signup} />
+          <Stack.Screen name="Activate" component={Activate} />
+          <Stack.Screen name="ForgotPassword" component={Forgot} />
+          <Stack.Screen name="Otp" component={Otp} />
+          <Stack.Screen name="ResetPassword" component={Reset} />
+          <Stack.Screen name="Success" component={Success} />
+          <Stack.Screen name="Review" component={Review} />
+          <Stack.Screen name="Chat" component={Chat} />
+          <Stack.Screen name="Search" component={Search} />
+        </Stack.Navigator>
+      </SocketProvider>
 
     </>
   );
