@@ -1,4 +1,4 @@
-# BlanjaIn React-Native <img src="https://img.shields.io/npm/v/react-native-badge-avatar.svg?style=flat-square">
+# BlanjaIn React-Native <img src="https://img.shields.io/npm/v/react.svg?style=flat">
 
 ## Contents
 
