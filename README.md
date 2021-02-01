@@ -9,7 +9,7 @@
 
 ## Description
 
-**Blanja Web** is a web-based e-commerce application that allows buyers to order
+**BlanjaIn** is a app-based e-commerce application that allows buyers to order
 products of their choice. Consists of 2 types of users, namely buyers and
 sellers.
 
