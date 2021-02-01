@@ -77,11 +77,11 @@ class ShopCategory extends Component {
             searchResult = <>
                 <View style={styles.grid} >
                     {
-                        products && products.map(({ product_id, product_name, product_price, product_img, category_name, color_name, size_name, rating, dibeli }) => {
+                        products && products.map(({ id, product_name, product_price, product_img, category_name, color_name, size_name, rating, dibeli }) => {
                             let img = product_img.split(',')[0]
                             return (
                                 <>
-                                    <Card navigation={this.props.navigation} key={product_id} product_name={product_name} product_price={product_price} product_img={img} keyId={product_id} category={category_name} color={color_name} size={size_name} rating={rating} dibeli={dibeli} />
+                                    <Card navigation={this.props.navigation}  key={id} product_name={product_name} product_price={product_price} product_img={img} keyId={id} category={category_name} color={color_name} size={size_name} rating={rating} dibeli={dibeli} />
                                 </>
                             )
                         })

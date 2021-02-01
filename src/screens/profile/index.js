@@ -1,15 +1,56 @@
 import React, { Component } from 'react';
 import { Container, Header, Title, Content, Button, Left, Body, Text, Right } from "native-base";
-import { Image, View, TouchableOpacity } from 'react-native'
+import { Image, View, TouchableOpacity, Alert } from 'react-native'
 import { connect } from 'react-redux'
 import { setLoginfalse, removeEmail, removeId, removeName } from './../../utils/redux/ActionCreators/auth'
-import EmptyPage from './../emptyScreen/index'
+// import EmptyPage from './../emptyScreen/index'
 import { BASE_URL } from '@env'
+import axios from 'axios'
 
 class Profile extends React.Component {
     constructor(props) {
         super(props)
     }
+
+    state = {
+        order: [],
+        address: [],
+    }
+
+    getMyOrder = () => {
+        axios.get(BASE_URL + '/transaksi/myTransaction/' + this.props.auth.id)
+            .then(({ data }) => {
+                this.setState({
+                    order: data.data
+                })
+            }).catch(({ response }) => {
+                console.log(response.data)
+            })
+    }
+
+    getAddress = () => {
+        axios.get(BASE_URL + `/address/${this.props.auth.id}`)
+            .then(({ data }) => {
+                // console.log(data)
+                this.setState({
+                    address: data.data
+                })
+            }).catch(({ response }) => {
+                console.log(response)
+            })
+    }
+
+    promptLogout = () => {
+        Alert.alert(
+            'Logout',
+            'Apakah anda yakin ingin logout',
+            [
+                { text: 'NO', style: 'cancel' },
+                { text: 'YES', onPress: () => this.Logout() },
+
+            ])
+    }
+
     Logout = () => {
         this.props.dispatch(setLoginfalse())
         this.props.navigation.navigate('Login')
@@ -20,9 +61,8 @@ class Profile extends React.Component {
             if (!this.props.auth.isLogin) {
                 this.props.navigation.navigate('Login')
             } else {
-                this.setState({
-                    loading: false
-                })
+                this.getAddress()
+                this.getMyOrder()
             }
         });
     }
@@ -45,6 +85,23 @@ class Profile extends React.Component {
                             <Text style={{ color: 'gray', marginBottom: 10 }}>Manage your store products here</Text>
                         </View>
                     </TouchableOpacity>
+                    <TouchableOpacity style={{ borderBottomColor: 'gray', borderBottomWidth: 0.2, marginLeft: 10, marginRight: 40 }}
+                        onPress={() => { this.props.navigation.navigate('OrderedItem') }}
+                    >
+                        <View style={{ paddingLeft: 10, marginTop: 5 }}>
+                            <Text style={{ fontWeight: 'bold', fontSize: 20, marginBottom: 5 }}>Orders</Text>
+                            <Text style={{ color: 'gray', marginBottom: 10 }}>Manage your Ordered Item</Text>
+                        </View>
+                    </TouchableOpacity>
+                    <TouchableOpacity style={{ borderBottomColor: 'gray', borderBottomWidth: 0.2, marginLeft: 10, marginRight: 40 }}
+                            onPress={() => { this.props.navigation.navigate('Chat') }}
+                        >
+
+                            <View style={{ paddingLeft: 10, marginTop: 5 }}>
+                                <Text style={{ fontWeight: 'bold', fontSize: 20, marginBottom: 5 }}>Chat</Text>
+                                <Text style={{ color: 'gray', marginBottom: 10 }}>Chat Fiture</Text>
+                            </View>
+                        </TouchableOpacity>
                 </>
         } else {
             componentProfile = <>
@@ -53,7 +110,7 @@ class Profile extends React.Component {
                 >
                     <View style={{ paddingLeft: 10, marginTop: 5 }}>
                         <Text style={{ fontWeight: 'bold', fontSize: 20, marginBottom: 5 }}>My Orders</Text>
-                        <Text style={{ color: 'gray', marginBottom: 10 }}>Already 12 orders</Text>
+                        <Text style={{ color: 'gray', marginBottom: 10 }}>Already {this.state.order.length} orders</Text>
                     </View>
                 </TouchableOpacity>
                 <TouchableOpacity style={{ borderBottomColor: 'gray', borderBottomWidth: 0.2, marginLeft: 10, marginRight: 40 }}
@@ -61,7 +118,7 @@ class Profile extends React.Component {
                     <View style={{ paddingLeft: 10, marginTop: 5 }}
                     >
                         <Text style={{ fontWeight: 'bold', fontSize: 20, marginBottom: 5 }}>Shipping Adress</Text>
-                        <Text style={{ color: 'gray', marginBottom: 10 }}>3 Shipping Adress</Text>
+                        <Text style={{ color: 'gray', marginBottom: 10 }}>{this.state.address.length} Shipping Adress</Text>
                     </View>
                 </TouchableOpacity>
             </>
@@ -105,7 +162,7 @@ class Profile extends React.Component {
                         </TouchableOpacity>
                     </Content>
                     <Button full rounded danger style={{ marginHorizontal: 10, marginBottom: 15 }}
-                        onPress={this.Logout}
+                        onPress={this.promptLogout}
                     >
                         <Text>Logout</Text>
                     </Button>

@@ -40,7 +40,7 @@ const styles = StyleSheet.create({
     container: {
         flexDirection: 'row',
         height:120,
-        marginBottom:20,
+        marginBottom:30,
         
     },
     price: {

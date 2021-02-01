@@ -10,6 +10,8 @@ import Home from './screens/home/index';
 
 import Profile from './screens/profile/index';
 
+import { SocketProvider } from './utils/context/SocketProvider';
+
 import Login from './screens/auth/login';
 import Signup from './screens/auth/register';
 import Activate from './screens/auth/activate';
@@ -20,7 +22,6 @@ import Reset from './screens/auth/resetPassword'
 import Shop from './screens/shop/index';
 import Search from './screens/shop/search'
 import Categories from './screens/shop/categories'
-import Filter from './screens/shop/filter'
 import DetailPage from './screens/shop/detailProduct'
 import Review from './screens/shop/productReview'
 
@@ -41,13 +42,25 @@ import UserStore from './screens/profile/seller'
 import ListProduct from './screens/profile/seller/ListProduct'
 import AddProduct from './screens/profile/seller/addProduct'
 import EditProduct from './screens/profile/seller/editProduct'
+import OrderedItem from './screens/profile/seller/ordererItem'
 
 import Splash from './screens/splash'
+
+import { useSocket } from './utils/context/SocketProvider'
+import { showNotification } from './notif'
+
+import { useSelector } from 'react-redux'
+
+import Chat from './screens/profile/chat'
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
 
+const channel = 'notif'
+
 const MyTabs = ({ auth }) => {
+  const level = useSelector((state) => (state.auth.level))
+
   return (
     <Tab.Navigator
       headerMode="none"
@@ -78,16 +91,18 @@ const MyTabs = ({ auth }) => {
           },
         }}
       />
-      <Tab.Screen
-        name="MyBag"
-        component={myBag}
-        options={{
-          tabBarIcon: ({ color }) => {
-            return <Icon name="shopping-bag" size={25} color={color} />;
-          },
-        }}
-      />
-      <Tab.Screen
+      {level == 1 &&
+        <Tab.Screen
+          name="MyBag"
+          component={myBag}
+          options={{
+            tabBarIcon: ({ color }) => {
+              return <Icon name="shopping-bag" size={25} color={color} />;
+            },
+          }}
+        />
+      }
+      {/* {level == 1 && <Tab.Screen
         name="Favorite"
         component={Login}
         options={{
@@ -95,7 +110,7 @@ const MyTabs = ({ auth }) => {
             return <Icon name="heart" size={25} color={color} />;
           },
         }}
-      />
+      />} */}
       <Tab.Screen
         name="Profile"
         component={MainProfile}
@@ -114,6 +129,9 @@ const myBag = () => {
     <Stack.Navigator headerMode="none">
       <Stack.Screen name="Bag" component={Bag} />
       <Stack.Screen name="Checkout" component={Checkout} />
+      <Stack.Screen name="Shipping" component={Shipping} />
+      <Stack.Screen name="ChangeAddress" component={ChangeAddress} />
+      <Stack.Screen name="AddAddress" component={AddAddress} />
     </Stack.Navigator>
   )
 };
@@ -124,7 +142,6 @@ const ShopPage = () => {
       <Stack.Screen name="Shop" component={Shop} />
       <Stack.Screen name="Categories" component={Categories} />
       <Stack.Screen name="Search" component={Search} />
-      <Stack.Screen name="Filter" component={Filter} />
     </Stack.Navigator>
   );
 };
@@ -144,32 +161,56 @@ const MainProfile = () => {
         <Stack.Screen name="ListProduct" component={ListProduct} />
         <Stack.Screen name="AddProduct" component={AddProduct} />
         <Stack.Screen name="EditProduct" component={EditProduct} />
+        <Stack.Screen name="OrderedItem" component={OrderedItem} />
       </>
     </Stack.Navigator>
   );
 };
 
 const appRouter = () => {
-
+  const user_id = useSelector((state) => state.auth.name);
+  // const level = useSelector((state) => state.auth.level);
+  // const socket = useSocket()
+  // useEffect(() => {
+  //   if (level == 1) {
+  //     socket.on('fromSeller', msgEvent => {
+  //       showNotification('Notification', msgEvent, channel);
+  //     }
+  //     );
+  //     return () => {
+  //       socket.off('fromSeller');
+  //     };
+  //   } else {
+  //     socket.on('fromBuyer', msgEvent => {
+  //       showNotification('Notification', msgEvent, channel);
+  //     }
+  //     );
+  //     return () => {
+  //       socket.off('fromBuyer');
+  //     };
+  //   }
+  // }, []);
   return (
     <>
+      <SocketProvider id={user_id}>
+        <Stack.Navigator headerMode="none">
+          {/* <Stack.Screen name="Splash" component={Splash} /> */}
 
-      <Stack.Navigator headerMode="none">
-        {/* <Stack.Screen name="Splash" component={Splash} /> */}
-
-        <Stack.Screen name="Tab" component={MyTabs} />
-        <Stack.Screen name="Notification" component={Notification} />
-        <Stack.Screen name="Details" component={DetailPage} />
-        <Stack.Screen name="Login" component={Login} />
-        <Stack.Screen name="Register" component={Signup} />
-        <Stack.Screen name="Activate" component={Activate} />
-        <Stack.Screen name="ForgotPassword" component={Forgot} />
-        <Stack.Screen name="Otp" component={Otp} />
-        <Stack.Screen name="ResetPassword" component={Reset} />
-        <Stack.Screen name="Success" component={Success} />
-        <Stack.Screen name="Review" component={Review} />
-        <Stack.Screen name="Search" component={Search} />
-      </Stack.Navigator>
+          <Stack.Screen name="Tab" component={MyTabs} />
+          <Stack.Screen name="Notification" component={Notification} />
+          <Stack.Screen name="Details" component={DetailPage} />
+          <Stack.Screen name="Login" component={Login} />
+          <Stack.Screen name="Register" component={Signup} />
+          <Stack.Screen name="Activate" component={Activate} />
+          <Stack.Screen name="ForgotPassword" component={Forgot} />
+          <Stack.Screen name="Otp" component={Otp} />
+          <Stack.Screen name="ResetPassword" component={Reset} />
+          <Stack.Screen name="Success" component={Success} />
+          <Stack.Screen name="Review" component={Review} />
+          <Stack.Screen name="Chat" component={Chat} />
+          <Stack.Screen name="Search" component={Search} />
+        </Stack.Navigator>
+      </SocketProvider>
 
     </>
   );

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Image, StyleSheet, Text, View, TouchableOpacity } from 'react-native';
+import { Image, StyleSheet, Text, View, TouchableOpacity, Alert } from 'react-native';
 import { addQty, minQty, removeItems } from './../utils/redux/ActionCreators/bag'
 import { connect } from 'react-redux'
 import { BASE_URL } from '@env'
@@ -12,12 +12,31 @@ class CardBag extends Component {
             size: this.props.size,
             price: this.props.price
         }
-        console.log(data)
+        // console.log(data)
         if(this.props.qty!= 1){
             this.props.dispatch(minQty(data))
         }else{
-            this.props.dispatch(removeItems(data))
+
+            Alert.alert(
+                'Remove Item',
+                'Hapus dari keranjang?',
+                [
+                  {text: 'NO', style: 'cancel'},
+                  {text: 'YES', onPress: () => this.removeItems()},
+                  
+                ])
+            
         }
+    }
+
+    removeItems = () =>{
+        const data = {
+            product_id: this.props.productId,
+            color: this.props.color,
+            size: this.props.size,
+            price: this.props.price
+        }
+        this.props.dispatch(removeItems(data))
     }
 
     Plus = () => {
