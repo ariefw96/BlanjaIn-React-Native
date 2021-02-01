@@ -1,8 +1,4 @@
-# BlanjaIn React-Native <img src="https://img.shields.io/badge/Build%20with-ReactJs-61dbfb?style=popout&logo=react">
-
-<div align="center">
-    <img width="250" src="./public/logo.ico">
-</div>
+# BlanjaIn React-Native <img src="https://img.shields.io/npm/v/react-native-badge-avatar.svg?style=flat-square">
 
 ## Contents
 
