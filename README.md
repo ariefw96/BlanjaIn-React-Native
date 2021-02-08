@@ -28,12 +28,12 @@ sellers.
 - [`Node Js`](https://nodejs.org/en/)
 - [`npm`](https://www.npmjs.com/get-npm)
 - [`ReactNative`](https://reactnative.dev/)
-- [`BlanjaIn Backend`](https://github.com/ariefw96/blanja-restAPI-backup)
+- [`BlanjaIn Backend`](https://github.com/ariefw96/blanja-restAPI)
 
 ## Installation for Development
 
 1. Open your terminal or command prompt
-2. Type `git clone https://github.com/ariefw96/blanja-RN-backup.git`
+2. Type `git clone https://github.com/ariefw96/blanja-RN-FrontEnd.git`
 3. Open the folder and type `npm install` or `yarn install` for install dependencies from package.json
 4. Create file **_.env_** in root directory with the following contents :
 
