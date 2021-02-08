@@ -33,7 +33,7 @@ sellers.
 ## Installation for Development
 
 1. Open your terminal or command prompt
-2. Type `git clone https://github.com/ariefw96/blanja-RN-FrontEnd.git`
+2. Type `git clone https://github.com/ariefw96/blanjaIn-React-Native.git`
 3. Open the folder and type `npm install` or `yarn install` for install dependencies from package.json
 4. Create file **_.env_** in root directory with the following contents :
 
