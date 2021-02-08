@@ -51,6 +51,6 @@ so, you can write in .env file like this :
 BASE_URL = "http://localhost:8000"
 ```
 
-5. Before run this, you must installation backend and then run backend
+5. Before run this project, you must configure and run backend. You can find backend for this project [here](https://github.com/ariefw96/blanja-restAPI)
 6. Type `npm run server` in terminal for running this project.
 7. If you want to build this project, type `npx react-native start --reset-cache` then `npx react-native run-android`.
