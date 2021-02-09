@@ -55,27 +55,29 @@ BASE_URL = "http://localhost:8000"
 6. Type `npm run server` in terminal for running backend.
 7. If you want to build this project, type `react-native start --reset-cache` then `react-native run-android`.
 
+# Here some display about the app
+
 ## Home
 
-<img src="https://user-images.githubusercontent.com/70320451/107331704-ce87e680-6ae5-11eb-9d64-c3edf9b9c8b4.jpg" width="500" />
+<img src="https://user-images.githubusercontent.com/70320451/107331704-ce87e680-6ae5-11eb-9d64-c3edf9b9c8b4.jpg" width="450" />
 
 ## Product Details
 
-<img src="https://user-images.githubusercontent.com/70320451/107331694-ccbe2300-6ae5-11eb-9645-8bb0bbf51789.jpg" />
+<img src="https://user-images.githubusercontent.com/70320451/107331694-ccbe2300-6ae5-11eb-9645-8bb0bbf51789.jpg" width="450" />
 
 ## Cart
 
-<img src="https://user-images.githubusercontent.com/70320451/107331707-cf207d00-6ae5-11eb-8e50-c855e9c2c17a.jpg" />
+<img src="https://user-images.githubusercontent.com/70320451/107331707-cf207d00-6ae5-11eb-8e50-c855e9c2c17a.jpg" width="450" />
 
 ## Shipping Address
 
-<img src="https://user-images.githubusercontent.com/70320451/107331698-cd56b980-6ae5-11eb-887b-5f2094c8517d.jpg" />
+<img src="https://user-images.githubusercontent.com/70320451/107331698-cd56b980-6ae5-11eb-887b-5f2094c8517d.jpg" width="450" />
 
 ## My Order
 
-<img src="https://user-images.githubusercontent.com/70320451/107331686-caf45f80-6ae5-11eb-9341-1fd88eab0e6a.jpg" />
+<img src="https://user-images.githubusercontent.com/70320451/107331686-caf45f80-6ae5-11eb-9341-1fd88eab0e6a.jpg" width="450" />
 
 ## Order Details
 
-<img src="https://user-images.githubusercontent.com/70320451/107331700-cdef5000-6ae5-11eb-97fa-f983107dcf12.jpg" />
+<img src="https://user-images.githubusercontent.com/70320451/107331700-cdef5000-6ae5-11eb-97fa-f983107dcf12.jpg" width="450" />
 
