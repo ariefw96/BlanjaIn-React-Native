@@ -61,11 +61,13 @@ BASE_URL = "http://localhost:8000"
 |  Home                |  Product Details                        |
 |----------------------|-----------------------------------------|
 | <img src="https://user-images.githubusercontent.com/70320451/107331704-ce87e680-6ae5-11eb-9d64-c3edf9b9c8b4.jpg" width="450" />  | <img src="https://user-images.githubusercontent.com/70320451/107331694-ccbe2300-6ae5-11eb-9645-8bb0bbf51789.jpg" width="450" />             |
+
 |  Cart                |  Shipping Address                       |
-|---------|-------------|
+|----------------------|-----------------------------------------|
 | <img src="https://user-images.githubusercontent.com/70320451/107331707-cf207d00-6ae5-11eb-8e50-c855e9c2c17a.jpg" width="450" />  | <img src="https://user-images.githubusercontent.com/70320451/107331698-cd56b980-6ae5-11eb-887b-5f2094c8517d.jpg" width="450" />             |
+
 |  My Order            |  Order Details                          |
-|----------------------|-------|
+|----------------------|-----------------------------------------|
 | <img src="https://user-images.githubusercontent.com/70320451/107331686-caf45f80-6ae5-11eb-9341-1fd88eab0e6a.jpg" width="450" />  | 
 <img src="https://user-images.githubusercontent.com/70320451/107331700-cdef5000-6ae5-11eb-97fa-f983107dcf12.jpg" width="450" />             |
 
