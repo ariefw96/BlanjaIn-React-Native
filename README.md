@@ -57,7 +57,7 @@ BASE_URL = "http://localhost:8000"
 
 ## Home
 
-<img src="https://user-images.githubusercontent.com/70320451/107331704-ce87e680-6ae5-11eb-9d64-c3edf9b9c8b4.jpg" />
+<img src="https://user-images.githubusercontent.com/70320451/107331704-ce87e680-6ae5-11eb-9d64-c3edf9b9c8b4.jpg" width="500" />
 
 ## Product Details
 
