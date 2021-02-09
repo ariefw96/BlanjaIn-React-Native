@@ -58,6 +58,10 @@ BASE_URL = "http://localhost:8000"
 
 # Here some display about the app
 
+| ## Home              | ## Product Details                      |
+| -------------------- | --------------------------------------- |
+| <img src="https://user-images.githubusercontent.com/70320451/107331704-ce87e680-6ae5-11eb-9d64-c3edf9b9c8b4.jpg" width="450" />  | <img src="https://user-images.githubusercontent.com/70320451/107331694-ccbe2300-6ae5-11eb-9645-8bb0bbf51789.jpg" width="450" />             |
+
 ## Home
 
 <img src="https://user-images.githubusercontent.com/70320451/107331704-ce87e680-6ae5-11eb-9d64-c3edf9b9c8b4.jpg" width="450" />
