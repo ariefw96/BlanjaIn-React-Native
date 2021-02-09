@@ -15,10 +15,11 @@ sellers.
 
 ## Features
 
+- Browsing items
 - Order product
 - History transaction
-- Add product (sellers only)
-- Chat
+- Add or edit product (sellers only)
+- Chat with seller
 - Edit profile
 - Reset Password
 - etc
