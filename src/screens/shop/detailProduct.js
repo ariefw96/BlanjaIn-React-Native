@@ -103,8 +103,8 @@ class DetailPage extends Component {
         if (this.props.auth.level==1) {
             btnChat = <TouchableOpacity
                 onPress={() => {
-                    this.props.navigation.navigate('Chat', {
-                        sellerId: product[0].fullname
+                    this.props.navigation.navigate('ChatRoom', {
+                        room_id: `S${product[0].seller_id}B${this.props.auth.id}`
                     })
                 }}>
                 <View style={styles.love}>

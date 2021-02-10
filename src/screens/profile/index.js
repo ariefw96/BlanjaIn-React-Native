@@ -99,7 +99,7 @@ class Profile extends React.Component {
 
                             <View style={{ paddingLeft: 10, marginTop: 5 }}>
                                 <Text style={{ fontWeight: 'bold', fontSize: 20, marginBottom: 5 }}>Chat</Text>
-                                <Text style={{ color: 'gray', marginBottom: 10 }}>Chat Fiture</Text>
+                                <Text style={{ color: 'gray', marginBottom: 10 }}>Chat Feature</Text>
                             </View>
                         </TouchableOpacity>
                 </>
@@ -151,6 +151,15 @@ class Profile extends React.Component {
                             </View>
                         </View>
                         {componentProfile}
+                        <TouchableOpacity style={{ borderBottomColor: 'gray', borderBottomWidth: 0.2, marginLeft: 10, marginRight: 40 }}
+                            onPress={() => { this.props.navigation.navigate('ListChat') }}
+                        >
+
+                            <View style={{ paddingLeft: 10, marginTop: 5 }}>
+                                <Text style={{ fontWeight: 'bold', fontSize: 20, marginBottom: 5 }}>Chat Room</Text>
+                                <Text style={{ color: 'gray', marginBottom: 10 }}>Chat Feature ( BETA )</Text>
+                            </View>
+                        </TouchableOpacity>
                         <TouchableOpacity style={{ borderBottomColor: 'gray', borderBottomWidth: 0.2, marginLeft: 10, marginRight: 40 }}
                             onPress={() => { this.props.navigation.navigate('Setting') }}
                         >
