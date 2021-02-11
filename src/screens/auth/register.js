@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Form, Item, Input, Label, Button, Toast } from 'native-base';
+import { KeyboardAvoidingView } from 'react-native'
 import {
     Text,
     View,
@@ -15,7 +16,7 @@ class Register extends React.Component {
         fullname: '',
         email: '',
         password: '',
-        storeName:'',
+        storeName: '',
         errorForm: '',
         registSeller: false
     }
@@ -31,17 +32,17 @@ class Register extends React.Component {
                 password: this.state.password,
                 fullname: this.state.fullname,
             }
-            if(this.state.registSeller){
+            if (this.state.registSeller) {
                 data = {
                     ...data,
-                    level_id:2,
-                    storeName:this.state.storeName
+                    level_id: 2,
+                    storeName: this.state.storeName
                 }
-            }else{
+            } else {
                 data = {
                     ...data,
-                    level_id:1,
-                    storeName:''
+                    level_id: 1,
+                    storeName: ''
                 }
             }
             console.log(data)
@@ -67,33 +68,41 @@ class Register extends React.Component {
         let formSeller;
         if (registSeller) {
             btnSwitch = <>
-                <View>
-                    <Text style={{fontSize:18, fontWeight:'bold'}}>Register as Seller</Text>
-                    <Button full rounded danger small
+                <View style={{ flexDirection: 'row' }}>
+                    <Button bordered danger small style={{ borderTopLeftRadius: 20, borderBottomLeftRadius: 20, width: 100 }}
                         onPress={() => this.setState({
                             registSeller: !this.state.registSeller
                         })}
                     >
-                        <Text style={{color:'white'}}>Switch to Customer</Text>
+                        <Text style={{marginLeft:'25%', fontWeight:'bold', color:'black'}}>Customer</Text>
+                    </Button>
+                    <Button danger small style={{ borderTopEndRadius: 20, borderBottomEndRadius: 20, width: 100 }}
+                    >
+                        <Text style={{marginLeft:'25%',fontWeight:'bold', color:'white'}}>Seller</Text>
                     </Button>
                 </View>
             </>
             formSeller = <>
-            <Item floatingLabel>
-                            <Label>Store Name</Label>
-                            <Input name="firstname" value={storeName} onChangeText={(text) => { this.setState({ storeName: text }) }} />
-                        </Item>
+                <KeyboardAvoidingView>
+                    <Item floatingLabel>
+                        <Label>Store Name</Label>
+                        <Input name="firstname" value={storeName} onChangeText={(text) => { this.setState({ storeName: text }) }} />
+                    </Item>
+                </KeyboardAvoidingView>
             </>
         } else {
             btnSwitch = <>
-                <View>
-                    <Text style={{fontSize:18, fontWeight:'bold'}}>Register as Customer</Text>
-                    <Button full rounded danger small
+                <View style={{ flexDirection: 'row' }}>
+                    <Button danger small style={{ borderTopLeftRadius: 20, borderBottomLeftRadius: 20, width: 100 }}
+                    >
+                        <Text style={{  marginLeft:'25%',fontWeight:'bold', color:'white' }}>Customer</Text>
+                    </Button>
+                    <Button bordered danger small style={{ borderTopEndRadius: 20, borderBottomEndRadius: 20, width: 100 }}
                         onPress={() => this.setState({
                             registSeller: !this.state.registSeller
                         })}
                     >
-                        <Text style={{color:'white'}}>Switch to Seller</Text>
+                        <Text style={{marginLeft:'25%',fontWeight:'bold', color:'black'}}>Seller</Text>
                     </Button>
                 </View>
             </>
@@ -108,22 +117,28 @@ class Register extends React.Component {
                         source={require('./../../assets/Vector.png')}
                     />
                     <Text style={{ fontSize: 20, fontWeight: "bold", color: 'red', alignSelf: "center" }}>BlanjaIn</Text>
-                    <View style={{ marginHorizontal:80, marginTop:10 }}>
+                    <View style={{ marginHorizontal: 80, marginTop: 10 }}>
                         {btnSwitch}
                     </View>
                     <Form>
-                        <Item floatingLabel>
-                            <Label>Email</Label>
-                            <Input name="email" value={email} onChangeText={(text) => { this.setState({ email: text }) }} />
-                        </Item>
-                        <Item floatingLabel last>
-                            <Label>Password</Label>
-                            <Input name="password" secureTextEntry={true} value={password} onChangeText={(text) => { this.setState({ password: text }) }} />
-                        </Item>
-                        <Item floatingLabel>
-                            <Label>Fullname</Label>
-                            <Input name="firstname" value={fullname} onChangeText={(text) => { this.setState({ fullname: text }) }} />
-                        </Item>
+                        <KeyboardAvoidingView>
+                            <Item floatingLabel>
+                                <Label>Email</Label>
+                                <Input name="email" value={email} onChangeText={(text) => { this.setState({ email: text }) }} />
+                            </Item>
+                        </KeyboardAvoidingView>
+                        <KeyboardAvoidingView>
+                            <Item floatingLabel last>
+                                <Label>Password</Label>
+                                <Input name="password" secureTextEntry={true} value={password} onChangeText={(text) => { this.setState({ password: text }) }} />
+                            </Item>
+                        </KeyboardAvoidingView>
+                        <KeyboardAvoidingView>
+                            <Item floatingLabel>
+                                <Label>Fullname</Label>
+                                <Input name="firstname" value={fullname} onChangeText={(text) => { this.setState({ fullname: text }) }} />
+                            </Item>
+                        </KeyboardAvoidingView>
                         {formSeller}
                         <TouchableOpacity style={{ flexDirection: 'row-reverse', marginTop: 10, marginBottom: 25 }}
                             onPress={() => {
@@ -132,7 +147,7 @@ class Register extends React.Component {
                         >
                             <Text style={{ fontWeight: 'bold' }}>Already have an account, Login here -{'>'}</Text>
                         </TouchableOpacity>
-                        
+
                         <Button full rounded danger
                             onPress={this.Register}>
                             <Text style={{ color: 'white' }}>Register</Text>

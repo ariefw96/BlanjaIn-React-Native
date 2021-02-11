@@ -4,6 +4,7 @@ import { Image, TouchableOpacity } from 'react-native'
 import { useSelector } from 'react-redux'
 import axios from 'axios'
 import { BASE_URL } from "@env"
+import List from './../../components/chatList'
 
 const ListChat = ({ navigation }) => {
     const auth = useSelector((state) => state.auth)
@@ -51,36 +52,17 @@ const ListChat = ({ navigation }) => {
                     <Body ><Text style={{ fontWeight: 'bold' }}>Chat List</Text></Body>
                 </Header>
                 <Content>
+                    <View style={{ flexDirection: 'row', marginTop: 10 }}>
+                        <Image source={require('./../../assets/profile.png')} style={{ width: 80, height: 80, borderRadius: 40, marginLeft: 10, marginRight: 10, marginBottom: 50 }} />
+                        <View style={{ paddingLeft: 10, marginTop: 5 }}>
+                            <Text style={{ fontWeight: 'bold', fontSize: 24 }}>{auth.name}</Text>
+                            <Text style={{ color: 'gray' }}>{auth.email}</Text>
+                        </View>
+                    </View>
+                    <Text style={{fontSize:24, marginLeft:20, marginBottom:10}}>Chat List</Text>
                     {
                         chatList.map(({ chatRoom }) => {
-                            return (
-                                <>
-                                    <View>
-                                        <Button full rounded
-                                            onPress={() => {
-                                                navigation.navigate('ChatRoom', {
-                                                    room_id: chatRoom
-                                                })
-                                            }}
-                                        >
-                                            <Text>{chatRoom}</Text>
-                                        </Button>
-                                        <TouchableOpacity style={{ borderBottomColor: 'gray', borderBottomWidth: 0.2, marginLeft: 10, marginRight: 40 }}
-                                            onPress={() => {
-                                                navigation.navigate('ChatRoom', {
-                                                    room_id: chatRoom
-                                                })
-                                            }}
-                                        >
-
-                                            <View style={{ paddingLeft: 10, marginTop: 5 }}>
-                                                <Text style={{ fontWeight: 'bold', fontSize: 20, marginBottom: 5 }}>{chatRoom}</Text>
-                                                <Text style={{ color: 'gray', marginBottom: 10 }}>Chat With Other Person ( BETA )</Text>
-                                            </View>
-                                        </TouchableOpacity>
-                                    </View>
-                                </>
-                            )
+                            return <List chatRoom={chatRoom} navigation={navigation} />
                         })
                     }
                 </Content>

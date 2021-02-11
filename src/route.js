@@ -178,8 +178,7 @@ const appRouter = () => {
     <>
       <SocketProvider id={user_id}>
         <Stack.Navigator headerMode="none">
-          {/* <Stack.Screen name="Splash" component={Splash} /> */}
-
+          <Stack.Screen name="Splash" component={Splash} />
           <Stack.Screen name="Tab" component={MyTabs} />
           <Stack.Screen name="Notification" component={Notification} />
           <Stack.Screen name="Details" component={DetailPage} />

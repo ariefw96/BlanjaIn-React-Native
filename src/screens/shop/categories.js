@@ -25,7 +25,8 @@ class ShopCategory extends Component {
         catSelected: 0,
         selectedBrand: 0,
         axiosData: '',
-        itemNotFound: ''
+        itemNotFound: '',
+        sortName:''
     }
 
     checkedRed = () => {
@@ -205,6 +206,7 @@ class ShopCategory extends Component {
                     products: data.data.products,
                     pageInfo: data.data.pageInfo,
                     itemNotFound:'',
+                    sortName:''
                 })
             }).catch((error) => {
                 console.log(error)
@@ -251,6 +253,7 @@ class ShopCategory extends Component {
                 this.setState({
                     products: data.data.products,
                     pageInfo: data.data.pageInfo,
+                    sortName:'Name A-Z'
                 })
             }).catch((error) => {
                 console.log(error)
@@ -268,6 +271,7 @@ class ShopCategory extends Component {
                 this.setState({
                     products: data.data.products,
                     pageInfo: data.data.pageInfo,
+                    sortName:'Name Z-A'
                 })
             }).catch((error) => {
                 console.log(error)
@@ -285,6 +289,7 @@ class ShopCategory extends Component {
                 this.setState({
                     products: data.data.products,
                     pageInfo: data.data.pageInfo,
+                    sortName:'Price low to high'
                 })
             }).catch((error) => {
                 console.log(error)
@@ -302,6 +307,7 @@ class ShopCategory extends Component {
                 this.setState({
                     products: data.data.products,
                     pageInfo: data.data.pageInfo,
+                    sortName:'Price high to low'
                 })
             }).catch((error) => {
                 console.log(error)
@@ -319,6 +325,7 @@ class ShopCategory extends Component {
                 this.setState({
                     products: data.data.products,
                     pageInfo: data.data.pageInfo,
+                    sortName:'Rating high to low'
                 })
             }).catch((error) => {
                 console.log(error)
@@ -336,6 +343,7 @@ class ShopCategory extends Component {
                 this.setState({
                     products: data.data.products,
                     pageInfo: data.data.pageInfo,
+                    sortName:'Newest'
                 })
             }).catch((error) => {
                 console.log(error)
@@ -380,6 +388,7 @@ class ShopCategory extends Component {
                     </Right>
                 </Header>
                 <Container style={{ backgroundColor: '#f0f0f0' }}>
+                    
                     <View style={styles.filter}>
                         <Grid>
                             <Col>
@@ -397,13 +406,12 @@ class ShopCategory extends Component {
                                         this.setModalSortVisible(true)
                                     }}
                                 >
-                                    <Text style={styles.txtFilter}> Sort <Image source={require('./../../assets/icons/sort2.png')} /></Text>
+                                    <Text style={styles.txtFilter}> Sort <Image source={require('./../../assets/icons/sort2.png')} /> <Text style={{fontSize:14}}>{this.state.sortName}</Text></Text>
                                 </TouchableOpacity>
                             </Col>
                         </Grid>
                     </View>
                     <Text>{this.state.itemNotFound}</Text>
-
                     <ScrollView>
                         <View style={styles.grid} >
                             {
@@ -433,6 +441,9 @@ class ShopCategory extends Component {
                             <Text>Next {`>> `}</Text>
                         </Button>
                     </View>
+                    {
+                        modalVisible == true || modalSortVisible == true ? <View style={{width:'100%', height:'100%', position:'absolute', backgroundColor:'black', opacity:0.6}}></View> : <></>
+                    }
                 </Container>
                 <Modal
                     animationType="slide"
@@ -444,7 +455,7 @@ class ShopCategory extends Component {
                 >
                     <View style={styles.centeredView}>
                         <View style={styles.modalView}>
-                            <Content style={{ backgroundColor: '#f0f0f0', width: 330 }}>
+                            <Content style={{ backgroundColor: '#f0f0f0', width: vw(96) }}>
                                 <Text style={{ fontWeight: 'bold', fontSize: 20, margin: 15 }}>Color</Text>
                                 <View style={{ height: 80, backgroundColor: 'white' }}>
                                     <View style={{ marginTop: 15, marginRight: 15, flexDirection: 'row', justifyContent: "space-around" }}>
@@ -588,8 +599,8 @@ const styles = StyleSheet.create({
         alignItems: "center",
     },
     modalView: {
-        height: 320,
-        width: 350,
+        height: 330,
+        width: vw(100),
         backgroundColor: "white",
         borderTopEndRadius: 20,
         borderTopLeftRadius: 20,

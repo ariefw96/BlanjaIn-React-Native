@@ -15,6 +15,7 @@ import { useSelector } from 'react-redux'
 
 import Card from '../../components/cardHome'
 import Banner from './../../components/banner'
+import Loading from './../emptyScreen/loading'
 import Splash from './../splash'
 import { BASE_URL } from '@env'
 import { useSocket } from '../../utils/context/SocketProvider';
@@ -98,7 +99,7 @@ const Home = ({ navigation }) => {
 
     let Home;
     if (loading) {
-        Home = <Splash navigation={navigation} />
+        Home = <Loading navigation={navigation} />
     } else {
         Home =
             <>

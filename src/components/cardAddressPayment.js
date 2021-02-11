@@ -7,28 +7,28 @@ class cardAddress extends React.Component {
         let isActive = this.props.address.activeAddress == this.props.addressId
         return (
             <>
-                <View style={{marginVertical:10}}>
-                    <View style={{ borderColor: isActive?'green':'white', borderWidth: 4 , borderRadius:10}}>
+                <View style={{ marginVertical: 10 }}>
+                    <View style={{ borderColor: isActive ? 'green' : 'white', borderWidth: 4, borderRadius: 10 }}>
                         <View style={styles.order} >
-                            <View style={{ padding:10, borderRadius:5, borderColor:this.props.color }}>
-                            <Text style={{ fontWeight: 'bold', fontSize: 20 }}>
-                                {this.props.name+' ('+this.props.type+')'}
-                            </Text>
-                        <Text style={{ marginTop: 10, color: 'gray', fontSize: 18 }}>
-                            {this.props.city + ', '}<Text style={{ color: 'green', fontWeight: 'bold' }}>{this.props.postal}</Text>
-                        </Text>
-                        <View style={{ flexDirection:'row', justifyContent:'space-between'}}>
-                            <Text style={{ color: 'gray', fontSize: 18 }}>
-                                {this.props.phone}
-                            </Text>
-                            <View style={{marginRight:10}}>
+                            <View style={{ padding: 10, borderRadius: 5, borderColor: this.props.color }}>
+                                <Text style={{ fontWeight: 'bold', fontSize: 20 }}>
+                                    {!this.props.name ? 'Loading...' : (this.props.name + ' (' + this.props.type + ')')}
+                                </Text>
+                                <Text style={{ marginTop: 10, color: 'gray', fontSize: 18 }}>
+                                    {this.props.city?this.props.city  + ', ':('loading...')}<Text style={{ color: 'green', fontWeight: 'bold' }}>{this.props.postal?this.props.postal:('loading...')}</Text>
+                                </Text>
+                                <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+                                    <Text style={{ color: 'gray', fontSize: 18 }}>
+                                        {this.props.phone?this.props.phone:('loading...')}
+                                    </Text>
+                                    <View style={{ marginRight: 10 }}>
+                                    </View>
+                                </View>
+
                             </View>
                         </View>
                     </View>
-                        </View>
-                    </View>
                 </View>
-
             </>
         )
     }

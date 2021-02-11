@@ -2,12 +2,13 @@ import React, { useEffect } from 'react'
 import { Image, StyleSheet, Text, View } from 'react-native'
 import Logo from './../../assets/Vector.png'
 
+
 const Splash = ({ navigation }) => {
-    // useEffect(() => {
-    //   setTimeout(() => {
-    //     navigation.navigate('Tab')
-    //   }, 3000);
-    // }, []);
+    useEffect(() => {
+      setTimeout(() => {
+        navigation.replace('Tab')
+      }, 1500);
+    }, []);
     return (
         <View style={styles.container}>
             <Image source={Logo} />
