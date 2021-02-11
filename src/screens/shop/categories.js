@@ -3,6 +3,7 @@ import { Dimensions, StyleSheet, Text, View, Image, TouchableOpacity, ScrollView
 import Card from '../../components/cardHome'
 import { Container, Header, Title, Content, Button, Left, Body, Right, CheckBox } from "native-base";
 import { Col, Row, Grid } from 'react-native-easy-grid'
+import {vw, vh} from 'react-native-expo-viewport-units'
 import axios from 'axios'
 import { BASE_URL } from '@env'
 
@@ -203,6 +204,7 @@ class ShopCategory extends Component {
                 this.setState({
                     products: data.data.products,
                     pageInfo: data.data.pageInfo,
+                    itemNotFound:'',
                 })
             }).catch((error) => {
                 console.log(error)
@@ -542,7 +544,6 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         flexWrap: 'wrap',
         flex: 1,
-        marginLeft: 10
     },
     filter: {
         marginLeft: 10,

@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Container, Header, Body, Left, Right, Content, Button, Text, View } from 'native-base'
 import { Image } from 'react-native'
 import CardOrder from './../../../components/cardOrders'
+import {vw, vh}  from 'react-native-expo-viewport-units'
 import axios from 'axios'
 import { BASE_URL } from "@env"
 
@@ -54,9 +55,9 @@ export default class componentName extends Component {
                             </Button>
                         </Right>
                     </Header>
-                    <Content style={{ marginHorizontal: 10 }}>
+                    <Content>
                         <View>
-                            <Text style={{ fontWeight: 'bold', fontSize: 42, marginRight: 10, marginTop: 20, marginBottom: 10, width: 200 }}>Costumer Orders</Text>
+                            <Text style={{ fontWeight: 'bold', fontSize: 42, marginHorizontal:vw(3), marginTop: 20, marginBottom: 10, width: 200 }}>Customer Orders</Text>
                         </View>
                         {
                             orderData && orderData.map(({ trxId, trackingNumber, qty, total, created_at, status, status_id }) => {

@@ -45,7 +45,12 @@ class writeReview extends Component {
                 rating: this.state.star,
                 review: this.state.review
             }
-            axios.post(BASE_URL + '/user/addReview', reviewData)
+            const config = {
+                headers: {
+                    'x-access-token': 'Bearer ' + this.props.auth.token,
+                },
+            };
+            axios.post(BASE_URL + '/user/addReview', reviewData, config)
                 .then(({ data }) => {
                     ToastAndroid.show(data.message, ToastAndroid.SHORT, ToastAndroid.BOTTOM);
                     this.props.navigation.goBack()

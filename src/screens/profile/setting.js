@@ -24,11 +24,15 @@ class Setting extends React.Component {
             alert('Minimal 6 karakter')
         } else {
             const updateData = {
-                email: this.props.auth.email,
                 old_password: this.state.old_password,
                 new_password: this.state.new_password
             }
-            axios.patch(BASE_URL + '/user/changePassword', updateData)
+            const config = {
+                headers: {
+                    'x-access-token': 'Bearer ' + this.props.auth.token,
+                },
+            };
+            axios.patch(BASE_URL + '/user/changePassword', updateData, config)
                 .then(({ data }) => {
                     Alert.alert(
                         'OK',

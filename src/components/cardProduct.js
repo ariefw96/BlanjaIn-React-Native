@@ -4,6 +4,7 @@ import { Button, Modal, } from 'native-base'
 import { BASE_URL } from "@env"
 import axios from 'axios'
 import { connect } from 'react-redux'
+import {vw, vh} from 'react-native-expo-viewport-units'
 
 class CardBag extends Component {
 
@@ -47,7 +48,7 @@ class CardBag extends Component {
         return (
             <>
                 <View style={styles.container}>
-                    <Image source={{ uri: BASE_URL + image, width: 120, height: 120 }} style={styles.img} />
+                    <Image source={{ uri: BASE_URL + image, width: vw(35), height: 128 }} style={styles.img} />
                     <View style={styles.infobag}>
                         <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginBottom: 10 }}>
                             <Text
@@ -99,8 +100,12 @@ export default connect(mapStateToProps)(CardBag);
 const styles = StyleSheet.create({
     container: {
         flexDirection: 'row',
-        height: 120,
+        height: 130,
         marginBottom: 20,
+        borderColor:'red',
+        borderWidth:1,
+        borderRadius:7
+        // width:vw(90)
 
     },
     img: {
@@ -109,7 +114,7 @@ const styles = StyleSheet.create({
     },
     infobag: {
         backgroundColor: '#fff',
-        width: 215,
+        width: vw(60),
         shadowColor: '#000',
         shadowOffset: {
             width: 0,
@@ -122,27 +127,4 @@ const styles = StyleSheet.create({
         borderBottomRightRadius: 8,
         borderTopRightRadius: 8,
     },
-    centeredView: {
-        flex: 1,
-        justifyContent: "center",
-        alignItems: "center",
-    },
-    modalView: {
-        height: 50,
-        width: 200,
-        borderWidth: 4,
-        borderColor: "#20232a",
-        backgroundColor: "white",
-        borderTopEndRadius: 20,
-        borderTopLeftRadius: 20,
-        borderBottomEndRadius: 20,
-        borderBottomLeftRadius: 20,
-        padding: 10,
-        alignItems: "center",
-        shadowColor: "#000",
-        shadowOffset: {
-            width: 0,
-            height: 2
-        }
-    }
 });

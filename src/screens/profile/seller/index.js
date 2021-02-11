@@ -15,7 +15,12 @@ class UserStore extends React.Component {
     }
 
     getUserDetails = () => {
-        axios.get(BASE_URL + '/user/details/' + this.props.auth.id)
+        const config = {
+            headers: {
+                'x-access-token': 'Bearer ' + this.props.auth.token,
+            },
+        };
+        axios.get(BASE_URL + '/user/details/', config)
             .then(({ data }) => {
                 this.setState({
                     userDetails: data.data

@@ -1,5 +1,5 @@
 import React from 'react'
-import { View, Text, StyleSheet, Image, ScrollView, TouchableOpacity, Picker, ToastAndroid } from 'react-native'
+import { View, Text, StyleSheet, Image, ScrollView, TouchableOpacity, Picker, ToastAndroid, KeyboardAvoidingView } from 'react-native'
 import { Container, Header, Content, Form, Item, Input, Button, Label, Textarea, Left, Body, Right } from 'native-base';
 import { BASE_URL } from "@env"
 import axios from 'axios'
@@ -88,8 +88,8 @@ class AddProduct extends React.Component {
         const data = new FormData();
         data.append('product_name', this.state.product_name);
         data.append('category_id', this.state.category_id);
-        data.append('color_id',this.state.color_id)
-        data.append('size_id',this.state.size_id)
+        data.append('color_id', this.state.color_id)
+        data.append('size_id', this.state.size_id)
         data.append('condition_id', this.state.condition_id)
         data.append('product_price', this.state.product_price);
         data.append('product_desc', this.state.product_desc);
@@ -162,10 +162,12 @@ class AddProduct extends React.Component {
                         <ScrollView style={{ height: 550, backgroundColor: 'white' }}>
                             <View>
                                 <Form>
-                                    <Item stackedLabel>
-                                        <Label >Product Name</Label>
-                                        <Input name="product_name" value={product_name} onChangeText={(text) => { this.setState({ product_name: text }) }} />
-                                    </Item>
+                                    <KeyboardAvoidingView>
+                                        <Item stackedLabel>
+                                            <Label >Product Name</Label>
+                                            <Input name="product_name" value={product_name} onChangeText={(text) => { this.setState({ product_name: text }) }} />
+                                        </Item>
+                                    </KeyboardAvoidingView>
                                     <View style={styles.size}>
                                         <Picker
                                             selectedValue={category_id}
@@ -214,10 +216,12 @@ class AddProduct extends React.Component {
                                             <Picker.Item label="Second" value="2" />
                                         </Picker>
                                     </View>
-                                    <Item stackedLabel>
-                                        <Label >Price</Label>
-                                        <Input name="price" value={product_price} onChangeText={(text) => { this.setState({ product_price: text }) }} />
-                                    </Item>
+                                    <KeyboardAvoidingView>
+                                        <Item stackedLabel>
+                                            <Label >Price</Label>
+                                            <Input name="price" value={product_price} onChangeText={(text) => { this.setState({ product_price: text }) }} />
+                                        </Item>
+                                    </KeyboardAvoidingView>
                                     <View style={{ marginLeft: 15 }}>
                                         <Label >Product Description</Label>
                                         <Textarea rowSpan={5} bordered placeholder="Description" name="description" value={product_desc} onChangeText={(text) => { this.setState({ product_desc: text }) }} />
@@ -252,7 +256,7 @@ class AddProduct extends React.Component {
                                 </Form>
                             </View>
                         </ScrollView>
-                        <Button danger full rounded onPress={this.postProduct} style={{marginLeft:15}}>
+                        <Button danger full rounded onPress={this.postProduct} style={{ marginLeft: 15 }}>
                             <Text style={{ color: '#fff' }}> SUBMIT </Text>
                         </Button>
                     </Content>

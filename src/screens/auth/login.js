@@ -97,7 +97,7 @@ class Login extends React.Component {
                             source={require('./../../assets/Vector.png')}
                         />
                     </TouchableOpacity>
-                    <Text style={{ fontSize: 20, fontWeight: "bold", color: 'red', alignSelf: "center" }}>Blanja</Text>
+                    <Text style={{ fontSize: 20, fontWeight: "bold", color: 'red', alignSelf: "center" }}>BlanjaIn</Text>
                     <Form>
                         <Item floatingLabel>
                             <Label>Email</Label>

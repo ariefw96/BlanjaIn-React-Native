@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { View, Image, Text, TouchableOpacity } from 'react-native';
 import { Button } from 'native-base';
+import {vw, vh} from 'react-native-expo-viewport-units'
 import { API_KEY, BASE_URL } from '@env'
 
 
@@ -35,8 +36,8 @@ export default class Card extends React.Component {
                         })
                     }}
                 >
-                    <View style={{ height: 340,width:156, marginRight: 15 }}>
-                        <Image source={{ uri: BASE_URL + this.props.product_img, width: 156, height: 215 }} />
+                    <View style={{ height: 340,width:vw(44), marginHorizontal:vw(3)}}>
+                        <Image source={{ uri: BASE_URL + this.props.product_img, width: vw(44), height: 215 }} style={{borderRadius:10, borderWidth:1, borderColor:'gray'}} />
                         {newBtn}
                         <View style={{ flexDirection: 'row' }}>
                             <View style={{flexDirection:'row', marginRight:5}}><Image source={require('../assets/icons/Star.png')} style={{marginTop:2.5, marginRight:5 }} /><Text>{this.props.rating}</Text></View>

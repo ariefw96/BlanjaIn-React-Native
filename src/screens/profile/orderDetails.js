@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Container, Header, Title, Content, Button, Left, Body, Text, Form, Item, Input, Label } from "native-base";
 import { Image, View, TouchableOpacity, StyleSheet, SafeAreaView, ScrollView, Modal, Alert, ToastAndroid} from 'react-native'
+import {vw, vh} from 'react-native-expo-viewport-units'
 import { BASE_URL } from '@env'
 import axios from 'axios'
 import { connect } from 'react-redux'
@@ -154,7 +155,7 @@ class OrderDetails extends React.Component {
                             <Title style={{ color: 'black', fontWeight: 'bold', marginLeft: 20 }}>Order Details</Title>
                         </Body>
                     </Header>
-                    <Content style={{ backgroundColor: '#f0f0f0', marginHorizontal: 10 }}>
+                    <Content style={{ backgroundColor: '#f0f0f0', marginHorizontal: vw(2) }}>
                         <View style={{minHeight:350}}>
                         <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
                             <Text style={{ fontWeight: 'bold', fontSize: 20 }}>

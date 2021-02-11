@@ -8,6 +8,7 @@ import axios from 'axios'
 import { addItems } from './../../utils/redux/ActionCreators/bag'
 import { connect } from 'react-redux'
 import { BASE_URL } from '@env'
+import {vh, vw} from 'react-native-expo-viewport-units'
 import Card from './../../components/cardForYou'
 
 
@@ -162,7 +163,7 @@ class DetailPage extends Component {
                                                                     product_img && product_img.split(',').map((img) => {
                                                                         return (
                                                                             <>
-                                                                                <Image source={{ uri: BASE_URL + img, width: 360, height: 400 }} />
+                                                                                <Image source={{ uri: BASE_URL + img, width: vw(100), height: 400 }} />
                                                                             </>
                                                                         )
                                                                     })
@@ -329,7 +330,7 @@ const styles = StyleSheet.create({
         marginTop: -5,
     },
     size: {
-        width: 140,
+        width: vw(40),
         height: 40,
         backgroundColor: '#fff',
         borderRadius: 8,

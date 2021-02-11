@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Container, Header, Title, Content, Button, Footer, FooterTab, Left, Body, Text, Right, List, ListItem } from "native-base";
 import { Image, View, TouchableOpacity, StyleSheet, SafeAreaView, ScrollView } from 'react-native'
+import {vw, vh} from 'react-native-expo-viewport-units'
 
 import CardOrder from './../../components/cardOrders'
 import { BASE_URL } from '@env'
@@ -75,7 +76,7 @@ class Orders extends React.Component {
                         </Body>
 
                     </Header>
-                    <Content style={{ backgroundColor: '#f0f0f0', marginHorizontal: 10 }}>
+                    <Content style={{ backgroundColor: '#f0f0f0',}}>
                         <View>
                             <Text style={{ fontWeight: 'bold', fontSize: 42, marginRight: 10, marginTop: 20, marginBottom: 10 }}>My Orders</Text>
                         </View>

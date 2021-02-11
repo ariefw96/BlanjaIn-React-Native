@@ -49,7 +49,7 @@ class Otp extends React.Component {
                     <Image style={{ alignSelf: 'center' }}
                         source={require('./../../assets/Vector.png')}
                     />
-                    <Text style={{ fontSize: 20, fontWeight: "bold", color: 'red', alignSelf: "center" }}>Blanja</Text>
+                    <Text style={{ fontSize: 20, fontWeight: "bold", color: 'red', alignSelf: "center" }}>BlanjaIn</Text>
                     <Text style={{marginTop:30, fontWeight:'bold', textAlign:'justify'}}>Please, check your inbox email. Then type OTP code here</Text>
                     <Form>
                         <Item floatingLabel style={{marginBottom:25}}>

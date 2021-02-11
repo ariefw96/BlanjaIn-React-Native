@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Text, View, TouchableOpacity, StyleSheet } from 'react-native'
+import {vw, vh} from 'react-native-expo-viewport-units'
 
 export default class cardOrder extends React.Component {
     render() {
@@ -58,9 +59,9 @@ export default class cardOrder extends React.Component {
 const styles = StyleSheet.create({
     order: {
         borderRadius: 10, height: 164,
-        width: '95%', backgroundColor: 'white',
+        width: vw(94), backgroundColor: 'white',
         marginTop: 10,
-        marginHorizontal: 5,
+        marginHorizontal: vw(3),
         marginBottom: 10,
         shadowColor: 'rgba(0, 0, 0, 0.1)',
         shadowOpacity: 0.5,

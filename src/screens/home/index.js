@@ -64,14 +64,14 @@ const Home = ({ navigation }) => {
     }, [channel])
 
     useEffect(() => {
-        number ++;
+        number++;
         if (auth.level == 1) {
             socket.on('toBuyer', (message) => {
                 console.log(message)
                 showNotification('Notification', message, channel);
             })
             return () => socket.off('toBuyer');
-        } else {
+        } else if (auth.level == 2) {
             socket.on('toSeller', (message) => {
                 console.log(message)
                 showNotification('Notification', message, channel);

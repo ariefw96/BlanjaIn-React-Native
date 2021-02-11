@@ -1,19 +1,20 @@
 import React, { Component } from 'react';
 import { Image, StyleSheet, Text, View } from 'react-native';
+import {vw, vh} from 'react-native-expo-viewport-units'
 import { BASE_URL } from '@env'
 
 class CardBag extends Component {
     render() {
         return (
             <View style={styles.container}>
-                <Image source={{uri: BASE_URL + this.props.img, width: 104, height: 120}} />
+                <Image source={{uri: BASE_URL + this.props.img, width: vw(30), height: 125}} style={{borderBottomLeftRadius:8, borderTopLeftRadius:8}} />
                 <View style={styles.infobag}>
                     <Text
                         style={{ fontSize: 18, fontWeight: 'bold', marginBottom:5, marginTop:10 }}
                     >
                         {this.props.name}
                         </Text>
-                    <Text style={{color:'gray',marginBottom:10}}>OVS</Text>
+                    <Text style={{color:'gray',marginBottom:10}}></Text>
                     <View style={{ flexDirection: 'row' }}>
                         <Text style={{ marginRight: 16 , color:'gray'}}>Color: 
                         <Text style={{color:'black'}}>{this.props.color}</Text>
@@ -39,24 +40,17 @@ export default CardBag;
 const styles = StyleSheet.create({
     container: {
         flexDirection: 'row',
-        height:120,
-        marginBottom:30,
+        height:125,
+        marginBottom:10,
         
     },
     price: {
         marginTop: 7,
         marginLeft: 50,
     },
-    img: {
-        
-        width: 104,
-        height: 120,
-        borderTopLeftRadius: 8,
-        borderBottomLeftRadius: 8,
-    },
     infobag: {
         backgroundColor: '#fff',
-        width: 235,
+        width: vw(65),
         shadowColor: '#000',
         shadowOffset: {
             width: 0,

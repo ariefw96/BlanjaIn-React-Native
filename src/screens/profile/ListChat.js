@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Container, Header, Body, Left, Content, View, Text, Button } from 'native-base'
+import { Image, TouchableOpacity } from 'react-native'
 import { useSelector } from 'react-redux'
 import axios from 'axios'
 import { BASE_URL } from "@env"
@@ -41,13 +42,13 @@ const ListChat = ({ navigation }) => {
             <Container>
                 <Header transparent>
                     <Left>
-                        <Button primary>
-                            <Text>Back</Text>
+                        <Button transparent
+                            onPress={() => { navigation.goBack() }}
+                        >
+                            <Image source={require('./../../assets/back.png')} />
                         </Button>
                     </Left>
-                    <Body>
-                        <Text>Chat List</Text>
-                    </Body>
+                    <Body ><Text style={{ fontWeight: 'bold' }}>Chat List</Text></Body>
                 </Header>
                 <Content>
                     {
@@ -64,6 +65,19 @@ const ListChat = ({ navigation }) => {
                                         >
                                             <Text>{chatRoom}</Text>
                                         </Button>
+                                        <TouchableOpacity style={{ borderBottomColor: 'gray', borderBottomWidth: 0.2, marginLeft: 10, marginRight: 40 }}
+                                            onPress={() => {
+                                                navigation.navigate('ChatRoom', {
+                                                    room_id: chatRoom
+                                                })
+                                            }}
+                                        >
+
+                                            <View style={{ paddingLeft: 10, marginTop: 5 }}>
+                                                <Text style={{ fontWeight: 'bold', fontSize: 20, marginBottom: 5 }}>{chatRoom}</Text>
+                                                <Text style={{ color: 'gray', marginBottom: 10 }}>Chat With Other Person ( BETA )</Text>
+                                            </View>
+                                        </TouchableOpacity>
                                     </View>
                                 </>
                             )

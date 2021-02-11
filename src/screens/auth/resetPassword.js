@@ -60,7 +60,7 @@ class ResetPassword extends React.Component {
                     <Image style={{ alignSelf: 'center' }}
                         source={require('./../../assets/Vector.png')}
                     />
-                    <Text style={{ fontSize: 20, fontWeight: "bold", color: 'red', alignSelf: "center" }}>Blanja</Text>
+                    <Text style={{ fontSize: 20, fontWeight: "bold", color: 'red', alignSelf: "center" }}>BlanjaIn</Text>
                     <Text style={{ marginTop: 30, fontWeight: 'bold', color: 'red', textAlign: 'justify' }}>You need to change your password to activate your account</Text>
                     <Form>
                         <Item floatingLabel style={{ marginBottom: 25 }}>

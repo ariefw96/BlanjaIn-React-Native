@@ -107,7 +107,7 @@ class Register extends React.Component {
                     <Image style={{ alignSelf: 'center' }}
                         source={require('./../../assets/Vector.png')}
                     />
-                    <Text style={{ fontSize: 20, fontWeight: "bold", color: 'red', alignSelf: "center" }}>Blanja</Text>
+                    <Text style={{ fontSize: 20, fontWeight: "bold", color: 'red', alignSelf: "center" }}>BlanjaIn</Text>
                     <View style={{ marginHorizontal:80, marginTop:10 }}>
                         {btnSwitch}
                     </View>
