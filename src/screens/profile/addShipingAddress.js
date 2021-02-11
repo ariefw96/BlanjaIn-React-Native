@@ -34,7 +34,13 @@ class addShipping extends Component {
                 phone:this.state.phone,
                 user_id:this.props.auth.id
             }
-            axios.post(BASE_URL + `/address/new`, addressData)
+            const config = {
+                headers: {
+                    'x-access-token': 'Bearer ' + this.props.auth.token,
+                },
+            };
+            console.log(addressData)
+            axios.post(BASE_URL + `/address/new`, addressData, config)
                 .then(({ data }) => {
                     ToastAndroid.show(data.message, ToastAndroid.SHORT, ToastAndroid.BOTTOM);
                     this.props.navigation.navigate('Shipping')

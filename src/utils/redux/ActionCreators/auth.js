@@ -10,3 +10,16 @@ export const setLoginfalse = () => {
         type: "LOGIN_FALSE",
     }
 }
+
+export const setEmail  = (email) =>{
+    return {
+        type: "SET_EMAIL",
+        email
+    }
+}
+
+export const removeEmail = () =>{
+    return {
+        type: "REMOVE_EMAIL"
+    }
+}

@@ -16,7 +16,7 @@ const ListChat = ({ navigation }) => {
 
     const ChatRoom = () => {
         if (auth.level == 2) {
-            axios.get(BASE_URL + `/chat/chatRoomSeler`, config)
+            axios.get(BASE_URL + `/chat/chatRoomSeller`, config)
                 .then(({ data }) => {
                     console.log(data)
                     setChatList(data.data)

@@ -46,7 +46,7 @@ export default connect(mapStateToProps)(cardAddress);
 const styles = StyleSheet.create({
     order: {
         borderRadius: 10, height: 100,
-        width: 332, backgroundColor: 'white',
+        width: '100%', backgroundColor: 'white',
         shadowColor: 'rgba(0, 0, 0, 0.1)',
         shadowOpacity: 0.5,
         elevation: 6,

@@ -173,28 +173,7 @@ const MainProfile = () => {
 };
 
 const appRouter = () => {
-  const user_id = useSelector((state) => state.auth.name);
-  // const level = useSelector((state) => state.auth.level);
-  // const socket = useSocket()
-  // useEffect(() => {
-  //   if (level == 1) {
-  //     socket.on('fromSeller', msgEvent => {
-  //       showNotification('Notification', msgEvent, channel);
-  //     }
-  //     );
-  //     return () => {
-  //       socket.off('fromSeller');
-  //     };
-  //   } else {
-  //     socket.on('fromBuyer', msgEvent => {
-  //       showNotification('Notification', msgEvent, channel);
-  //     }
-  //     );
-  //     return () => {
-  //       socket.off('fromBuyer');
-  //     };
-  //   }
-  // }, []);
+  const user_id = useSelector((state) => state.auth.id);
   return (
     <>
       <SocketProvider id={user_id}>

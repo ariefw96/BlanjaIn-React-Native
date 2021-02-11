@@ -2,7 +2,7 @@ const authReducer = (prevState = {
     isLogin: false,
     email: '',
     name: '',
-    leve:'',
+    leve: '',
     id: '',
     token: ''
 }, action) => {
@@ -13,7 +13,7 @@ const authReducer = (prevState = {
                 isLogin: true,
                 email: action.data.email,
                 name: action.data.name,
-                level:action.data.level,
+                level: action.data.level,
                 id: action.data.id,
                 token: action.data.token
             };
@@ -26,6 +26,16 @@ const authReducer = (prevState = {
                 id: '',
                 token: ''
             };
+        case "SET_EMAIL":
+            return {
+                ...prevState,
+                email: action.email
+            }
+        case "REMOVE_EMAIL":
+            return {
+                ...prevState,
+                email: ''
+            }
         default:
             return {
                 ...prevState,

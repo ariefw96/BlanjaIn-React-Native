@@ -10,11 +10,11 @@ import PushNotification from 'react-native-push-notification';
 import { showNotification } from '../../notif';
 import { addNotification } from './../../utils/redux/ActionCreators/notification'
 
-import {useSocket} from './../../utils/context/SocketProvider'
+import { useSocket } from './../../utils/context/SocketProvider'
 // const socket = useSocket()
 
 const channel = 'notif';
- 
+
 class CheckOut extends React.Component {
     state = {
         isCheckedMaster: false,
@@ -75,7 +75,7 @@ class CheckOut extends React.Component {
                     TrxId: Order.trxId,
                     payment: payment,
                     address: this.props.address.activeAddress,
-                    kurir:this.state.jasaKirim,
+                    kurir: this.state.jasaKirim,
                     qty: this.props.bag.mybag.length,
                     total: this.props.bag.totalAmmount + this.state.shippingPrice,
                     trackingNumber: `BELUM ADA DATA`
@@ -106,8 +106,13 @@ class CheckOut extends React.Component {
     }
 
     componentDidMount = () => {
+        const config = {
+            headers: {
+                'x-access-token': 'Bearer ' + this.props.auth.token,
+            },
+        };
         this._unsubscribe = this.props.navigation.addListener('focus', () => {
-            axios.get(BASE_URL + `/address/get/${this.props.address.activeAddress}`)
+            axios.get(BASE_URL + `/address/get/${this.props.address.activeAddress}`, config)
                 .then(({ data }) => {
                     this.setState({
                         address: data.data
@@ -148,13 +153,13 @@ class CheckOut extends React.Component {
     }
 
     setKurir = (e) => {
-        const price = this.state.kurir.filter((jasa) =>{
+        const price = this.state.kurir.filter((jasa) => {
             return jasa.id == e
         })
         console.log(price)
         this.setState({
-            jasaKirim:e,
-            shippingPrice:price[0].tarif
+            jasaKirim: e,
+            shippingPrice: price[0].tarif
         })
     }
 
@@ -192,7 +197,7 @@ class CheckOut extends React.Component {
                     <Content style={{ backgroundColor: '#f0f0f0' }}>
                         <View style={{ margin: 10 }}>
                             <View style={{ height: 150 }}>
-                                <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginBottom:10 }}>
+                                <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginBottom: 10 }}>
                                     <Text style={{ marginLeft: 5, fontWeight: 'bold', fontSize: 18 }}>Shipping Address</Text>
                                     <TouchableOpacity
                                         onPress={() => { this.props.navigation.navigate('Shipping') }}
@@ -221,30 +226,31 @@ class CheckOut extends React.Component {
                                 <CheckBox style={{ marginLeft: 70, marginTop: 30 }} checked={this.state.isCheckedGopay} onPress={this.checkedGopay} />
                             </View>
                         </View>
-
-
-
-                        <View style={{ backgroundColor: 'white', height: 160, marginTop: 50, borderTopEndRadius: 10, borderTopLeftRadius: 10 }}>
+                        <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginLeft: 15, marginVertical: 5 , marginTop:30}}>
+                            <Text style={{ width: 80, color: 'gray' }}>Shipping :</Text>
+                            <View style={{ width: 100, height: 40, marginTop: -15 }}>
+                                <Picker
+                                    // selectedValue={this.state.jasaKirim}
+                                    selectedValue={jasaKirim}
+                                    onValueChange={(itemValue, itemIndex) => this.setKurir(itemValue)}
+                                >
+                                    <Picker.Item label="Jasa Kirim" value="0" style={{ backgroundColor: 'gray' }} />
+                                    {
+                                        kurir && kurir.map(({ id, nama_kurir, waktu, tarif }) => {
+                                            return <Picker.Item label={nama_kurir + ', ' + waktu + ', ' + 'Rp.' + tarif} value={`${id}`} />
+                                        })
+                                    }
+                                </Picker>
+                            </View>
+                        </View>
+                        <View style={{ backgroundColor: 'white', height: 160, marginTop: 10, borderTopEndRadius: 10, borderTopLeftRadius: 10 }}>
                             <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginHorizontal: 15, marginVertical: 5 }}>
                                 <Text style={{ width: 100, color: 'gray' }}>Order :</Text>
                                 <Text>Rp. {this.props.bag.totalAmmount}</Text>
                             </View>
-                            <View style={{ flexDirection: 'row',justifyContent:'space-between', marginLeft:15, marginVertical: 5 }}>
-                                <Text style={{ width: 80, color: 'gray' }}>Shipping :</Text>
-                                <View style={{ width: 100, height: 40, marginTop: -15}}>
-                                    <Picker
-                                        // selectedValue={this.state.jasaKirim}
-                                        selectedValue={jasaKirim}
-                                        onValueChange={(itemValue, itemIndex) => this.setKurir(itemValue)}
-                                    >
-                                        <Picker.Item label="Jasa Kirim" value="0" style={{ backgroundColor: 'gray' }} />
-                                        {
-                                            kurir && kurir.map(({ id, nama_kurir, waktu, tarif }) => {
-                                                return <Picker.Item label={nama_kurir + ', ' + waktu + ', ' + 'Rp.' + tarif} value={`${id}`} />
-                                            })
-                                        }
-                                    </Picker>
-                                </View>
+                            <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginHorizontal: 15, marginVertical: 5 }}>
+                                <Text style={{ width: 100, color: 'gray' }}>Shipping :</Text>
+                                <Text>Rp. {this.state.shippingPrice}</Text>
                             </View>
                             <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginHorizontal: 15, marginVertical: 5 }}>
                                 <Text style={{ width: 100, color: 'gray' }}>Summary :</Text>

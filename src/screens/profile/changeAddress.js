@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
 import { Container, Header, Title, Content, Button, Left, Body, Text, Item, Input, Label } from "native-base";
 import { Image, View, TouchableOpacity, StyleSheet, ToastAndroid } from 'react-native'
+import {connect} from 'react-redux'
 import axios from 'axios'
 import { BASE_URL } from '@env'
 
-export default class ChangeAddress extends React.Component {
+class ChangeAddress extends React.Component {
     constructor(props) {
         super(props)
     }
@@ -31,7 +32,12 @@ export default class ChangeAddress extends React.Component {
                     postal: this.state.postal,
                     phone: this.state.phone,
                 }
-                axios.patch(BASE_URL + `/address/update/${this.props.route.params.addressId}`, addressData)
+                const config = {
+                    headers: {
+                        'x-access-token': 'Bearer ' + this.props.auth.token,
+                    },
+                };
+                axios.patch(BASE_URL + `/address/update/${this.props.route.params.addressId}`, addressData, config)
                     .then(({ data }) => {
                         ToastAndroid.show(data.message, ToastAndroid.SHORT, ToastAndroid.BOTTOM);
                         this.props.navigation.navigate('Shipping')
@@ -47,8 +53,13 @@ export default class ChangeAddress extends React.Component {
     }
 
     componentDidMount = () => {
+        const config = {
+            headers: {
+                'x-access-token': 'Bearer ' + this.props.auth.token,
+            },
+        };
         // console.log(BASE_URL+`/address/get/${this.props.route.params.addressId}`)
-        axios.get(BASE_URL + `/address/get/${this.props.route.params.addressId}`)
+        axios.get(BASE_URL + `/address/get/${this.props.route.params.addressId}`, config)
             .then(({ data }) => {
                 this.setState({
                     address_type: data.data.address_type,
@@ -124,3 +135,11 @@ export default class ChangeAddress extends React.Component {
         );
     }
 }
+
+const mapStateToProps = ({ auth }) => {
+    return {
+        auth
+    };
+};
+
+export default connect(mapStateToProps)(ChangeAddress);

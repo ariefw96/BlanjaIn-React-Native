@@ -15,7 +15,12 @@ class Shipping extends React.Component {
     }
 
     getAddress = () => {
-        axios.get(BASE_URL + `/address/${this.props.auth.id}`)
+        const config = {
+            headers: {
+                'x-access-token': 'Bearer ' + this.props.auth.token,
+            },
+        };
+        axios.get(BASE_URL + `/address`, config)
             .then(({ data }) => {
                 this.setState({
                     shippingAddress: data.data
