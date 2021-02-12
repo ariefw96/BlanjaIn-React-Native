@@ -67,7 +67,7 @@ class DetailPage extends Component {
     }
 
     loginDuluhehe = () => {
-        ToastAndroid.show("Bukan Costumer Hehe.", ToastAndroid.SHORT);
+        ToastAndroid.show("Bukan Custome Hehe. Maaf gabisa chat", ToastAndroid.SHORT);
     }
 
     addToCart = () => {

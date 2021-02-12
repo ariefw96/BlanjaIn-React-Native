@@ -81,7 +81,7 @@ class ShopCategory extends Component {
                             let img = product_img.split(',')[0]
                             return (
                                 <>
-                                    <Card navigation={this.props.navigation}  key={id} product_name={product_name} product_price={product_price} product_img={img} keyId={id} category={category_name} color={color_name} size={size_name} rating={rating} dibeli={dibeli} />
+                                    <Card navigation={this.props.navigation} key={id} product_name={product_name} product_price={product_price} product_img={img} keyId={id} category={category_name} color={color_name} size={size_name} rating={rating} dibeli={dibeli} />
                                 </>
                             )
                         })
@@ -105,12 +105,12 @@ class ShopCategory extends Component {
                 </Header>
                 <Container style={{ backgroundColor: '#f0f0f0' }}>
                     <ScrollView>
-                        <Form style={{ marginBottom: 10 }}>
-                            <Item floatingLabel>
-                                <Label>Keyword</Label>
+                        <Form style={{ marginBottom: 10, marginHorizontal: 10 }}>
+                            <Label>Keyword</Label>
+                            <Item regular style={{marginBottom:5}}>
                                 <Input name="searchKey" value={this.state.searchKey} onChangeText={(text) => { this.setState({ searchKey: text }) }} />
                             </Item>
-                            <Button full rounded danger small style={{ marginHorizontal: 15 }}
+                            <Button full rounded danger
                                 onPress={this.SearchItems}
                             >
                                 <Text style={{ color: 'white' }}>Search</Text>
