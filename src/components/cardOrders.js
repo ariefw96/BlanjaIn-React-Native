@@ -1,19 +1,19 @@
 import React, { Component } from 'react';
 import { Text, View, TouchableOpacity, StyleSheet } from 'react-native'
-import {vw, vh} from 'react-native-expo-viewport-units'
+import { vw, vh } from 'react-native-expo-viewport-units'
 
 export default class cardOrder extends React.Component {
     render() {
-        const {idStatus} = this.props
+        const { idStatus } = this.props
         let strStatus;
-        if(idStatus ==1){
-            strStatus = <Text style={{ color: 'black', fontSize: 18, fontWeight: 'bold', width:80, marginTop: 10,  }}>{this.props.status}</Text>
-        }else if(idStatus==2){
-            strStatus = <Text style={{ color: 'orange', fontSize: 18, fontWeight: 'bold', width:80, marginTop: 10,  }}>{this.props.status}</Text>
-        }else if(idStatus ==3){
-            strStatus = <Text style={{ color: 'orange', fontSize: 18, fontWeight: 'bold', width:70, marginTop: 10,  }}>{this.props.status}</Text>
-        }else if(idStatus==4){
-            strStatus = <Text style={{ color: 'green', fontSize: 18, fontWeight: 'bold', width:80, marginTop: 10,  }}>{this.props.status}</Text>
+        if (idStatus == 1) {
+            strStatus = <Text style={{ color: 'black', fontSize: 16, fontWeight: 'bold' }}>[{this.props.status}]</Text>
+        } else if (idStatus == 2) {
+            strStatus = <Text style={{ color: 'orange', fontSize: 16, fontWeight: 'bold' }}>[{this.props.status}]</Text>
+        } else if (idStatus == 3) {
+            strStatus = <Text style={{ color: 'orange', fontSize: 16, fontWeight: 'bold' }}>[{this.props.status}]</Text>
+        } else if (idStatus == 4) {
+            strStatus = <Text style={{ color: 'green', fontSize: 16, fontWeight: 'bold' }}>[{this.props.status}]</Text>
         }
         return (
             <>
@@ -37,16 +37,18 @@ export default class cardOrder extends React.Component {
                                         <Text style={{ fontWeight: 'bold', color: 'black' }}> {this.props.trackingNumber}</Text>
                         </Text>
                         <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginTop: 10, }}>
-                            <Text style={{color: 'gray', fontSize: 18 }}>
+                            <Text style={{ color: 'gray', fontSize: 18 }}>
                                 Item(s) :
                                         <Text style={{ color: 'black', fontWeight: 'bold' }} > {this.props.qty}</Text>
                             </Text>
+                        </View>
+                        <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginTop: 10 }}>
+                            <Text style={{ color: 'gray', fontSize: 18, }}>
+                                Total Amount :
+                                        <Text style={{ fontWeight: 'bold', color: 'black' }}> Rp. {this.props.total}</Text>
+                            </Text>
                             {strStatus}
                         </View>
-                        <Text style={{ color: 'gray', fontSize: 18, marginTop: -20,  }}>
-                            Total Amount :
-                                        <Text style={{ fontWeight: 'bold', color: 'black' }}> Rp. {this.props.total}</Text>
-                        </Text>
 
                     </View>
                 </TouchableOpacity>
@@ -58,7 +60,7 @@ export default class cardOrder extends React.Component {
 
 const styles = StyleSheet.create({
     order: {
-        borderRadius: 10, height: 164,
+        borderRadius: 10, height: 150,
         width: vw(94), backgroundColor: 'white',
         marginTop: 10,
         marginHorizontal: vw(3),

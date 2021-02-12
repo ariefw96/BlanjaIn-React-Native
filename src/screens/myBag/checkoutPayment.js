@@ -85,7 +85,7 @@ class CheckOut extends React.Component {
                         //emit dari BE
                         axios.post(BASE_URL + '/transaksi/itemOrder', this.props.bag.mybag)
                             .then((res) => {
-                                showNotification('Notification', 'Checkout Succes', channel);
+                                showNotification('Notification', `Checkout Succes at ${Order.trxId}`, channel);
                                 const notifData = {
                                     user_id: this.props.auth.id,
                                     level: this.props.auth.level,
@@ -161,14 +161,16 @@ class CheckOut extends React.Component {
     }
 
     setKurir = (e) => {
-        const price = this.state.kurir.filter((jasa) => {
-            return jasa.id == e
-        })
-        console.log(price)
-        this.setState({
-            jasaKirim: e,
-            shippingPrice: price[0].tarif
-        })
+        if (e != 0) {
+            const price = this.state.kurir.filter((jasa) => {
+                return jasa.id == e
+            })
+            console.log(price)
+            this.setState({
+                jasaKirim: e,
+                shippingPrice: price[0].tarif
+            })
+        }
     }
 
     render() {
@@ -236,7 +238,7 @@ class CheckOut extends React.Component {
                         </View>
                         <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginLeft: 15, marginVertical: 5, marginTop: 30 }}>
                             <Text style={{ width: 80, color: 'gray' }}>Shipping :</Text>
-                            <View style={{ width: 100, height: 40, marginTop: -15 }}>
+                            <View style={{ width: 150, height: 40, marginTop: -15 }}>
                                 <Picker
                                     // selectedValue={this.state.jasaKirim}
                                     selectedValue={jasaKirim}

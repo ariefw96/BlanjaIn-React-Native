@@ -71,7 +71,9 @@ class HeaderTransparent extends Component {
             <Title style={{ color: 'black', marginLeft: 25, fontWeight: 'bold' }}>Notification</Title>
           </Body>
         </Header>
+        <Content>
         {listNotification}
+        </Content>
       </Container>
     );
   }

@@ -125,7 +125,7 @@ class AddProduct extends React.Component {
             .then((data) => {
                 console.log(data.data);
                 ToastAndroid.show('Produk berhasil ditambahkan', ToastAndroid.SHORT, ToastAndroid.BOTTOM);
-                this.props.navigation.push('ListProduct')
+                this.props.navigation.replace('ListProduct')
             })
             .catch((err) => {
                 console.log(err.response.data);
@@ -158,22 +158,22 @@ class AddProduct extends React.Component {
                         </Left>
                         <Body><Text style={{ fontSize: 24, fontWeight: 'bold' }}>Add Product</Text></Body>
                     </Header>
-                    <Content style={{ marginRight: 15, backgroundColor: 'white' }}>
-                        <ScrollView style={{ height: 550, backgroundColor: 'white' }}>
+                    <Content style={{ marginRight: 15, backgroundColor: 'white', marginTop:20 }}>
                             <View>
                                 <Form>
-                                    <KeyboardAvoidingView>
-                                        <Item stackedLabel>
-                                            <Label >Product Name</Label>
+                                    <KeyboardAvoidingView style={{marginLeft:10}}>
+                                    <Label style={{fontWeight:'bold'}}>Product Name</Label>
+                                        <Item regular>
                                             <Input name="product_name" value={product_name} onChangeText={(text) => { this.setState({ product_name: text }) }} />
                                         </Item>
                                     </KeyboardAvoidingView>
+                                    <Label style={{fontWeight:'bold', marginLeft:10}}>Category</Label>
                                     <View style={styles.size}>
                                         <Picker
                                             selectedValue={category_id}
                                             onValueChange={(itemValue, itemIndex) => this.setCategory(itemValue)}
                                         >
-                                            <Picker.Item label="Category" value="0" style={{ backgroundColor: 'gray' }} />
+                                            <Picker.Item label="select--" value="0" style={{ backgroundColor: 'gray' }} />
                                             <Picker.Item label="T-shirt" value="1" />
                                             <Picker.Item label="Short" value="2" />
                                             <Picker.Item label="Jacket" value="3" />
@@ -181,24 +181,26 @@ class AddProduct extends React.Component {
                                             <Picker.Item label="Shoes" value="5" />
                                         </Picker>
                                     </View>
+                                    <Label style={{fontWeight:'bold', marginLeft:10}}>Color</Label>
                                     <View style={styles.size}>
                                         <Picker
                                             selectedValue={color_id}
                                             onValueChange={(itemValue, itemIndex) => this.setColor(itemValue)}
                                         >
-                                            <Picker.Item label="Color" value="0" style={{ backgroundColor: 'gray' }} />
+                                            <Picker.Item label="select--" value="0" style={{ backgroundColor: 'gray' }} />
                                             <Picker.Item label="Red" value="1" />
                                             <Picker.Item label="Green" value="2" />
                                             <Picker.Item label="Blue" value="3" />
                                             <Picker.Item label="Black" value="4" />
                                         </Picker>
                                     </View>
+                                    <Label style={{fontWeight:'bold', marginLeft:10}}>Size</Label>
                                     <View style={styles.size}>
                                         <Picker
                                             selectedValue={size_id}
                                             onValueChange={(itemValue, itemIndex) => this.setSize(itemValue)}
                                         >
-                                            <Picker.Item label="Size" value="0" style={{ backgroundColor: 'gray' }} />
+                                            <Picker.Item label="select--" value="0" style={{ backgroundColor: 'gray' }} />
                                             <Picker.Item label="XS" value="1" />
                                             <Picker.Item label="S" value="2" />
                                             <Picker.Item label="M" value="3" />
@@ -206,24 +208,26 @@ class AddProduct extends React.Component {
                                             <Picker.Item label="XL" value="5" />
                                         </Picker>
                                     </View>
+                                    <Label style={{fontWeight:'bold', marginLeft:10}}>Condition</Label>
                                     <View style={styles.size}>
                                         <Picker
                                             selectedValue={condition_id}
                                             onValueChange={(itemValue, itemIndex) => this.setCondition(itemValue)}
                                         >
-                                            <Picker.Item label="Condition" value="0" style={{ backgroundColor: 'gray' }} />
+                                            <Picker.Item label="select--" value="0" style={{ backgroundColor: 'gray' }} />
                                             <Picker.Item label="New" value="1" />
                                             <Picker.Item label="Second" value="2" />
                                         </Picker>
                                     </View>
-                                    <KeyboardAvoidingView>
-                                        <Item stackedLabel>
-                                            <Label >Price</Label>
+                                    <KeyboardAvoidingView style={{marginLeft:10}}>
+                                    <Label style={{fontWeight:'bold'}}>Price</Label>
+                                        <Item regular>
+                                            
                                             <Input name="price" value={product_price} onChangeText={(text) => { this.setState({ product_price: text }) }} />
                                         </Item>
                                     </KeyboardAvoidingView>
-                                    <View style={{ marginLeft: 15 }}>
-                                        <Label >Product Description</Label>
+                                    <View style={{ marginLeft: 10 }}>
+                                        <Label style={{fontWeight:'bold'}}>Product Description</Label>
                                         <Textarea rowSpan={5} bordered placeholder="Description" name="description" value={product_desc} onChangeText={(text) => { this.setState({ product_desc: text }) }} />
                                         <View style={{ flexDirection: 'row' }}>
                                             {product_img && product_img.map((item) => {
@@ -255,7 +259,6 @@ class AddProduct extends React.Component {
                                     </View>
                                 </Form>
                             </View>
-                        </ScrollView>
                         <Button danger full rounded onPress={this.postProduct} style={{ marginLeft: 15 }}>
                             <Text style={{ color: '#fff' }}> SUBMIT </Text>
                         </Button>
@@ -296,14 +299,17 @@ const styles = StyleSheet.create({
         fontWeight: 'bold'
     },
     size: {
-        width: '100%',
+        width: '97%',
         height: 40,
         // paddingVertical: 10,
         backgroundColor: '#fff',
         borderRadius: 8,
-        borderColor: '#9B9B9B',
+        borderColor: 'gray',
+        borderWidth:0.4,
         paddingHorizontal: 5,
-        paddingBottom: 15
+        paddingBottom: 50,
+        marginVertical:5, marginHorizontal:10
+        
     },
     imageStyle: {
         width: 200,

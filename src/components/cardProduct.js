@@ -32,7 +32,7 @@ class CardBag extends Component {
         axios.delete(BASE_URL + '/product/deleteProduct/' + this.props.id, config)
             .then(({ data }) => {
                 console.log('berhasil delete')
-                this.props.navigation.push('ListProduct')
+                this.props.navigation.replace('ListProduct')
             }).catch(({ response }) => {
                 console.log(response.data)
             })
