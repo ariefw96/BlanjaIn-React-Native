@@ -78,7 +78,7 @@ class Orders extends React.Component {
                     </Header>
                     <Content style={{ backgroundColor: '#f0f0f0',}}>
                         <View>
-                            <Text style={{ fontWeight: 'bold', fontSize: 42, marginRight: 10, marginTop: 20, marginBottom: 10 }}>My Orders</Text>
+                            <Text style={{ fontWeight: 'bold', fontSize: 42, marginRight: 10, marginTop: 20, marginBottom: 10, marginLeft:10 }}>My Orders</Text>
                         </View>
                         {orderContent}
                     </Content>

@@ -38,7 +38,7 @@ export default class cardOrder extends React.Component {
                         </Text>
                         <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginTop: 10, }}>
                             <Text style={{color: 'gray', fontSize: 18 }}>
-                                Quantity :
+                                Item(s) :
                                         <Text style={{ color: 'black', fontWeight: 'bold' }} > {this.props.qty}</Text>
                             </Text>
                             {strStatus}

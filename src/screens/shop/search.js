@@ -131,7 +131,7 @@ class ShopCategory extends Component {
                                 <Text>{`<< `}Prev</Text>
                             </Button>
                             <Button full small rounded bordered style={{ width: 200 }}>
-                                <Text>{pageInfo.currentPage}</Text>
+                                <Text>Page {pageInfo.currentPage} of {pageInfo.totalPage}</Text>
                             </Button>
                             <Button small rounded bordered
                                 onPress={this.nextPage}
@@ -158,7 +158,6 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         flexWrap: 'wrap',
         flex: 1,
-        marginLeft: 10
     },
     filter: {
         marginLeft: 10,

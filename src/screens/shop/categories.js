@@ -3,7 +3,7 @@ import { Dimensions, StyleSheet, Text, View, Image, TouchableOpacity, ScrollView
 import Card from '../../components/cardHome'
 import { Container, Header, Title, Content, Button, Left, Body, Right, CheckBox } from "native-base";
 import { Col, Row, Grid } from 'react-native-easy-grid'
-import {vw, vh} from 'react-native-expo-viewport-units'
+import { vw, vh } from 'react-native-expo-viewport-units'
 import axios from 'axios'
 import { BASE_URL } from '@env'
 
@@ -26,7 +26,7 @@ class ShopCategory extends Component {
         selectedBrand: 0,
         axiosData: '',
         itemNotFound: '',
-        sortName:''
+        sortName: ''
     }
 
     checkedRed = () => {
@@ -205,8 +205,8 @@ class ShopCategory extends Component {
                 this.setState({
                     products: data.data.products,
                     pageInfo: data.data.pageInfo,
-                    itemNotFound:'',
-                    sortName:''
+                    itemNotFound: '',
+                    sortName: ''
                 })
             }).catch((error) => {
                 console.log(error)
@@ -253,7 +253,7 @@ class ShopCategory extends Component {
                 this.setState({
                     products: data.data.products,
                     pageInfo: data.data.pageInfo,
-                    sortName:'Name A-Z'
+                    sortName: 'Name A-Z'
                 })
             }).catch((error) => {
                 console.log(error)
@@ -271,7 +271,7 @@ class ShopCategory extends Component {
                 this.setState({
                     products: data.data.products,
                     pageInfo: data.data.pageInfo,
-                    sortName:'Name Z-A'
+                    sortName: 'Name Z-A'
                 })
             }).catch((error) => {
                 console.log(error)
@@ -289,7 +289,7 @@ class ShopCategory extends Component {
                 this.setState({
                     products: data.data.products,
                     pageInfo: data.data.pageInfo,
-                    sortName:'Price low to high'
+                    sortName: 'Price low to high'
                 })
             }).catch((error) => {
                 console.log(error)
@@ -307,7 +307,7 @@ class ShopCategory extends Component {
                 this.setState({
                     products: data.data.products,
                     pageInfo: data.data.pageInfo,
-                    sortName:'Price high to low'
+                    sortName: 'Price high to low'
                 })
             }).catch((error) => {
                 console.log(error)
@@ -325,7 +325,7 @@ class ShopCategory extends Component {
                 this.setState({
                     products: data.data.products,
                     pageInfo: data.data.pageInfo,
-                    sortName:'Rating high to low'
+                    sortName: 'Rating high to low'
                 })
             }).catch((error) => {
                 console.log(error)
@@ -343,7 +343,7 @@ class ShopCategory extends Component {
                 this.setState({
                     products: data.data.products,
                     pageInfo: data.data.pageInfo,
-                    sortName:'Newest'
+                    sortName: 'Newest'
                 })
             }).catch((error) => {
                 console.log(error)
@@ -388,7 +388,7 @@ class ShopCategory extends Component {
                     </Right>
                 </Header>
                 <Container style={{ backgroundColor: '#f0f0f0' }}>
-                    
+
                     <View style={styles.filter}>
                         <Grid>
                             <Col>
@@ -406,7 +406,7 @@ class ShopCategory extends Component {
                                         this.setModalSortVisible(true)
                                     }}
                                 >
-                                    <Text style={styles.txtFilter}> Sort <Image source={require('./../../assets/icons/sort2.png')} /> <Text style={{fontSize:14}}>{this.state.sortName}</Text></Text>
+                                    <Text style={styles.txtFilter}> Sort <Image source={require('./../../assets/icons/sort2.png')} /> <Text style={{ fontSize: 14 }}>{this.state.sortName}</Text></Text>
                                 </TouchableOpacity>
                             </Col>
                         </Grid>
@@ -433,7 +433,7 @@ class ShopCategory extends Component {
                             <Text>{`<< `}Prev</Text>
                         </Button>
                         <Button full small rounded bordered style={{ width: 200 }}>
-                            <Text>{pageInfo.currentPage}</Text>
+                            <Text>Page {pageInfo.currentPage} of {pageInfo.totalPage}</Text>
                         </Button>
                         <Button small rounded bordered
                             onPress={this.nextPage}
@@ -442,7 +442,7 @@ class ShopCategory extends Component {
                         </Button>
                     </View>
                     {
-                        modalVisible == true || modalSortVisible == true ? <View style={{width:'100%', height:'100%', position:'absolute', backgroundColor:'black', opacity:0.6}}></View> : <></>
+                        modalVisible == true || modalSortVisible == true ? <View style={{ width: '100%', height: '100%', position: 'absolute', backgroundColor: 'black', opacity: 0.6 }}></View> : <></>
                     }
                 </Container>
                 <Modal

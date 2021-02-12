@@ -82,15 +82,23 @@ class CheckOut extends React.Component {
                 }
                 axios.post(BASE_URL + '/transaksi', newTrx)
                     .then((result) => {
+                        //emit dari BE
                         axios.post(BASE_URL + '/transaksi/itemOrder', this.props.bag.mybag)
                             .then((res) => {
                                 showNotification('Notification', 'Checkout Succes', channel);
                                 const notifData = {
-                                    title: `Checkout berhasil pada transaksi ${Order.trxId}`,
-                                    content: `Hore checkout kamu berhasil, share ke temenmu dan dapetin kupon cashbacknya`
+                                    user_id: this.props.auth.id,
+                                    level: this.props.auth.level,
+                                    title: `Checkout berhasil ${Order.trxId}`,
+                                    message: `Hore checkout kamu berhasil, share ke temenmu dan dapetin kupon cashbacknya`
                                 }
-                                this.props.dispatch(addNotification(notifData))
-                                this.props.navigation.navigate('Success')
+                                axios.post(BASE_URL + '/notif/add', notifData)
+                                    .then(({ data }) => {
+                                        this.props.navigation.navigate('Success')
+                                    }).catch(({ response }) => {
+                                        console.log(response.data)
+                                    })
+
                             }).catch(({ response }) => {
                                 console.log(response.data)
                             })
@@ -226,7 +234,7 @@ class CheckOut extends React.Component {
                                 <CheckBox style={{ marginLeft: 70, marginTop: 30 }} checked={this.state.isCheckedGopay} onPress={this.checkedGopay} />
                             </View>
                         </View>
-                        <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginLeft: 15, marginVertical: 5 , marginTop:30}}>
+                        <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginLeft: 15, marginVertical: 5, marginTop: 30 }}>
                             <Text style={{ width: 80, color: 'gray' }}>Shipping :</Text>
                             <View style={{ width: 100, height: 40, marginTop: -15 }}>
                                 <Picker

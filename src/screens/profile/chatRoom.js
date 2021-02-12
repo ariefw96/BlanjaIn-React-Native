@@ -152,7 +152,7 @@ const ChatRoom = ({ navigation, route }) => {
                     <TextInput
                         multiline={true}
                         style={{
-                            marginTop: 1,
+                            marginTop: 3,
                             borderColor: 'gray',
                             borderWidth: 2,
                             backgroundColor: '#fff',
@@ -160,7 +160,7 @@ const ChatRoom = ({ navigation, route }) => {
                             borderRadius: 15,
                             paddingHorizontal: vw(3),
                             height: vh(7),
-                            width: vw(81),
+                            width: vw(75),
                             marginLeft: vw(2),
                             marginRight: vw(2),
                             textAlignVertical: 'top',
@@ -171,8 +171,9 @@ const ChatRoom = ({ navigation, route }) => {
                             setMessage(text)
                         }}
                     />
-                    <Button danger rounded style={{ width: vh(7), height: vh(7), marginTop: 1 }} onPress={sendMessage} >
-                        < Image source={require('./../../assets/icons/send.png')} style={{ marginLeft: vw(3) }} />
+                    <Button danger rounded style={{ width: vh(10), height: vh(7), marginTop: 3 }} onPress={sendMessage} >
+                        {/* < Image source={require('./../../assets/icons/send.png')} style={{ marginLeft: vw(3) }} /> */}
+                        <Text>SEND</Text>
                     </Button>
                 </View>
             </Container>

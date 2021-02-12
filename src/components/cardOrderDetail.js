@@ -7,7 +7,7 @@ class CardBag extends Component {
     render() {
         return (
             <View style={styles.container}>
-                <Image source={{uri: BASE_URL + this.props.img, width: vw(30), height: 125}} style={{borderBottomLeftRadius:8, borderTopLeftRadius:8}} />
+                <Image source={{uri: BASE_URL + this.props.img, width: vw(30), height: 121}} style={{borderBottomLeftRadius:8, borderTopLeftRadius:8}} />
                 <View style={styles.infobag}>
                     <Text
                         style={{ fontSize: 18, fontWeight: 'bold', marginBottom:5, marginTop:10 }}
@@ -42,6 +42,9 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         height:125,
         marginBottom:10,
+        borderColor:'gray',
+        borderWidth:2,
+        borderRadius:8
         
     },
     price: {

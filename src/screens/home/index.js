@@ -68,14 +68,36 @@ const Home = ({ navigation }) => {
         number++;
         if (auth.level == 1) {
             socket.on('toBuyer', (message) => {
-                console.log(message)
-                showNotification('Notification', message, channel);
+                const notifData = {
+                    user_id: auth.id,
+                    level: auth.level,
+                    title: 'Horee~',
+                    message: message
+                }
+                axios.post(BASE_URL + '/notif/add', notifData)
+                    .then(({ data }) => {
+                        showNotification('Notification', message, channel);
+                    }).catch(({ response }) => {
+                        console.log(response.data)
+                    })
+
             })
             return () => socket.off('toBuyer');
         } else if (auth.level == 2) {
             socket.on('toSeller', (message) => {
-                console.log(message)
-                showNotification('Notification', message, channel);
+                const notifData = {
+                    user_id: auth.id,
+                    level: auth.level,
+                    title: 'Horee~',
+                    message: message
+                }
+                axios.post(BASE_URL + '/notif/add', notifData)
+                    .then(({ data }) => {
+                        showNotification('Notification', message, channel);
+                    }).catch(({ response }) => {
+                        console.log(response.data)
+                    })
+
             })
             return () => socket.off('toSeller');
         }

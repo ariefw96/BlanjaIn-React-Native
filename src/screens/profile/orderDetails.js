@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Container, Header, Title, Content, Button, Left, Body, Text, Form, Item, Input, Label } from "native-base";
-import { Image, View, TouchableOpacity, StyleSheet, SafeAreaView, ScrollView, Modal, Alert, ToastAndroid} from 'react-native'
-import {vw, vh} from 'react-native-expo-viewport-units'
+import { Image, View, TouchableOpacity, StyleSheet, SafeAreaView, ScrollView, Modal, Alert, ToastAndroid } from 'react-native'
+import { vw, vh } from 'react-native-expo-viewport-units'
 import { BASE_URL } from '@env'
 import axios from 'axios'
 import { connect } from 'react-redux'
@@ -49,24 +49,24 @@ class OrderDetails extends React.Component {
 
     kirimPesanan = () => {
         const regexKurir = RegExp(this.state.orderDetails.regex)
-        if(this.state.trackNumb != '' && regexKurir.test(this.state.trackNumb) && this.state.trackNumb.length == 10){
+        if (this.state.trackNumb != '' && regexKurir.test(this.state.trackNumb) && this.state.trackNumb.length >= 10) {
             axios.patch(BASE_URL + `/transaksi/updateResi/${this.state.orderDetails.TrxId}/${this.state.trackNumb}`)
-            .then(({ data }) => {
-                ToastAndroid.show(data.message+' memasukan no. resi', ToastAndroid.SHORT, ToastAndroid.BOTTOM);
-                this.changeStatus(3)
-                this.setState({
-                    modalTrackingVisible: false
+                .then(({ data }) => {
+                    ToastAndroid.show(data.message + ' memasukan no. resi', ToastAndroid.SHORT, ToastAndroid.BOTTOM);
+                    this.changeStatus(3)
+                    this.setState({
+                        modalTrackingVisible: false
+                    })
+                }).catch(({ response }) => {
+                    console.log(response.data)
                 })
-            }).catch(({ response }) => {
-                console.log(response.data)
-            })
-        }else{
+        } else {
             Alert.alert(
                 'No. Resi tidak valid',
                 'Harap masukan No. Resi yang valid!',
                 [
-                  {text: 'OK', style: 'cancel'},
-                  
+                    { text: 'OK', style: 'cancel' },
+
                 ])
         }
     }
@@ -74,13 +74,12 @@ class OrderDetails extends React.Component {
     render() {
         const { TrxId, created_at, trackingNumber, status, qty, address, city, postal, payment, total, cardOrder, nama_kurir, waktu, tarif } = this.state.orderDetails
         const { trackNumb, modalTrackingVisible } = this.state
-        console.log(this.state.trackNumb)
         const newDate = `${created_at}`
         let statusDelivery;
         let btnAction;
         if (status == 1) {
             //order masuk
-            statusDelivery = <Text style={{ color: 'black', fontWeight: 'bold' }}>Status : ORDER CREATED</Text>
+            statusDelivery = <Text style={{ color: 'black', fontWeight: 'bold' }}>Status : ORDER PLACED</Text>
             if (this.props.auth.level == 2) {
                 btnAction =
 
@@ -107,7 +106,7 @@ class OrderDetails extends React.Component {
 
         } else if (status == 3) {
             //dikirim
-            statusDelivery = <Text style={{ color: 'orange', fontWeight: 'bold' }}>Status : ON DELIVERY</Text>
+            statusDelivery = <Text style={{ color: 'orange', fontWeight: 'bold' }}>Status : DELIVERING</Text>
             if (this.props.auth.level == 1) {
                 btnAction =
                     <Button full danger rounded
@@ -117,7 +116,7 @@ class OrderDetails extends React.Component {
                     </Button>
             }
         } else if (status == 4) {
-            statusDelivery = <Text style={{ color: 'green', fontWeight: 'bold' }}>Status : ORDER FINISHED</Text>
+            statusDelivery = <Text style={{ color: 'green', fontWeight: 'bold' }}>Status : DELIVERED</Text>
             if (this.props.auth.level == 1) {
                 btnAction =
                     <>
@@ -156,32 +155,32 @@ class OrderDetails extends React.Component {
                         </Body>
                     </Header>
                     <Content style={{ backgroundColor: '#f0f0f0', marginHorizontal: vw(2) }}>
-                        <View style={{minHeight:350}}>
-                        <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-                            <Text style={{ fontWeight: 'bold', fontSize: 20 }}>
-                                Order No :
+                        <View style={{ minHeight: vh(52) }}>
+                            <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+                                <Text style={{ fontWeight: 'bold', fontSize: 20 }}>
+                                    Order No :
                                 <Text style={{ color: 'gray', }}> {TrxId}</Text>
-                            </Text>
-                            <Text style={{ color: 'green' }}>{newDate.substr(0, 10)}</Text>
-                        </View>
-                        <Text style={{ marginTop: 10, color: 'gray', fontSize: 18 }}>
-                            Tracking Number :
+                                </Text>
+                                <Text style={{ color: 'green' }}>{newDate.substr(0, 10)}</Text>
+                            </View>
+                            <Text style={{ marginTop: 10, color: 'gray', fontSize: 18 }}>
+                                Tracking Number :
                                         <Text style={{ fontWeight: 'bold', color: 'black' }}> {trackingNumber}</Text>
-                        </Text>
-                        {statusDelivery}
-                        <Text style={{ fontWeight: 'bold', marginBottom: 15, marginTop: 10 }}>{qty} Items</Text>
+                            </Text>
+                            {statusDelivery}
+                            <Text style={{ fontWeight: 'bold', marginBottom: 15, marginTop: 10 }}>{qty} Items</Text>
 
-                        {
-                            cardOrder && cardOrder.map(({ product_name, price, product_img, color, size, qty }) => {
-                                return (
-                                    <>
-                                        <CardOrder name={product_name} price={price} img={product_img} color={color} size={size} qty={qty} />
-                                    </>
-                                )
-                            })
-                        }
+                            {
+                                cardOrder && cardOrder.map(({ product_name, price, product_img, color, size, qty }) => {
+                                    return (
+                                        <>
+                                            <CardOrder name={product_name} price={price} img={product_img} color={color} size={size} qty={qty} />
+                                        </>
+                                    )
+                                })
+                            }
                         </View>
-                        <Text style={{ fontWeight: 'bold', marginBottom: 10 }}>Order Information</Text>
+                        <Text style={{ fontWeight: 'bold', marginBottom: 10, }}>Order Information</Text>
                         <View style={{ flexDirection: 'row' }}>
                             <Text style={{ color: 'gray', width: 125, marginBottom: 10 }}>Shipping Address  </Text>
                             <Text style={{ width: 215, fontWeight: 'bold' }}>{address}, {city}, ID {postal}</Text>
@@ -230,7 +229,7 @@ class OrderDetails extends React.Component {
                                 <Button full rounded danger style={styles.btnTracking}
                                     onPress={this.kirimPesanan}
                                 >
-                                    <Text style={{color:'white'}}>Kirim</Text>
+                                    <Text style={{ color: 'white' }}>Kirim</Text>
                                 </Button>
                             </View>
                         </View>
@@ -264,7 +263,7 @@ const styles = StyleSheet.create({
     },
     modalView: {
         height: 130,
-        width: 350,
+        width: vw(100),
         backgroundColor: "white",
         borderTopEndRadius: 20,
         borderTopLeftRadius: 20,
