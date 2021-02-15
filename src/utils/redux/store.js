@@ -12,7 +12,7 @@ import reducers from "./Reducers";
 const persistConfig = {
     key: 'root',
     storage: AsyncStorage,
-    whitelist: ['auth','bag'], //redux yang mau di persist
+    whitelist: ['auth','bag'], //redux yang mau di persist~ whitelist nya coba diilangin
   };
 
 const logger = createLogger();
@@ -22,5 +22,6 @@ const enhancers = applyMiddleware(promiseMiddleware, logger);
 const persistedReducer = persistReducer(persistConfig, reducers)
 
 const reduxStore = createStore(persistedReducer, enhancers);
+
 
 export default reduxStore;

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Container, Header, Title, Content, Button, Left, Body, Text, Item, Input, Label } from "native-base";
 import { Image, View, TouchableOpacity, StyleSheet, ToastAndroid } from 'react-native'
+import { setLoginfalse } from './../../utils/redux/ActionCreators/auth'
 import {connect} from 'react-redux'
 import axios from 'axios'
 import { BASE_URL } from '@env'
@@ -43,6 +44,12 @@ class ChangeAddress extends React.Component {
                         this.props.navigation.navigate('Shipping')
                     }).catch(({ response }) => {
                         console.log(response.data)
+                        if (response.status == 401) {
+                            ToastAndroid.show('SESI ANDA TELAH HABIS', ToastAndroid.SHORT, ToastAndroid.CENTER);
+                            if (this.props.dispatch(setLoginfalse())) {
+                                this.props.navigation.replace('Profile')
+                            }
+                        }
                     })
             } else {
                 this.setState({
@@ -70,7 +77,12 @@ class ChangeAddress extends React.Component {
                     phone: data.data.phone,
                 })
             }).catch(({ response }) => {
-                console.log(response.data)
+                if (response.status == 401) {
+                    ToastAndroid.show('SESI ANDA TELAH HABIS', ToastAndroid.SHORT, ToastAndroid.CENTER);
+                    if (this.props.dispatch(setLoginfalse())) {
+                        this.props.navigation.replace('Profile')
+                    }
+                }
             })
     }
 

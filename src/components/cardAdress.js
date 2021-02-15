@@ -25,10 +25,15 @@ class cardAddress extends React.Component {
                     { text: 'OK', style: 'cancel' },
                 ])
         }else{
-            axios.delete(BASE_URL + '/address/delete/' + this.props.addressId)
+            const config = {
+                headers: {
+                    'x-access-token': 'Bearer ' + this.props.auth.token,
+                },
+            };
+            axios.delete(BASE_URL + '/address/delete/' + this.props.addressId, config)
             .then(({ data }) => {
                 ToastAndroid.show('Berhasil menghapus alamat', ToastAndroid.SHORT, ToastAndroid.BOTTOM);
-                this.props.navigation.push('Shipping')
+                this.props.navigation.replace('Shipping')
             }).catch(({ response }) => {
                 console.log(response.data)
                 ToastAndroid.show('GAGAL!', ToastAndroid.SHORT, ToastAndroid.BOTTOM);

@@ -1,14 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import { Container, Header, Body, Left, Content, View, Text, Button } from 'native-base'
-import { Image, TouchableOpacity } from 'react-native'
-import { useSelector } from 'react-redux'
+import { Image, TouchableOpacity, ToastAndroid } from 'react-native'
+import { useSelector, connect } from 'react-redux'
 import axios from 'axios'
 import { BASE_URL } from "@env"
+import { setLoginfalse } from './../../utils/redux/ActionCreators/auth'
 import List from './../../components/chatList'
 
-const ListChat = ({ navigation }) => {
+const ListChat = ({ navigation, setLoginfalse }) => {
     const auth = useSelector((state) => state.auth)
     const [chatList, setChatList] = useState([])
+    const [loading, setLoading] = useState('Loading...')
 
     const config = {
         headers: {
@@ -20,18 +22,30 @@ const ListChat = ({ navigation }) => {
         if (auth.level == 2) {
             axios.get(BASE_URL + `/chat/chatRoomSeller`, config)
                 .then(({ data }) => {
-                    console.log(data)
                     setChatList(data.data)
+                    setLoading('')
                 }).catch(({ response }) => {
-                    console.log(response.data)
+                    console.log(response.status)
+                    if (response.status == 401) {
+                        ToastAndroid.show('SESI ANDA TELAH HABIS', ToastAndroid.SHORT, ToastAndroid.CENTER);
+                        if (setLoginfalse()) {
+                            navigation.replace('Profile')
+                        }
+                    }
                 })
         } else {
             axios.get(BASE_URL + `/chat/chatRoomBuyer`, config)
                 .then(({ data }) => {
-                    console.log(data)
                     setChatList(data.data)
+                    setLoading('')
                 }).catch(({ response }) => {
-                    console.log(response.data)
+                    console.log(response.status)
+                    if (response.status == 401) {
+                        ToastAndroid.show('SESI ANDA TELAH HABIS', ToastAndroid.SHORT, ToastAndroid.CENTER);
+                        if (setLoginfalse()) {
+                            navigation.replace('Profile')
+                        }
+                    }
                 })
         }
     }
@@ -49,7 +63,7 @@ const ListChat = ({ navigation }) => {
                             <Image source={require('./../../assets/back.png')} />
                         </Button>
                     </Left>
-                    <Body ><Text style={{ fontWeight: 'bold' }}>Chat List</Text></Body>
+                    <Body ><Text style={{ fontWeight: 'bold' }}></Text></Body>
                 </Header>
                 <Content>
                     <View style={{ flexDirection: 'row', marginTop: 10 }}>
@@ -59,11 +73,22 @@ const ListChat = ({ navigation }) => {
                             <Text style={{ color: 'gray' }}>{auth.email}</Text>
                         </View>
                     </View>
-                    <Text style={{fontSize:24, marginLeft:20, marginBottom:10}}>Chat List</Text>
+                    <Text style={{ fontSize: 24, marginLeft: 20, marginBottom: 10, fontWeight:'bold' }}>Chat List</Text>
+                    <Text style={{marginLeft:20}}>{loading}</Text>
                     {
-                        chatList.map(({ chatRoom }) => {
-                            return <List chatRoom={chatRoom} navigation={navigation} />
-                        })
+                        chatList.length > 0  ? (
+                            <>
+                                {
+                                    chatList.map(({ chatRoom }) => {
+                                        return <List chatRoom={chatRoom} navigation={navigation} />
+                                    })
+                                }
+                            </>
+                        ) : (
+                            <>
+                            <Text style={{marginLeft:20, fontSize:24, fontWeight:'bold'}}>There is no chat list.</Text>
+                            </>
+                        )
                     }
                 </Content>
             </Container>
@@ -73,6 +98,12 @@ const ListChat = ({ navigation }) => {
 
 }
 
-export default ListChat
+const mapDispatchToProps = (dispatch) => {
+    return {
+        setLoginfalse: () =>
+            dispatch(setLoginfalse()),
+    };
+};
+export default connect(null, mapDispatchToProps)(ListChat);
 
 

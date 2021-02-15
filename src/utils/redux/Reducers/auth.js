@@ -2,7 +2,7 @@ const authReducer = (prevState = {
     isLogin: false,
     email: '',
     name: '',
-    leve: '',
+    level: '',
     id: '',
     token: ''
 }, action) => {
@@ -23,6 +23,7 @@ const authReducer = (prevState = {
                 isLogin: false,
                 email: '',
                 name: '',
+                level:'',
                 id: '',
                 token: ''
             };

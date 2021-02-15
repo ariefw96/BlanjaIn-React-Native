@@ -17,7 +17,6 @@ import { useSelector } from 'react-redux'
 import Card from '../../components/cardHome'
 import Banner from './../../components/banner'
 import Loading from './../emptyScreen/loading'
-import Splash from './../splash'
 import { BASE_URL } from '@env'
 import { useSocket } from '../../utils/context/SocketProvider';
 
@@ -32,11 +31,6 @@ const Home = ({ navigation }) => {
     const socket = useSocket()
 
     //onPullRefresh
-    const wait = (timeout) => {
-        return new Promise(resolve => {
-            setTimeout(resolve, timeout);
-        });
-    }
 
     const [refreshing, setRefreshing] = useState(false);
 
@@ -62,8 +56,9 @@ const Home = ({ navigation }) => {
                 // console.log(error.response)
             })
     }
+
     useEffect(() => {
-getHomeData()
+        getHomeData()
     }, [])
 
     useEffect(() => {
@@ -82,10 +77,9 @@ getHomeData()
         PushNotification.getChannels((channel_ids) => {
             console.log(channel_ids);
         });
-    }, [channel])
+    }, [])
 
     useEffect(() => {
-        number++;
         if (auth.level == 1) {
             socket.on('toBuyer', (message) => {
                 const notifData = {
@@ -121,23 +115,9 @@ getHomeData()
             })
             return () => socket.off('toSeller');
         }
-    }, [number])
+    }, []) 
+    //}, [number])
 
-    const Refresh = () => {
-        axios.get(BASE_URL + '/products')
-            .then(({ data }) => {
-                setProducts(data.data.products)
-            }).catch((error) => {
-                // console.log(error.response)
-            })
-        axios.get(BASE_URL + '/products?sortBy=rating&orderBy=desc')
-            .then(({ data }) => {
-                // console.log(data)
-                setPopular(data.data.products)
-            }).catch((error) => {
-                // console.log(error.response)
-            })
-    }
 
     let Home;
     if (loading) {

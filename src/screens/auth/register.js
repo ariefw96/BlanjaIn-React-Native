@@ -54,7 +54,7 @@ class Register extends React.Component {
                     // console.log(data)
                     ToastAndroid.show(data.message, ToastAndroid.SHORT, ToastAndroid.CENTER);
                     this.props.navigation.navigate('Login')
-                }).catch((error) => {
+                }).catch(({response}) => {
                     ToastAndroid.show(response.data.message, ToastAndroid.SHORT, ToastAndroid.CENTER);
                 })
         }
@@ -117,8 +117,10 @@ class Register extends React.Component {
                         source={require('./../../assets/Vector.png')}
                     />
                     <Text style={{ fontSize: 20, fontWeight: "bold", color: 'red', alignSelf: "center" }}>BlanjaIn</Text>
-                    <View style={{ marginHorizontal: 80, marginTop: 10 }}>
+                    <View style={{marginTop: 10, flexDirection:'row', justifyContent:'space-around' }}>
+                        <View></View>
                         {btnSwitch}
+                        <View></View>
                     </View>
                     <Form>
                         <KeyboardAvoidingView>

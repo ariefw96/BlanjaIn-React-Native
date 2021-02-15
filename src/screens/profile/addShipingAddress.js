@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { Container, Header, Title, Content, Button, Left, Body, Text, View, Item, Label, Input } from "native-base";
 import { Image, StyleSheet, TouchableOpacity , ToastAndroid} from 'react-native'
+import { setLoginfalse } from './../../utils/redux/ActionCreators/auth'
 import {connect} from 'react-redux'
 import axios from 'axios'
 import { BASE_URL } from '@env'
@@ -45,7 +46,12 @@ class addShipping extends Component {
                         ToastAndroid.show(data.message, ToastAndroid.SHORT, ToastAndroid.BOTTOM);
                         this.props.navigation.navigate('Shipping')
                     }).catch(({ response }) => {
-                        console.log(response.data)
+                        if (response.status == 401) {
+                            ToastAndroid.show('SESI ANDA TELAH HABIS', ToastAndroid.SHORT, ToastAndroid.CENTER);
+                            if (this.props.dispatch(setLoginfalse())) {
+                                this.props.navigation.replace('Profile')
+                            }
+                        }
                     })
             } else {
                 this.setState({

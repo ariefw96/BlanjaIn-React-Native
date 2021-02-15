@@ -25,6 +25,9 @@ class Profile extends React.Component {
                     order: data.data
                 })
             }).catch(({ response }) => {
+                this.setState({
+                    order: []
+                })
                 console.log(response.data)
             })
     }
@@ -42,6 +45,9 @@ class Profile extends React.Component {
                     address: data.data
                 })
             }).catch(({ response }) => {
+                this.setState({
+                    address:[]
+                })
                 console.log(response)
             })
     }

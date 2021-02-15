@@ -15,11 +15,11 @@ class cardAddress extends React.Component {
                                     {!this.props.name ? 'Loading...' : (this.props.name + ' (' + this.props.type + ')')}
                                 </Text>
                                 <Text style={{ marginTop: 10, color: 'gray', fontSize: 18 }}>
-                                    {this.props.city?this.props.city  + ', ':('loading...')}<Text style={{ color: 'green', fontWeight: 'bold' }}>{this.props.postal?this.props.postal:('loading...')}</Text>
+                                    {this.props.city?this.props.city  + ', ':('')}<Text style={{ color: 'green', fontWeight: 'bold' }}>{this.props.postal?this.props.postal:('')}</Text>
                                 </Text>
                                 <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
                                     <Text style={{ color: 'gray', fontSize: 18 }}>
-                                        {this.props.phone?this.props.phone:('loading...')}
+                                        {this.props.phone?this.props.phone:('')}
                                     </Text>
                                     <View style={{ marginRight: 10 }}>
                                     </View>
