@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Dimensions, StyleSheet, Text, View, Image, TouchableOpacity, ScrollView, SafeAreaView } from 'react-native';
 import Card from '../../components/cardHome'
 import { Container, Header, Title, Content, Button, Left, Body, Right, Form, Item, Label, Input } from "native-base";
+import { vw, vh } from 'react-native-expo-viewport-units'
 import { Col, Row, Grid } from 'react-native-easy-grid'
 import axios from 'axios'
 import { BASE_URL } from '@env'
@@ -60,7 +61,7 @@ class ShopCategory extends Component {
             }).catch((error) => {
                 this.setState({
                     products: [],
-                    emptyResult: `Pencarian tidak ditemukan untuk produk ${this.state.searchKey}`
+                    emptyResult: `Search not found on ${this.state.searchKey}`
                 })
                 console.log(error)
             })
@@ -89,7 +90,22 @@ class ShopCategory extends Component {
                 </View>
             </>
         } else {
-            searchResult = <><Text style={{ fontSize: 16, fontWeight: 'bold', marginLeft: 15 }}>{this.state.emptyResult}</Text></>
+            searchResult =
+                <>
+                    {
+                        this.state.emptyResult != '' ? (
+                            <View style={{
+                                display: 'flex',
+                                flex: 1,
+                                justifyContent: 'center',
+                                alignItems: 'center',
+                            }}>
+                                <Image source={require('./../../assets/icons/notfound.png')} style={{ width: vh(20), height: vh(20) }} />
+                                <Text style={{ fontSize: 24, fontWeight: 'bold' }}>{this.state.emptyResult}</Text>
+                            </View>
+                        ) : (<></>)
+                    }
+                </>
         }
         return (
             <>
@@ -107,7 +123,7 @@ class ShopCategory extends Component {
                     <ScrollView>
                         <Form style={{ marginBottom: 10, marginHorizontal: 10 }}>
                             <Label>Keyword</Label>
-                            <Item regular style={{marginBottom:5}}>
+                            <Item regular style={{ marginBottom: 5 }}>
                                 <Input name="searchKey" value={this.state.searchKey} onChangeText={(text) => { this.setState({ searchKey: text }) }} />
                             </Item>
                             <Button full rounded danger
@@ -121,24 +137,28 @@ class ShopCategory extends Component {
                                 Search result for {this.state.searchKey}
                             </Text>
                         </View>
-                        <View style={{ minHeight: 480 }}>
+                        <View style={{minHeight:vh(65)}}>
                             {searchResult}
                         </View>
-                        <View style={{ flexDirection: 'row', justifyContent: 'space-around', paddingBottom: 5 }}>
-                            <Button full small rounded bordered
-                                onPress={this.prevPage}
-                            >
-                                <Text>{`<< `}Prev</Text>
-                            </Button>
-                            <Button full small rounded bordered style={{ width: 200 }}>
-                                <Text>Page {pageInfo.currentPage} of {pageInfo.totalPage}</Text>
-                            </Button>
-                            <Button small rounded bordered
-                                onPress={this.nextPage}
-                            >
-                                <Text>Next {`>> `}</Text>
-                            </Button>
-                        </View>
+                        {
+                            products.length > 0 ? (
+                                <View style={{ flexDirection: 'row', justifyContent: 'space-around', paddingBottom: 5 }}>
+                                    <Button small rounded danger
+                                        onPress={this.prevPage}
+                                    >
+                                        <Text style={{ paddingHorizontal: 10 }}>{`<< `}Prev</Text>
+                                    </Button>
+                                    <Button full small bordered style={{ width: 200 }}>
+                                        <Text>Page {pageInfo.currentPage} of {pageInfo.totalPage}</Text>
+                                    </Button>
+                                    <Button small rounded danger
+                                        onPress={this.nextPage}
+                                    >
+                                        <Text style={{ paddingHorizontal: 10 }} >Next {`>> `}</Text>
+                                    </Button>
+                                </View>
+                            ) : (<></>)
+                        }
                     </ScrollView>
                 </Container>
             </>

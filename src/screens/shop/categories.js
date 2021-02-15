@@ -350,7 +350,7 @@ class ShopCategory extends Component {
             })
     }
     render() {
-        const { products, pageInfo, modalVisible, modalSortVisible } = this.state
+        const { products, pageInfo, modalVisible, modalSortVisible, itemNotFound } = this.state
         let sizeXS = <Button bordered danger small onPress={() => { this.setState({ sizeSelected: 1 }) }} style={styles.btnSize}><Text>XS</Text></Button>
         let sizeS = <Button bordered danger small onPress={() => { this.setState({ sizeSelected: 2 }) }} style={styles.btnSize}><Text>S</Text></Button>
         let sizeM = <Button bordered danger small onPress={() => { this.setState({ sizeSelected: 3 }) }} style={styles.btnSize}><Text>M</Text></Button>
@@ -411,7 +411,21 @@ class ShopCategory extends Component {
                             </Col>
                         </Grid>
                     </View>
-                    <Text>{this.state.itemNotFound}</Text>
+                    {
+                        itemNotFound != '' ?
+                            (
+                                <View style={{
+                                    display: 'flex',
+                                    flex: 1,
+                                    justifyContent: 'center',
+                                    alignItems: 'center',
+                                    marginTop: vh(23)
+                                }}>
+                                    <Image source={require('./../../assets/icons/notfound.png')} style={{width:vh(20), height:vh(20)}} />
+                                    <Text style={{fontSize:24, fontWeight:'bold'}}>{this.state.itemNotFound}</Text>
+                                </View>
+                            ) : (<></>)
+                    }
                     <ScrollView>
                         <View style={styles.grid} >
                             {
@@ -426,21 +440,25 @@ class ShopCategory extends Component {
                             }
                         </View>
                     </ScrollView>
-                    <View style={{ flexDirection: 'row', justifyContent: 'space-around' }}>
-                        <Button full small rounded bordered
-                            onPress={this.prevPage}
-                        >
-                            <Text>{`<< `}Prev</Text>
-                        </Button>
-                        <Button full small rounded bordered style={{ width: 200 }}>
-                            <Text>Page {pageInfo.currentPage} of {pageInfo.totalPage}</Text>
-                        </Button>
-                        <Button small rounded bordered
-                            onPress={this.nextPage}
-                        >
-                            <Text>Next {`>> `}</Text>
-                        </Button>
-                    </View>
+                    {
+                        products.length > 0 ? (
+                            <View style={{ flexDirection: 'row', justifyContent: 'space-around', paddingBottom: 5 }}>
+                                <Button small rounded danger bordered
+                                    onPress={this.prevPage}
+                                >
+                                    <Text style={{ paddingHorizontal: 10 }}>{`<< `}Prev</Text>
+                                </Button>
+                                <Button full small danger bordered style={{ width: 200 }}>
+                                    <Text>Page {pageInfo.currentPage} of {pageInfo.totalPage}</Text>
+                                </Button>
+                                <Button small rounded danger bordered
+                                    onPress={this.nextPage}
+                                >
+                                    <Text style={{ paddingHorizontal: 10 }} >Next {`>> `}</Text>
+                                </Button>
+                            </View>
+                        ) : (<></>)
+                    }
                     {
                         modalVisible == true || modalSortVisible == true ? <View style={{ width: '100%', height: '100%', position: 'absolute', backgroundColor: 'black', opacity: 0.6 }}></View> : <></>
                     }

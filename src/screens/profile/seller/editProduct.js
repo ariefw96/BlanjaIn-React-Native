@@ -2,6 +2,7 @@ import React from 'react'
 import { View, Text, StyleSheet, Image, ScrollView, TouchableOpacity, Picker, Modal, KeyboardAvoidingView } from 'react-native'
 import { Container, Header, Content, Form, Item, Input, Button, Label, Textarea, Left, Body, Right } from 'native-base';
 import { BASE_URL } from "@env"
+import { setLoginfalse } from './../../../utils/redux/ActionCreators/auth'
 import axios from 'axios'
 import ImagePicker from 'react-native-image-crop-picker';
 import { connect } from 'react-redux'
@@ -168,6 +169,12 @@ class AddProduct extends React.Component {
                 this.props.navigation.replace('ListProduct')
             })
             .catch((err) => {
+                if (err.response.status == 401) {
+                    ToastAndroid.show('SESI ANDA TELAH HABIS', ToastAndroid.SHORT, ToastAndroid.CENTER);
+                    if (this.props.dispatch(setLoginfalse())) {
+                        this.props.navigation.replace('Login')
+                    }
+                }
                 console.log(err.response.data);
             });
     }

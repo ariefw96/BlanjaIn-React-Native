@@ -6,7 +6,8 @@ import {
     TouchableOpacity,
     SafeAreaView,
     ScrollView,
-    Image
+    Image,
+    RefreshControl
 } from 'react-native';
 
 import PushNotification from 'react-native-push-notification';
@@ -30,7 +31,22 @@ const Home = ({ navigation }) => {
     const channel = 'notif'
     const socket = useSocket()
 
-    useEffect(() => {
+    //onPullRefresh
+    const wait = (timeout) => {
+        return new Promise(resolve => {
+            setTimeout(resolve, timeout);
+        });
+    }
+
+    const [refreshing, setRefreshing] = useState(false);
+
+    const onRefresh = () => {
+        setRefreshing(true);
+        getHomeData()
+    }
+
+
+    const getHomeData = () => {
         axios.get(BASE_URL + '/products')
             .then(({ data }) => {
                 setProducts(data.data.products)
@@ -41,9 +57,13 @@ const Home = ({ navigation }) => {
             .then(({ data }) => {
                 setPopular(data.data.products)
                 setLoading(false)
+                setRefreshing(false)
             }).catch((error) => {
                 // console.log(error.response)
             })
+    }
+    useEffect(() => {
+getHomeData()
     }, [])
 
     useEffect(() => {
@@ -128,19 +148,17 @@ const Home = ({ navigation }) => {
                 <View style={{ flex: 1 }}>
 
                     <SafeAreaView>
-                        <ScrollView>
+                        <ScrollView
+                            refreshControl={
+                                <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+                            }
+                        >
                             <Banner navigation={navigation} />
                             <View>
                                 <View style={{ marginBottom: 10 }}>
                                     <View style={{ height: 350, marginLeft: 10, marginRight: 10 }}>
                                         <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
                                             <Text style={{ fontSize: 35, fontWeight: 'bold', color: 'black' }}>New</Text>
-                                            <TouchableOpacity
-                                                onPress={Refresh}
-                                            >
-                                                <Image source={require('./../../assets/icons/refresh.png')} style={{ marginTop: 15, marginRight: 10 }} />
-                                            </TouchableOpacity>
-
                                         </View>
                                         <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
                                             <Text style={{ color: 'gray', marginBottom: 15 }}>You've never seen it before!</Text>
