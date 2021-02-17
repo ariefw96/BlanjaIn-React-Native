@@ -38,7 +38,9 @@ class Login extends React.Component {
                     .then(({ data }) => {
                         console.log('loginsukses'+BASE_URL)
                         this.setState({
-                            errorForm: ''
+                            errorForm: '',
+                            email:'',
+                            password:''
                         })
                         const dataLogin = {
                             name:data.result.name,
@@ -50,11 +52,14 @@ class Login extends React.Component {
                         // console.log(dataLogin)
                         ToastAndroid.show(data.message, ToastAndroid.SHORT, ToastAndroid.CENTER);
                         this.props.dispatch(setLogintrue(dataLogin))
-                        this.props.navigation.navigate('Home')
+                        this.props.navigation.push('Tab')
                     }).catch(({ response }) => {
                         console.log('loginfail'+BASE_URL)
                         console.log(response.data)
                         ToastAndroid.show(response.data.msg, ToastAndroid.SHORT);
+                        this.setState({
+                            password:''
+                        })
                     })
             }else{
                 Alert.alert(

@@ -349,6 +349,13 @@ class ShopCategory extends Component {
                 console.log(error)
             })
     }
+
+    closeModal = () => {
+        this.setState({
+            modalVisible: false,
+            modalSortVisible: false,
+        })
+    }
     render() {
         const { products, pageInfo, modalVisible, modalSortVisible, itemNotFound } = this.state
         let sizeXS = <Button bordered danger small onPress={() => { this.setState({ sizeSelected: 1 }) }} style={styles.btnSize}><Text>XS</Text></Button>
@@ -388,7 +395,6 @@ class ShopCategory extends Component {
                     </Right>
                 </Header>
                 <Container style={{ backgroundColor: '#f0f0f0' }}>
-
                     <View style={styles.filter}>
                         <Grid>
                             <Col>
@@ -397,7 +403,7 @@ class ShopCategory extends Component {
                                         this.setModalVisible(true)
                                     }}
                                 >
-                                    <Text style={styles.txtFilter}> Filter <Image source={require('./../../assets/icons/filter.png')} /> </Text>
+                                    <Text style={{ ...styles.txtFilter, marginTop: 5 }}> Filter <Image source={require('./../../assets/icons/filter.png')} /></Text>
                                 </TouchableOpacity>
                             </Col>
                             <Col>
@@ -406,7 +412,7 @@ class ShopCategory extends Component {
                                         this.setModalSortVisible(true)
                                     }}
                                 >
-                                    <Text style={styles.txtFilter}> Sort <Image source={require('./../../assets/icons/sort2.png')} /> <Text style={{ fontSize: 14 }}>{this.state.sortName}</Text></Text>
+                                    <Text style={{...styles.txtFilter, marginLeft:vh(2)}}> Sort <Image source={require('./../../assets/icons/sort2.png')} /> <Text style={{ fontSize: 14 }}>{this.state.sortName}</Text></Text>
                                 </TouchableOpacity>
                             </Col>
                         </Grid>
@@ -421,19 +427,19 @@ class ShopCategory extends Component {
                                     alignItems: 'center',
                                     marginTop: vh(23)
                                 }}>
-                                    <Image source={require('./../../assets/icons/notfound.png')} style={{width:vh(20), height:vh(20)}} />
-                                    <Text style={{fontSize:24, fontWeight:'bold'}}>{this.state.itemNotFound}</Text>
+                                    <Image source={require('./../../assets/icons/notfound.png')} style={{ width: vh(20), height: vh(20) }} />
+                                    <Text style={{ fontSize: 24, fontWeight: 'bold' }}>{this.state.itemNotFound}</Text>
                                 </View>
                             ) : (<></>)
                     }
                     <ScrollView>
                         <View style={styles.grid} >
                             {
-                                products && products.map(({ id, product_name, product_price, product_img, category_name, color_name, size_name, rating, dibeli }) => {
+                                products && products.map(({ id, product_name, product_price, product_img, category_name, color_name, size_name, rating, dibeli }, index) => {
                                     let img = product_img.split(',')[0]
                                     return (
                                         <>
-                                            <Card navigation={this.props.navigation} product_name={product_name} product_price={product_price} product_img={img} keyId={id} category={category_name} color={color_name} size={size_name} rating={rating} dibeli={dibeli} />
+                                            <Card key={index} navigation={this.props.navigation} product_name={product_name} product_price={product_price} product_img={img} keyId={id} category={category_name} color={color_name} size={size_name} rating={rating} dibeli={dibeli} />
                                         </>
                                     )
                                 })
@@ -442,7 +448,9 @@ class ShopCategory extends Component {
                     </ScrollView>
                     {
                         products.length > 0 ? (
-                            <View style={{ flexDirection: 'row', justifyContent: 'space-around', paddingBottom: 5 }}>
+                            <View style={{
+                                flexDirection: 'row', justifyContent: 'space-around', paddingBottom: 5, borderTopWidth:0.2, borderColor:'gray', paddingTop:3,
+                            }}>
                                 <Button small rounded danger bordered
                                     onPress={this.prevPage}
                                 >
@@ -460,7 +468,7 @@ class ShopCategory extends Component {
                         ) : (<></>)
                     }
                     {
-                        modalVisible == true || modalSortVisible == true ? <View style={{ width: '100%', height: '100%', position: 'absolute', backgroundColor: 'black', opacity: 0.6 }}></View> : <></>
+                        modalVisible == true || modalSortVisible == true ? <TouchableOpacity onPress={this.closeModal} style={{ width: '100%', height: '100%', position: 'absolute', backgroundColor: 'black', opacity: 0.6 }}></TouchableOpacity> : <></>
                     }
                 </Container>
                 <Modal
@@ -523,7 +531,7 @@ class ShopCategory extends Component {
                                             this.setModalSortVisible(false)
                                         }}
                                     >
-                                        <Text>Close [x]</Text>
+                                        <Text style={{ marginRight: 10 }}>[ X ]</Text>
                                     </TouchableOpacity>
                                 </View>
                                 <Button transparent style={styles.btnModal}
@@ -575,12 +583,15 @@ const styles = StyleSheet.create({
         flex: 1,
     },
     filter: {
-        marginLeft: 10,
+        marginHorizontal: 10,
         marginBottom: 10, flexDirection: 'row',
-        justifyContent: 'center'
+        justifyContent: 'center',
+        paddingBottom: 10,
+        borderBottomWidth: 0.5,
+        borderColor: 'gray'
     },
     txtFilter: {
-        fontSize: 20
+        fontSize: 14
     },
     button: {
         alignItems: "center",

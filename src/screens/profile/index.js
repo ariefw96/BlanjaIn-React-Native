@@ -101,8 +101,8 @@ class Profile extends React.Component {
                         onPress={() => { this.props.navigation.navigate('OrderedItem') }}
                     >
                         <View style={{ paddingLeft: 10, marginTop: 5 }}>
-                            <Text style={{ fontWeight: 'bold', fontSize: 20, marginBottom: 5 }}>Orders</Text>
-                            <Text style={{ color: 'gray', marginBottom: 10 }}>Manage your Ordered Item</Text>
+                            <Text style={{ fontWeight: 'bold', fontSize: 20, marginBottom: 5 }}>Customer Orders</Text>
+                            <Text style={{ color: 'gray', marginBottom: 10 }}>Incoming Order</Text>
                         </View>
                     </TouchableOpacity>
                 </>
@@ -140,11 +140,6 @@ class Profile extends React.Component {
                                     </Button>
                                 </Left>
                                 <Body />
-                                <Right>
-                                    <Button transparent>
-                                        <Image source={require('./../../assets/search.png')} />
-                                    </Button>
-                                </Right>
                             </Header>
                             <Content>
                                 <Text style={{ fontWeight: 'bold', fontSize: 42, marginLeft: 10, marginRight: 10 }}>My Profile</Text>

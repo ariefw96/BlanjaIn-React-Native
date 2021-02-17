@@ -23,12 +23,14 @@ import { useSocket } from '../../utils/context/SocketProvider';
 let number = 0;
 
 const Home = ({ navigation }) => {
+
     const auth = useSelector((state) => state.auth)
     const [products, setProducts] = useState([])
     const [popular, setPopular] = useState([])
     const [loading, setLoading] = useState(true)
     const channel = 'notif'
     const socket = useSocket()
+    let angka = 0
 
     //onPullRefresh
 
@@ -80,8 +82,11 @@ const Home = ({ navigation }) => {
     }, [])
 
     useEffect(() => {
+        console.log('type user' + auth.level)
         if (auth.level == 1) {
+            console.log('masuk ga si ??')
             socket.on('toBuyer', (message) => {
+                console.log('buyer dapet notif')
                 const notifData = {
                     user_id: auth.id,
                     level: auth.level,
@@ -96,9 +101,10 @@ const Home = ({ navigation }) => {
                     })
 
             })
-            return () => socket.off('toBuyer');
         } else if (auth.level == 2) {
+            console.log('masuk ga si ?????')
             socket.on('toSeller', (message) => {
+                console.log('seller dapet notif')
                 const notifData = {
                     user_id: auth.id,
                     level: auth.level,
@@ -113,11 +119,8 @@ const Home = ({ navigation }) => {
                     })
 
             })
-            return () => socket.off('toSeller');
         }
-    }, []) 
-    //}, [number])
-
+    }, [])
 
     let Home;
     if (loading) {
@@ -136,13 +139,13 @@ const Home = ({ navigation }) => {
                             <Banner navigation={navigation} />
                             <View>
                                 <View style={{ marginBottom: 10 }}>
-                                    <View style={{ height: 350, marginLeft: 10, marginRight: 10 }}>
+                                    <View style={{ height: 350, marginHorizontal: 10 }}>
                                         <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
                                             <Text style={{ fontSize: 35, fontWeight: 'bold', color: 'black' }}>New</Text>
                                         </View>
                                         <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
                                             <Text style={{ color: 'gray', marginBottom: 15 }}>You've never seen it before!</Text>
-                                            <TouchableOpacity onPress={() => navigation.navigate('Search')}>
+                                            <TouchableOpacity onPress={() => navigation.navigate('New')}>
                                                 <Text>View All</Text>
                                             </TouchableOpacity>
                                         </View>
@@ -151,11 +154,11 @@ const Home = ({ navigation }) => {
                                                 horizontal={true}
                                             >
                                                 {
-                                                    products && products.map(({ id, product_name, product_price, product_img, category_name, color_name, size_name, rating, dibeli }) => {
+                                                    products && products.map(({ id, product_name, product_price, product_img, category_name, color_name, size_name, rating, dibeli }, index) => {
                                                         let img = product_img.split(',')[0]
                                                         return (
                                                             <>
-                                                                <Card new={true} key={id} navigation={navigation} product_name={product_name} product_price={product_price} product_img={img} keyId={id} category={category_name} color={color_name} size={size_name} rating={rating} dibeli={dibeli} />
+                                                                <Card new={true} key={index} navigation={navigation} product_name={product_name} product_price={product_price} product_img={img} keyId={id} category={category_name} color={color_name} size={size_name} rating={rating} dibeli={dibeli} />
                                                             </>
                                                         )
                                                     })
@@ -163,19 +166,24 @@ const Home = ({ navigation }) => {
                                             </ScrollView>
                                         </SafeAreaView>
                                     </View>
-                                    <View style={{ height: 350, marginLeft: 10, marginTop: 50, marginBottom: 40 }}>
+                                    <View style={{ height: 350, marginHorizontal: 10, marginTop: 50, marginBottom: 50 }}>
                                         <Text style={{ fontSize: 35, fontWeight: 'bold', color: 'black' }}>Popular</Text>
-                                        <Text style={{ color: 'gray', marginBottom: 15 }}>Find clothes that are trending recently</Text>
+                                        <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+                                            <Text style={{ color: 'gray', marginBottom: 15 }}>Find clothes that are trending recently</Text>
+                                            <TouchableOpacity onPress={() => navigation.navigate('Popular')}>
+                                                <Text>View All</Text>
+                                            </TouchableOpacity>
+                                        </View>
                                         <SafeAreaView>
                                             <ScrollView
                                                 horizontal={true}
                                             >
                                                 {
-                                                    popular && popular.map(({ id, product_name, product_price, product_img, category_name, color_name, size_name, rating, dibeli }) => {
+                                                    popular && popular.map(({ id, product_name, product_price, product_img, category_name, color_name, size_name, rating, dibeli }, index) => {
                                                         let img = product_img.split(',')[0]
                                                         return (
                                                             <>
-                                                                <Card navigation={navigation} key={id} product_name={product_name} product_price={product_price} product_img={img} keyId={id} category={category_name} color={color_name} size={size_name} rating={rating} dibeli={dibeli} />
+                                                                <Card navigation={navigation} key={index} product_name={product_name} product_price={product_price} product_img={img} keyId={id} category={category_name} color={color_name} size={size_name} rating={rating} dibeli={dibeli} />
                                                             </>
                                                         )
                                                     })

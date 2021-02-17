@@ -44,10 +44,10 @@ class Orders extends React.Component {
             orderContent =
                 <>
                     {
-                        cardOrder && cardOrder.map(({ trxId, trackingNumber, qty, total, created_at, status, status_id }) => {
+                        cardOrder && cardOrder.map(({ trxId, trackingNumber, qty, total, created_at, status, status_id }, index) => {
                             return (
                                 <>
-                                    <CardOrder trxId={trxId} trackingNumber={trackingNumber} qty={qty} total={total} created_at={created_at} idStatus={status_id} status={status} navigation={this.props.navigation} />
+                                    <CardOrder key={index} trxId={trxId} trackingNumber={trackingNumber} qty={qty} total={total} created_at={created_at} idStatus={status_id} status={status} navigation={this.props.navigation} />
                                 </>
                             )
                         })

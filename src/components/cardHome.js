@@ -44,8 +44,8 @@ export default class Card extends React.Component {
                             <Text>| Terjual ({this.props.dibeli})</Text>
                         </View>
                         <Text style={{ color: 'gray', marginTop: 5 }}>{this.props.category}</Text>
-                        <Text style={{ fontWeight: 'bold', fontSize: 15 }}>{this.props.product_name}</Text>
-                        <Text style={{ fontWeight: 'bold', fontSize: 15 }}>Rp. {this.toPrice(this.props.product_price)}</Text>
+                        <Text style={{ fontWeight: 'bold', fontSize: 15, height:20 }}>{this.props.product_name}</Text>
+                        <Text style={{ fontWeight: 'bold', fontSize: 15,height:20 }}>Rp. {this.toPrice(this.props.product_price)}</Text>
                         <Text>{this.props.size} - {this.props.color}</Text>
                     </View>
                 </TouchableOpacity>

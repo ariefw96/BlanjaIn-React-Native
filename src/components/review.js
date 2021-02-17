@@ -133,7 +133,7 @@ class Review extends Component {
                     <Grid>
                         <Row>
                             <Col size={2}>
-                                <Text style={{ fontSize: 40, fontWeight:'bold' }}>{this.props.avgRating.toString().substr(0,3)}/5</Text>
+                                <Text style={{ fontSize: 72, fontWeight:'bold' }}>{this.props.avgRating.toString().substr(0,3)}</Text>
                             </Col>
                             <Col size={3} style={{ alignItems: 'flex-end', flexDirection: 'column' }}>
                                 <Image source={require('../assets/icons/5stars-removebg-preview.png')} style={{ marginBottom: 3 }} />

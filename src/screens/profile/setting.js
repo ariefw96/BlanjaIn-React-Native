@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Container, Header, Title, Content, Button, Left, Body, Text, Item, Label, Input, CheckBox, ListItem, Form } from "native-base";
 import { Image, View, TouchableOpacity, StyleSheet, Modal, Alert } from 'react-native'
+import { vw, vh } from 'react-native-expo-viewport-units'
 import { BASE_URL } from '@env'
 import { connect } from 'react-redux'
 import axios from 'axios'
@@ -72,7 +73,7 @@ class Setting extends React.Component {
                             </Button>
                         </Left>
                         <Body >
-                            <Title style={{ color: 'black', marginLeft: 30, fontWeight: 'bold' }}>Setting</Title>
+                            <Title style={{ color: 'black', marginLeft: 35, fontWeight: 'bold' }}>Setting</Title>
                         </Body>
 
                     </Header>
@@ -81,24 +82,24 @@ class Setting extends React.Component {
                             <Text style={{ fontWeight: 'bold', fontSize: 42, marginTop: 20, marginBottom: 10 }}>Setting</Text>
                             <Text style={{ fontWeight: 'bold' }}>Personal Information</Text>
                             <Item floatingLabel style={{ backgroundColor: 'white', marginTop: 20, paddingTop: 10, paddingBottom: 10 }}>
-                                <Label style={{ marginLeft: 10 }}>{this.props.auth.name}</Label>
-                                <Input />
+                                <Label style={{ marginLeft: 10 }}>Fullname</Label>
+                                <Input style={{ marginLeft: 10 }} value={this.props.auth.name} />
                             </Item>
                             <Item floatingLabel style={{ backgroundColor: 'white', marginTop: 20, paddingTop: 10, paddingBottom: 10 }}>
                                 <Label style={{ marginLeft: 10 }}>Date of Birth</Label>
-                                <Input value='30/12/1996' />
+                                <Input style={{ marginLeft: 10 }} value='30/12/1996' />
                             </Item>
-                            <View style={{ flexDirection: 'row', marginTop: 30, marginBottom: 5 }}>
-                                <Text style={{ fontWeight: 'bold', }}>Personal Information</Text>
+                            <View style={{ flexDirection: 'row', marginTop: 30, marginBottom: 5, justifyContent:'space-between' }}>
+                                <Text style={{ fontWeight: 'bold', }}>Password</Text>
                                 <TouchableOpacity
                                     onPress={() => { this.setModalVisible(true) }}
                                 >
-                                    <Text style={{ fontWeight: 'bold', color: 'gray', marginLeft: 120 }}>Change</Text>
+                                    <Text style={{ fontWeight: 'bold', color: 'gray', }}>Change</Text>
                                 </TouchableOpacity>
                             </View>
                             <Item floatingLabel style={{ backgroundColor: 'white', marginTop: 20, paddingTop: 10, paddingBottom: 10 }}>
                                 <Label style={{ marginLeft: 10 }}>Password</Label>
-                                <Input secureTextEntry={true} value='arkademy' />
+                                <Input style={{marginLeft:10}} secureTextEntry={true} value='Password' />
                             </Item>
                             <Text style={{ fontWeight: 'bold', marginTop: 30, marginBottom: 5 }}>Notification</Text>
                             <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginRight: 10 }}>
@@ -132,8 +133,12 @@ class Setting extends React.Component {
                                     <Label>Kata sandi baru</Label>
                                     <Input name="newPassword" secureTextEntry={true} value={new_password} onChangeText={(text) => { this.setState({ new_password: text }) }} placeholder='Kata sandi baru' />
                                 </Item>
+                                <Item floatingLabel>
+                                    <Label>Konfirmasi kata sandi baru</Label>
+                                    <Input name="newPassword" secureTextEntry={true} value={new_password} onChangeText={(text) => { this.setState({ new_password: text }) }} placeholder='Kata sandi baru' />
+                                </Item>
                             </Form>
-                            <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginHorizontal: 10, marginTop: 10 }}>
+                            <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginHorizontal: 10, marginTop: 30 }}>
                                 <Button full rounded bordered style={styles.btnTracking}
                                     onPress={() => {
                                         this.setModalVisible(false)
@@ -144,7 +149,7 @@ class Setting extends React.Component {
                                 <Button full rounded danger style={styles.btnTracking}
                                     onPress={this.changePassword}
                                 >
-                                    <Text style={{ color: 'white' }}>Kirim</Text>
+                                    <Text style={{ color: 'white' }}>Change</Text>
                                 </Button>
                             </View>
                         </View>
@@ -178,8 +183,8 @@ const styles = StyleSheet.create({
         justifyContent: "flex-end",
     },
     modalView: {
-        height: 220,
-        width: 350,
+        height: 320,
+        width: vw(100),
         backgroundColor: "white",
         borderTopEndRadius: 20,
         borderTopLeftRadius: 20,

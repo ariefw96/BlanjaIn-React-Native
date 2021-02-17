@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Image, StyleSheet, Text, View, TouchableOpacity, Alert } from 'react-native';
 import { addQty, minQty, removeItems } from './../utils/redux/ActionCreators/bag'
+import {vh, vw} from 'react-native-expo-viewport-units'
 import { connect } from 'react-redux'
 import { BASE_URL } from '@env'
 
@@ -60,14 +61,15 @@ class CardBag extends Component {
         return (
             <View style={styles.container}>
 
-                <Image source={{ uri: BASE_URL + img, width: 104, height: 104 }} style={styles.img} />
+                <Image source={{ uri: BASE_URL + img, width: vw(23), height: vw(23) }} style={styles.img} />
                 <View style={styles.infobag}>
                     <Text>{name}</Text>
                     <View style={{ flexDirection: 'row' }}>
                         <Text style={{ marginRight: 16 }}>Color: {color}</Text>
                         <Text>Size: {size}</Text>
                     </View>
-                    <View style={{ flexDirection: 'row', marginTop: 14 }}>
+                    <View style={{ flexDirection: 'row', marginTop: 14, justifyContent:'space-between' }}>
+                        <View style={{flexDirection:'row'}}>
                         <TouchableOpacity
                             onPress={this.Minus}
                         >
@@ -84,10 +86,9 @@ class CardBag extends Component {
                                 <Image source={require('../assets/icons/plus.png')} style={{ marginTop: 6 }} />
                             </View>
                         </TouchableOpacity>
-
-
+                        </View>
                         <View style={styles.price}>
-                            <Text style={{ fontFamily: 'Metropolis-Bold', fontSize: 20 }}>Rp {this.toPrice(qty * price)}</Text>
+                            <Text numberOfLines={1} style={{ fontFamily: 'Metropolis-Bold', fontSize: 20 }}>Rp {this.toPrice(qty * price)}</Text>
                         </View>
                     </View>
                 </View>
@@ -109,11 +110,15 @@ const styles = StyleSheet.create({
     container: {
         flexDirection: 'row',
         marginBottom: 10,
-        marginLeft: 5
+        marginLeft: 5, 
+        width:vw(93),
+        borderColor:'gray',
+        padding:1,
+        borderWidth:1,
+        borderRadius:10
     },
     price: {
         marginTop: 7,
-        marginLeft: 20,
     },
     btn: {
         width: 36,
@@ -125,15 +130,15 @@ const styles = StyleSheet.create({
         borderColor: '#9B9B9B',
     },
     img: {
-        width: 104,
-        height: 104,
+        width: vw(25),
+        height: vw(25),
         borderTopLeftRadius: 8,
         borderBottomLeftRadius: 8,
     },
     infobag: {
         backgroundColor: '#fff',
-        width: 220,
         shadowColor: '#000',
+        width:vw(67),
         shadowOffset: {
             width: 0,
             height: 4,

@@ -30,7 +30,7 @@ export default class Card extends React.Component {
                 </View>
                 <TouchableOpacity
                     onPress={() => {
-                        this.props.navigation.push('Details', {
+                        this.props.navigation.replace('Details', {
                             itemId: this.props.keyId,
                         })
                     }}
@@ -43,7 +43,7 @@ export default class Card extends React.Component {
                             <Text>| Terjual ({this.props.dibeli})</Text>
                         </View>
                         <Text style={{ color: 'gray', marginTop: 5 }}>{this.props.category}</Text>
-                        <Text style={{ fontWeight: 'bold', fontSize: 12 }}>{this.props.product_name}</Text>
+                        <Text numberOfLines={1} style={{ fontWeight: 'bold', fontSize: 12 }}>{this.props.product_name}</Text>
                         <Text style={{ fontWeight: 'bold', fontSize: 12 }}>Rp. {this.toPrice(this.props.product_price)}</Text>
                         <Text>{this.props.size} - {this.props.color}</Text>
                     </View>

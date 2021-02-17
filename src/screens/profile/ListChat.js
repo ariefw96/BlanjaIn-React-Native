@@ -79,8 +79,8 @@ const ListChat = ({ navigation, setLoginfalse }) => {
                         chatList.length > 0  ? (
                             <>
                                 {
-                                    chatList.map(({ chatRoom }) => {
-                                        return <List chatRoom={chatRoom} navigation={navigation} />
+                                    chatList.map(({ chatRoom }, index) => {
+                                        return <List key={index} chatRoom={chatRoom} navigation={navigation} />
                                     })
                                 }
                             </>

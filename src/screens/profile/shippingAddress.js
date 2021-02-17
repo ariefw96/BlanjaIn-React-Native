@@ -73,58 +73,52 @@ class Shipping extends React.Component {
                         <Item rounded style={{ marginTop: 20, backgroundColor: 'white' }}>
                             <Input placeholder="Search Here" />
                         </Item>
-                        <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginHorizontal: 10, marginTop: 15 }}>
-                            <View>
-                                <Text style={{ fontWeight: 'bold', fontSize: 18 }}>Shipping Address</Text>
-                            </View>
-                            <TouchableOpacity
-                                onPress={() => { this.props.navigation.navigate('AddAddress') }}
-                            >
-                                <Text>Add New Address</Text>
-                            </TouchableOpacity>
-                        </View>
+                        <Text style={{ fontWeight: 'bold', fontSize: 18, marginHorizontal: 10, marginTop: 15 }}>Shipping Address</Text>
                         <SafeAreaView>
                             <ScrollView style={{ height: 380, marginBottom: 20, marginTop: 20 }}>
                                 {
                                     shippingAddress.length > 0 ? (
                                         <>
-                                        {
-                                    shippingAddress && shippingAddress.map(({ id, recipient_name, city, postal, phone, address_type }) => {
-                                        const color= this.state.selectedAddress == id? '#dedede' : 'white'
-                                        return (
-                                            <>
-                                                <TouchableOpacity
-                                                    onPress={() => { this.setAddress(id) }}
-                                                >
-                                                    <CardAdress key={id} addressId={id} type={address_type} color={color} name={recipient_name} city={city} postal={postal} phone={phone} navigation={this.props.navigation} />
-                                                </TouchableOpacity>
-                                            </>
-                                        )
-                                    })
-                                }
+                                            {
+                                                shippingAddress && shippingAddress.map(({ id, recipient_name, city, postal, phone, address_type }) => {
+                                                    const color = this.state.selectedAddress == id ? '#dedede' : 'white'
+                                                    return (
+                                                        <>
+                                                            <TouchableOpacity
+                                                                onPress={() => {
+                                                                    this.props.navigation.replace('DetailsAddress', {
+                                                                        addressId: id,
+                                                                    })
+                                                                }}
+                                                            >
+                                                                <CardAdress key={id} addressId={id} type={address_type} color={color} name={recipient_name} city={city} postal={postal} phone={phone} navigation={this.props.navigation} />
+                                                            </TouchableOpacity>
+                                                        </>
+                                                    )
+                                                })
+                                            }
                                         </>
                                     ) : (
-                                        <View style={{flexDirection:'row', justifyContent: 'space-between',}}>
-                                            <Text></Text>
-                                            <Text style={{fontSize:24, fontWeight:'bold'}}>NO ADDRESS YET</Text>
-                                            <Text></Text>
-                                        </View>
-                                    )
+                                            <View style={{ flexDirection: 'row', justifyContent: 'space-between', }}>
+                                                <Text></Text>
+                                                <Text style={{ fontSize: 24, fontWeight: 'bold' }}>NO ADDRESS YET</Text>
+                                                <Text></Text>
+                                            </View>
+                                        )
                                 }
                             </ScrollView>
                         </SafeAreaView>
-
-                        <Button full rounded bordered dark>
-                            <TouchableOpacity
-                                onPress={this.setActiveAddress}
-                            >
-                                <Text>
-                                    Set Active Address
-                            </Text>
-                            </TouchableOpacity>
-                        </Button>
-
                     </Content>
+                    <View style={{ backgroundColor: '#f0f0f0', marginBottom: 10, marginHorizontal:10 }}>
+                        <Button full rounded danger
+                            onPress={() => { this.props.navigation.navigate('AddAddress') }}
+                        >
+
+                            <Text>
+                                Add New Address
+                            </Text>
+                        </Button>
+                    </View>
                 </Container>
             </>
         )

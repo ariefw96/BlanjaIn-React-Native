@@ -121,7 +121,7 @@ const windowWidth = Dimensions.get('window').width;
 
 const styles = StyleSheet.create({
     container: {
-        marginHorizontal: windowWidth * 0.04,
+        marginHorizontal: 10
     },
     addcart: {
         position: 'absolute',

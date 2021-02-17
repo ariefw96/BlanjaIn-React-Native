@@ -8,7 +8,7 @@ import axios from 'axios'
 import { addItems } from './../../utils/redux/ActionCreators/bag'
 import { connect } from 'react-redux'
 import { BASE_URL } from '@env'
-import {vh, vw} from 'react-native-expo-viewport-units'
+import { vh, vw } from 'react-native-expo-viewport-units'
 import Card from './../../components/cardForYou'
 
 
@@ -67,7 +67,7 @@ class DetailPage extends Component {
     }
 
     loginDuluhehe = () => {
-        ToastAndroid.show("Bukan Custome Hehe. Maaf gabisa chat", ToastAndroid.SHORT);
+        ToastAndroid.show("Unauthorized Access!", ToastAndroid.SHORT);
     }
 
     addToCart = () => {
@@ -101,7 +101,7 @@ class DetailPage extends Component {
         const { product, foryou } = this.state
         let btnChat;
         let btnAddCart;
-        if (this.props.auth.level==1) {
+        if (this.props.auth.level == 1) {
             btnChat = <TouchableOpacity
                 onPress={() => {
                     this.props.navigation.navigate('ChatRoom', {
@@ -134,7 +134,7 @@ class DetailPage extends Component {
             <>
 
                 {
-                    product && product.map(({ id, product_name,fullname, category_name, product_desc, product_img, product_price, size_name, color_name, rating }) => {
+                    product && product.map(({ id, product_name, fullname, category_name, product_desc, product_img, product_price, size_name, color_name, rating }, index) => {
 
                         return (
                             <>
@@ -197,12 +197,10 @@ class DetailPage extends Component {
                                                             {btnChat}
                                                         </View>
                                                         <View style={styles.wraptitle}>
-                                                            <View style={{ width: 200 }}>
-                                                                <Text style={styles.title}>{product_name}</Text>
-                                                            </View>
+                                                                <Text style={styles.title} numberOfLines={1} >{product_name}</Text>
                                                             <Text style={styles.title}>Rp. {this.toPrice(product_price)}</Text>
                                                         </View>
-                                                        <Text style={{color:'gray'}}>STORE : {fullname}</Text>
+                                                        <Text style={{ color: 'gray' }}>STORE : {fullname}</Text>
                                                         <Text style={styles.PrdName}>Category  {category_name}</Text>
                                                         <View>
                                                         </View>
@@ -217,11 +215,11 @@ class DetailPage extends Component {
                                                             >
                                                                 <View style={{ flexDirection: 'row' }}>
                                                                     {
-                                                                        foryou && foryou.map(({ id, product_name, product_price, product_img, category_name, color_name, size_name, rating, dibeli }) => {
+                                                                        foryou && foryou.map(({ id, product_name, product_price, product_img, category_name, color_name, size_name, rating, dibeli }, index) => {
                                                                             let img = product_img.split(',')[0]
                                                                             return (
                                                                                 <>
-                                                                                    <Card navigation={this.props.navigation} key={id} product_name={product_name} product_price={product_price} product_img={img} keyId={id} category={category_name} color={color_name} size={size_name} rating={rating} dibeli={dibeli} />
+                                                                                    <Card navigation={this.props.navigation} key={index} product_name={product_name} product_price={product_price} product_img={img} keyId={id} category={category_name} color={color_name} size={size_name} rating={rating} dibeli={dibeli} />
                                                                                 </>
                                                                             )
                                                                         })
@@ -286,17 +284,16 @@ const styles = StyleSheet.create({
     title: {
         fontFamily: 'Metropolis-Light',
         fontSize: 24,
-
     },
     wraptitle: {
         flexDirection: 'row',
         marginTop: 22,
         justifyContent: 'space-between',
-        marginRight: 20
+        marginRight:vw(2)
     },
     PrdName: {
         fontFamily: 'Metropolis-Light',
-        fontSize: 11,
+        fontSize: 16,
         color: '#9B9B9B',
     },
     rating: {
@@ -331,12 +328,11 @@ const styles = StyleSheet.create({
     },
     size: {
         width: vw(40),
-        height: 40,
+        height: 50,
         backgroundColor: '#fff',
         borderRadius: 8,
         borderWidth: 1,
         borderColor: '#9B9B9B',
-        marginRight: 10
-        // paddingHorizontal: 5,
+        marginRight: 10,
     },
 });

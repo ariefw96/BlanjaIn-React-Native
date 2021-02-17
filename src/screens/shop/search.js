@@ -16,7 +16,8 @@ class ShopCategory extends Component {
             currentPage: '',
             intialPage: '',
             searchKey: '',
-            emptyResult: ''
+            emptyResult: '',
+            loading:false
         }
     }
 
@@ -51,16 +52,22 @@ class ShopCategory extends Component {
     }
 
     SearchItems = () => {
+        this.setState({
+            loading:true,
+            emptyResult:''
+        })
         axios.get(BASE_URL + '/products?name=' + this.state.searchKey)
             .then(({ data }) => {
                 // console.log(data)
                 this.setState({
                     products: data.data.products,
-                    pageInfo: data.data.pageInfo
+                    pageInfo: data.data.pageInfo,
+                    loading:false
                 })
             }).catch((error) => {
                 this.setState({
                     products: [],
+                    loading:false,
                     emptyResult: `Search not found on ${this.state.searchKey}`
                 })
                 console.log(error)
@@ -72,7 +79,7 @@ class ShopCategory extends Component {
     }
 
     render() {
-        const { products, pageInfo } = this.state
+        const { products, pageInfo, loading } = this.state
         let searchResult;
         if (products.length > 0) {
             searchResult = <>
@@ -137,7 +144,14 @@ class ShopCategory extends Component {
                                 Search result for {this.state.searchKey}
                             </Text>
                         </View>
-                        <View style={{minHeight:vh(65)}}>
+                        <View style={{minHeight:vh(60)}}>
+                            {
+loading ? (
+    <View style={{marginTop:vh(20)}}>
+        <Text style={{fontSize:24, textAlign:'center'}}>Harap Tunggu...</Text>
+    </View>
+) : (<></>)
+                            }
                             {searchResult}
                         </View>
                         {

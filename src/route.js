@@ -34,6 +34,7 @@ import DetailOrders from './screens/profile/orderDetails'
 import Shipping from './screens/profile/shippingAddress'
 import AddAddress from './screens/profile/addShipingAddress'
 import ChangeAddress from './screens/profile/changeAddress'
+import DetailsAddress from './screens/profile/detailAddress'
 import Setting from './screens/profile/setting'
 
 import Notification from './screens/home/notifications'
@@ -46,6 +47,9 @@ import OrderedItem from './screens/profile/seller/ordererItem'
 
 import ListChat from './screens/profile/ListChat'
 import ChatRoom from './screens/profile/chatRoom'
+
+import NewProducts from './screens/home/new'
+import PopularProducts from './screens/home/popular'
 
 import Splash from './screens/splash'
 
@@ -133,6 +137,7 @@ const myBag = () => {
       <Stack.Screen name="Bag" component={Bag} />
       <Stack.Screen name="Checkout" component={Checkout} />
       <Stack.Screen name="Shipping" component={Shipping} />
+      <Stack.Screen name="DetailsAddress" component={DetailsAddress} />
       <Stack.Screen name="ChangeAddress" component={ChangeAddress} />
       <Stack.Screen name="AddAddress" component={AddAddress} />
     </Stack.Navigator>
@@ -159,6 +164,7 @@ const MainProfile = () => {
         <Stack.Screen name="Shipping" component={Shipping} />
         <Stack.Screen name="ChangeAddress" component={ChangeAddress} />
         <Stack.Screen name="AddAddress" component={AddAddress} />
+        <Stack.Screen name="DetailsAddress" component={DetailsAddress} />
         <Stack.Screen name="Setting" component={Setting} />
         <Stack.Screen name="Store" component={UserStore} />
         <Stack.Screen name="ListProduct" component={ListProduct} />
@@ -188,10 +194,12 @@ const appRouter = () => {
           <Stack.Screen name="ForgotPassword" component={Forgot} />
           <Stack.Screen name="Otp" component={Otp} />
           <Stack.Screen name="ResetPassword" component={Reset} />
-          <Stack.Screen name="Success" component={Success} />
           <Stack.Screen name="Review" component={Review} />
           <Stack.Screen name="Chat" component={Chat} />
           <Stack.Screen name="Search" component={Search} />
+          <Stack.Screen name="New" component={NewProducts} />
+          <Stack.Screen name="Popular" component={PopularProducts} />
+          <Stack.Screen name="Success" component={Success} />
         </Stack.Navigator>
       </SocketProvider>
 

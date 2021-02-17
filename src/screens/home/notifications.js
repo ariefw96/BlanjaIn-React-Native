@@ -44,9 +44,11 @@ class HeaderTransparent extends Component {
     if (notify.length > 0) {
       listNotification =
         <>
-          {
-            notify && notify.map(({ title, message }) => <CardNotif title={title} content={message} />)
-          }
+          <View style={{marginTop:20}}>
+            {
+              notify && notify.map(({ title, message }, index) => <CardNotif key={index} title={title} content={message} />)
+            }
+          </View>
         </>
     } else {
       listNotification =
@@ -72,7 +74,7 @@ class HeaderTransparent extends Component {
           </Body>
         </Header>
         <Content>
-        {listNotification}
+          {listNotification}
         </Content>
       </Container>
     );

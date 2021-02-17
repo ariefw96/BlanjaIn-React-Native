@@ -8,7 +8,6 @@ import { BASE_URL } from '@env'
 import CardAdress from './../../components/cardAddressPayment'
 import PushNotification from 'react-native-push-notification';
 import { showNotification } from '../../notif';
-import { addNotification } from './../../utils/redux/ActionCreators/notification'
 
 import { useSocket } from './../../utils/context/SocketProvider'
 // const socket = useSocket()
@@ -63,7 +62,7 @@ class CheckOut extends React.Component {
         } else if (this.state.isCheckedGopay) {
             payment = 3
         }
-        if (payment != 0 && this.props.address.activeAddress != null) {
+        if (payment != 0 && this.props.address.activeAddress != null && this.state.jasaKirim != '0') {
             const Order = {
                 trxId: `TRX${this.props.bag.trxId}`,
                 payment: payment,
@@ -191,91 +190,101 @@ class CheckOut extends React.Component {
         }
         return (
             <>
-                <Container>
-                    <Header transparent>
-                        <Left>
-                            <Button transparent
-                                onPress={() => { this.props.navigation.goBack() }}
-                            >
-                                <Image source={require('./../../assets/back.png')} />
-                            </Button>
-                        </Left>
-                        <Body >
-                            <Title style={{ color: 'black', marginLeft: 35, fontWeight: 'bold' }}>CheckOut</Title>
-                        </Body>
-                    </Header>
-                    <Content style={{ backgroundColor: '#f0f0f0' }}>
-                        <View style={{ margin: 10 }}>
-                            <View style={{ height: 150 }}>
-                                <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginBottom: 10 }}>
-                                    <Text style={{ marginLeft: 5, fontWeight: 'bold', fontSize: 18 }}>Shipping Address</Text>
-                                    <TouchableOpacity
-                                        onPress={() => { this.props.navigation.navigate('Shipping') }}
-                                    >
-                                        <Text style={{ marginRight: 5, fontWeight: 'bold', fontSize: 18 }}>Change Address</Text>
-                                    </TouchableOpacity>
-                                </View>
+                {
+                    this.props.bag.length < 1 ? (
+                        <>
+                        </>
 
-                                {cardAdress}
-                            </View>
+                    ) : (
+                            <>
+                                <Container>
+                                    <Header transparent>
+                                        <Left>
+                                            <Button transparent
+                                                onPress={() => { this.props.navigation.goBack() }}
+                                            >
+                                                <Image source={require('./../../assets/back.png')} />
+                                            </Button>
+                                        </Left>
+                                        <Body >
+                                            <Title style={{ color: 'black', marginLeft: 35, fontWeight: 'bold' }}>CheckOut</Title>
+                                        </Body>
+                                    </Header>
+                                    <Content style={{ backgroundColor: '#f0f0f0' }}>
+                                        <View style={{ margin: 10 }}>
+                                            <View style={{ height: 150 }}>
+                                                <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginBottom: 10 }}>
+                                                    <Text style={{ marginLeft: 5, fontWeight: 'bold', fontSize: 18 }}>Shipping Address</Text>
+                                                    <TouchableOpacity
+                                                        onPress={() => { this.props.navigation.navigate('Shipping') }}
+                                                    >
+                                                        <Text style={{ marginRight: 5, fontWeight: 'bold', fontSize: 18 }}>Change Address</Text>
+                                                    </TouchableOpacity>
+                                                </View>
 
-                            <Text style={{ marginTop: 20, marginLeft: 5, fontWeight: 'bold', fontSize: 18 }}>Payment</Text>
-                            <View style={{ flexDirection: 'row', marginRight: 10, height: 60, }}>
-                                <Image source={require('./../../assets/icons/master.png')} style={{ width: 105, height: 88 }} />
-                                <Text style={{ marginTop: 30, width: 120 }}>Master Card</Text>
-                                <CheckBox style={{ marginLeft: 70, marginTop: 30 }} checked={this.state.isCheckedMaster} onPress={this.checkedMaster} />
-                            </View>
-                            <View style={{ flexDirection: 'row', marginRight: 10, height: 60, }}>
-                                <Image source={require('./../../assets/icons/pos.png')} />
-                                <Text style={{ marginTop: 30, width: 120 }}>Post Indonesia</Text>
-                                <CheckBox style={{ marginLeft: 70, marginTop: 30 }} checked={this.state.isCheckedPost} onPress={this.checkedPost} />
-                            </View>
-                            <View style={{ flexDirection: 'row', marginRight: 10, height: 60, }}>
-                                <Image source={require('./../../assets/icons/gopay.png')} />
-                                <Text style={{ marginTop: 30, width: 120 }}>GoPay</Text>
-                                <CheckBox style={{ marginLeft: 70, marginTop: 30 }} checked={this.state.isCheckedGopay} onPress={this.checkedGopay} />
-                            </View>
-                        </View>
-                        <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginLeft: 15, marginVertical: 5, marginTop: 30 }}>
-                            <Text style={{ width: 80, color: 'gray' }}>Shipping :</Text>
-                            <View style={{ width: 150, height: 40, marginTop: -15 }}>
-                                <Picker
-                                    // selectedValue={this.state.jasaKirim}
-                                    selectedValue={jasaKirim}
-                                    onValueChange={(itemValue, itemIndex) => this.setKurir(itemValue)}
-                                >
-                                    <Picker.Item label="Jasa Kirim" value="0" style={{ backgroundColor: 'gray' }} />
-                                    {
-                                        kurir && kurir.map(({ id, nama_kurir, waktu, tarif }) => {
-                                            return <Picker.Item label={nama_kurir + ', ' + waktu + ', ' + 'Rp.' + tarif} value={`${id}`} />
-                                        })
-                                    }
-                                </Picker>
-                            </View>
-                        </View>
-                        <View style={{ backgroundColor: 'white', height: 160, marginTop: 10, borderTopEndRadius: 10, borderTopLeftRadius: 10 }}>
-                            <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginHorizontal: 15, marginVertical: 5 }}>
-                                <Text style={{ width: 100, color: 'gray' }}>Order :</Text>
-                                <Text>Rp. {this.props.bag.totalAmmount}</Text>
-                            </View>
-                            <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginHorizontal: 15, marginVertical: 5 }}>
-                                <Text style={{ width: 100, color: 'gray' }}>Shipping :</Text>
-                                <Text>Rp. {this.state.shippingPrice}</Text>
-                            </View>
-                            <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginHorizontal: 15, marginVertical: 5 }}>
-                                <Text style={{ width: 100, color: 'gray' }}>Summary :</Text>
-                                <Text style={{ fontWeight: 'bold', fontSize: 18 }}>Rp. {this.props.bag.totalAmmount + this.state.shippingPrice}</Text>
-                            </View>
-                            <Button full rounded danger style={{ margin: 10 }}
-                                onPress={this.submitOrder}
-                            >
-                                <Text style={{ color: 'white' }}>
-                                    Submit Order
+                                                {cardAdress}
+                                            </View>
+
+                                            <Text style={{ marginTop: 20, marginLeft: 5, fontWeight: 'bold', fontSize: 18 }}>Payment</Text>
+                                            <View style={{ flexDirection: 'row', marginRight: 10, height: 60, }}>
+                                                <Image source={require('./../../assets/icons/master.png')} style={{ width: 105, height: 88 }} />
+                                                <Text style={{ marginTop: 30, width: 120 }}>Master Card</Text>
+                                                <CheckBox style={{ marginLeft: 70, marginTop: 30 }} checked={this.state.isCheckedMaster} onPress={this.checkedMaster} />
+                                            </View>
+                                            <View style={{ flexDirection: 'row', marginRight: 10, height: 60, }}>
+                                                <Image source={require('./../../assets/icons/pos.png')} />
+                                                <Text style={{ marginTop: 30, width: 120 }}>Post Indonesia</Text>
+                                                <CheckBox style={{ marginLeft: 70, marginTop: 30 }} checked={this.state.isCheckedPost} onPress={this.checkedPost} />
+                                            </View>
+                                            <View style={{ flexDirection: 'row', marginRight: 10, height: 60, }}>
+                                                <Image source={require('./../../assets/icons/gopay.png')} />
+                                                <Text style={{ marginTop: 30, width: 120 }}>GoPay</Text>
+                                                <CheckBox style={{ marginLeft: 70, marginTop: 30 }} checked={this.state.isCheckedGopay} onPress={this.checkedGopay} />
+                                            </View>
+                                        </View>
+                                        <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginLeft: 15, marginVertical: 5, marginTop: 30 }}>
+                                            <Text style={{ width: 80, color: 'gray' }}>Shipping :</Text>
+                                            <View style={{ width: 150, height: 40, marginTop: -15 }}>
+                                                <Picker
+                                                    // selectedValue={this.state.jasaKirim}
+                                                    selectedValue={jasaKirim}
+                                                    onValueChange={(itemValue, itemIndex) => this.setKurir(itemValue)}
+                                                >
+                                                    <Picker.Item label="Jasa Kirim" value="0" style={{ backgroundColor: 'gray' }} />
+                                                    {
+                                                        kurir && kurir.map(({ id, nama_kurir, waktu, tarif }) => {
+                                                            return <Picker.Item label={nama_kurir + ', ' + waktu + ', ' + 'Rp.' + tarif} value={`${id}`} />
+                                                        })
+                                                    }
+                                                </Picker>
+                                            </View>
+                                        </View>
+                                        <View style={{ backgroundColor: 'white', height: 160, marginTop: 10, borderTopEndRadius: 10, borderTopLeftRadius: 10 }}>
+                                            <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginHorizontal: 15, marginVertical: 5 }}>
+                                                <Text style={{ width: 100, color: 'gray' }}>Order :</Text>
+                                                <Text>Rp. {this.props.bag.totalAmmount}</Text>
+                                            </View>
+                                            <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginHorizontal: 15, marginVertical: 5 }}>
+                                                <Text style={{ width: 100, color: 'gray' }}>Shipping :</Text>
+                                                <Text>Rp. {this.state.shippingPrice}</Text>
+                                            </View>
+                                            <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginHorizontal: 15, marginVertical: 5 }}>
+                                                <Text style={{ width: 100, color: 'gray' }}>Summary :</Text>
+                                                <Text style={{ fontWeight: 'bold', fontSize: 18 }}>Rp. {this.props.bag.totalAmmount + this.state.shippingPrice}</Text>
+                                            </View>
+                                            <Button full rounded danger style={{ margin: 10 }}
+                                                onPress={this.submitOrder}
+                                            >
+                                                <Text style={{ color: 'white' }}>
+                                                    Submit Order
                             </Text>
-                            </Button>
-                        </View>
-                    </Content>
-                </Container>
+                                            </Button>
+                                        </View>
+                                    </Content>
+                                </Container>
+                            </>
+                        )
+                }
             </>
         )
     }

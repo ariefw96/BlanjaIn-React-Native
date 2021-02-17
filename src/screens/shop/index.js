@@ -15,10 +15,12 @@ class Shop extends Component {
                         </Button>
                     </Left>
                     <Body >
-                        <Title style={{ color: 'black', marginLeft: 35, fontWeight: 'bold' }}>Categories</Title>
+                        <Title style={{ color: 'black', marginLeft: 65, fontWeight: 'bold' }}>Categories</Title>
                     </Body>
                     <Right>
-                        <Button transparent>
+                        <Button transparent
+                            onPress={() => this.props.navigation.navigate('Search')}
+                        >
                             <Image source={require('../../assets/icons/Search.png')} />
                         </Button>
                     </Right>
@@ -35,75 +37,87 @@ class Shop extends Component {
                         </TouchableOpacity>
 
                         <Card style={styles.card} >
-                            <CardItem cardBody button onPress={() => { this.props.navigation.navigate('Categories',{
-                                categoryType:'new',
-                                title:'NEW'
-                            }) }}>
+                            <CardItem cardBody button onPress={() => {
+                                this.props.navigation.navigate('Categories', {
+                                    categoryType: 'new',
+                                    title: 'NEW'
+                                })
+                            }}>
                                 <Left>
                                     <Text style={styles.cardTitle}>New</Text>
                                 </Left>
                                 <Right>
-                                    <Image source={require('../../assets/images/new.png')} style={styles.cardImg}/>
+                                    <Image source={require('../../assets/images/new.png')} style={styles.cardImg} />
                                 </Right>
                             </CardItem>
                         </Card>
                         <Card style={styles.card} >
-                        <CardItem cardBody button onPress={() => { this.props.navigation.navigate('Categories',{
-                                categoryType:1,
-                                title:'TSHIRT'
-                            }) }}>
+                            <CardItem cardBody button onPress={() => {
+                                this.props.navigation.navigate('Categories', {
+                                    categoryType: 1,
+                                    title: 'TSHIRT'
+                                })
+                            }}>
                                 <Left>
                                     <Text style={styles.cardTitle}>T-Shirt</Text>
                                 </Left>
                                 <Right>
-                                    <Image source={require('../../assets/images/tshirt-low.jpg')} style={styles.cardImg}/>
+                                    <Image source={require('../../assets/images/tshirt-low.jpg')} style={styles.cardImg} />
                                 </Right>
                             </CardItem>
                         </Card>
                         <Card style={styles.card} >
-                            <CardItem cardBody button onPress={() => { this.props.navigation.navigate('Categories',{
-                                categoryType:2,
-                                title:'SHORTS'
-                            }) }}>
+                            <CardItem cardBody button onPress={() => {
+                                this.props.navigation.navigate('Categories', {
+                                    categoryType: 2,
+                                    title: 'SHORTS'
+                                })
+                            }}>
                                 <Left>
                                     <Text style={styles.cardTitle}>Shorts</Text>
                                 </Left>
                                 <Right>
-                                    <Image source={require('../../assets/images/short-low.jpg')} style={styles.cardImg}/>
+                                    <Image source={require('../../assets/images/short-low.jpg')} style={styles.cardImg} />
                                 </Right>
                             </CardItem>
                         </Card>
                         <Card style={styles.card} >
-                        <CardItem cardBody button onPress={() => { this.props.navigation.navigate('Categories',{
-                                categoryType:3,
-                                title:'JACKETS'
-                            }) }}>
+                            <CardItem cardBody button onPress={() => {
+                                this.props.navigation.navigate('Categories', {
+                                    categoryType: 3,
+                                    title: 'JACKETS'
+                                })
+                            }}>
                                 <Left>
                                     <Text style={styles.cardTitle}>Jackets</Text>
                                 </Left>
                                 <Right>
-                                    <Image source={require('../../assets/images/jacket-low.jpg')}style={styles.cardImg} />
+                                    <Image source={require('../../assets/images/jacket-low.jpg')} style={styles.cardImg} />
                                 </Right>
                             </CardItem>
                         </Card>
                         <Card style={styles.card} >
-                        <CardItem cardBody button onPress={() => { this.props.navigation.navigate('Categories',{
-                                categoryType:4,
-                                title:'PANTS'
-                            }) }}>
+                            <CardItem cardBody button onPress={() => {
+                                this.props.navigation.navigate('Categories', {
+                                    categoryType: 4,
+                                    title: 'PANTS'
+                                })
+                            }}>
                                 <Left>
                                     <Text style={styles.cardTitle}>Pants</Text>
                                 </Left>
                                 <Right>
-                                    <Image source={require('../../assets/images/pant.jpg')}style={styles.cardImg} />
+                                    <Image source={require('../../assets/images/pant.jpg')} style={styles.cardImg} />
                                 </Right>
                             </CardItem>
                         </Card>
                         <Card style={styles.card} >
-                        <CardItem cardBody button onPress={() => { this.props.navigation.navigate('Categories',{
-                                categoryType:5,
-                                title:'SHOES'
-                            }) }}>
+                            <CardItem cardBody button onPress={() => {
+                                this.props.navigation.navigate('Categories', {
+                                    categoryType: 5,
+                                    title: 'SHOES'
+                                })
+                            }}>
                                 <Left>
                                     <Text style={styles.cardTitle}>Shoes</Text>
                                 </Left>

@@ -1,8 +1,9 @@
 import React, { Component } from "react";
 import { Container, Header, Title, Content, Button, Left, Body, Text, View, Item, Label, Input } from "native-base";
-import { Image, StyleSheet, TouchableOpacity , ToastAndroid} from 'react-native'
+import { Image, StyleSheet, TouchableOpacity, ToastAndroid } from 'react-native'
 import { setLoginfalse } from './../../utils/redux/ActionCreators/auth'
-import {connect} from 'react-redux'
+import { vw, vh } from 'react-native-expo-viewport-units'
+import { connect } from 'react-redux'
 import axios from 'axios'
 import { BASE_URL } from '@env'
 
@@ -22,18 +23,18 @@ class addShipping extends Component {
 
     addAddress = () => {
         const regexPhone = /^(^\+62|62|^08)(\d{3,4}-?){2}\d{3,4}$/g
-        if(!(this.state.phone.length >=11) || !(this.state.phone.length <= 15) || !regexPhone.test(this.state.phone)){
+        if (!(this.state.phone.length >= 11) || !(this.state.phone.length <= 15) || !regexPhone.test(this.state.phone)) {
             ToastAndroid.show('Format pengisian no. HP salah', ToastAndroid.SHORT, ToastAndroid.BOTTOM);
-        }else{
+        } else {
             if (this.state.address_type !== '') {
                 const addressData = {
-                    address_type:this.state.address_type,
-                    recipient_name:this.state.recipient_name,
-                    address:this.state.address,
-                    city:this.state.city,
-                    postal:this.state.postal,
-                    phone:this.state.phone,
-                    user_id:this.props.auth.id
+                    address_type: this.state.address_type,
+                    recipient_name: this.state.recipient_name,
+                    address: this.state.address,
+                    city: this.state.city,
+                    postal: this.state.postal,
+                    phone: this.state.phone,
+                    user_id: this.props.auth.id
                 }
                 const config = {
                     headers: {
@@ -66,7 +67,8 @@ class addShipping extends Component {
         // console.log(this.state)
         // console.log(this.props.auth)
         return (
-            <Container >
+            <Container style={{backgroundColor: '#f0f0f0'}}>
+                <View style={{backgroundColor:'white'}}>
                 <Header transparent>
                     <Left>
                         <Button transparent
@@ -79,8 +81,9 @@ class addShipping extends Component {
                         <Title style={{ color: 'black', fontWeight: 'bold' }}>Add Shipping Address</Title>
                     </Body>
                 </Header>
-                <Content style={{ backgroundColor: '#f0f0f0', margin: 10 }}>
-                    <View style={{ height: 130, width: 340, backgroundColor: 'white', borderRadius: 10, marginTop: 20 }}>
+                </View>
+                <Content style={{ backgroundColor: '#f0f0f0', margin: vw(3) }}>
+                    <View style={{ height: 130, width: vw(94), backgroundColor: 'white', borderRadius: 10, marginTop: 20 }}>
                         <Item floatingLabel style={{ marginTop: 10, marginLeft: 15, marginRight: 15 }}>
                             <Label style={{ fontSize: 14, color: 'green' }}>Save address as (ex: home address, office address)</Label>
                             <Input value={address_type} onChangeText={(text) => { this.setState({ address_type: text }) }} />
@@ -90,7 +93,7 @@ class addShipping extends Component {
                             <Input name="email" value={recipient_name} onChangeText={(text) => { this.setState({ recipient_name: text }) }} />
                         </Item>
                     </View>
-                    <View style={{ height: 195, width: 340, backgroundColor: 'white', borderRadius: 10, marginTop: 20 }}>
+                    <View style={{ height: 195, width: vw(94), backgroundColor: 'white', borderRadius: 10, marginTop: 20 }}>
                         <Item floatingLabel style={{ marginTop: 10, marginLeft: 15, marginRight: 15 }}>
                             <Label style={{ fontSize: 14 }}>Address</Label>
                             <Input name="email" value={address} onChangeText={(text) => { this.setState({ address: text }) }} />
@@ -104,12 +107,15 @@ class addShipping extends Component {
                             <Input name="email" value={postal} onChangeText={(text) => { this.setState({ postal: text }) }} />
                         </Item>
                     </View>
-                    <View style={{ height: 75, width: 340, backgroundColor: 'white', borderRadius: 10, marginTop: 20, marginBottom: 20 }}>
+                    <View style={{ height: 75, width: vw(94), backgroundColor: 'white', borderRadius: 10, marginTop: 20, marginBottom: 20 }}>
                         <Item floatingLabel style={{ marginTop: 10, marginLeft: 15, marginRight: 15 }}>
                             <Label style={{ fontSize: 14, color: 'gray' }}>Recipient Telephone Number</Label>
                             <Input name="email" value={phone} onChangeText={(text) => { this.setState({ phone: text }) }} />
                         </Item>
                     </View>
+                    <Text style={{ color: 'red', textAlign: 'center', fontWeight: 'bold' }}>{this.state.errorForm}</Text>
+                </Content>
+                <View style={{ margin: vw(3) }}>
                     <Button full rounded danger
                         onPress={this.addAddress}
                     >
@@ -117,8 +123,7 @@ class addShipping extends Component {
                             Save Address
                             </Text>
                     </Button>
-                    <Text style={{ color: 'red', textAlign: 'center', fontWeight: 'bold' }}>{this.state.errorForm}</Text>
-                </Content>
+                </View>
             </Container>
         );
     }

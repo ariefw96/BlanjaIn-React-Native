@@ -1,17 +1,19 @@
 import React, { Component } from "react";
 import { Container, Header, Title, Content, Button, Footer, FooterTab, Icon, Left, Body, Text, View } from "native-base";
-import { Image , TouchableOpacity} from 'react-native'
+import { Image, TouchableOpacity } from 'react-native'
 
-import {setEmptyBag} from './../../utils/redux/ActionCreators/bag'
-import {connect} from 'react-redux'
+import { setEmptyBag } from './../../utils/redux/ActionCreators/bag'
+import { connect } from 'react-redux'
 
 class SuccesPage extends Component {
     constructor(props) {
         super(props)
     }
 
-    componentDidMount = () =>{
-        this.props.dispatch(setEmptyBag())
+    componentDidMount = () => {
+        if (this.props.dispatch(setEmptyBag())) {
+            console.log('bag kosong')
+        }
     }
     render() {
         return (
@@ -23,12 +25,15 @@ class SuccesPage extends Component {
                         <Text>Your order will be delivered soon</Text>
                         <Text>Thanks for using our App!</Text>
                     </View>
-                    <Button full rounded danger style={{ marginTop: 160 }}>
-                        <TouchableOpacity
-                            onPress={() => { this.props.navigation.navigate('Home') }}
-                        >
-                            <Text>Continue Shopping</Text>
-                        </TouchableOpacity>
+                    <Button full rounded danger style={{ marginTop: 160 }}
+                        onPress={() => {
+                            this.props.navigation.navigate(
+                                "Home"
+                            )
+                        }}
+                    >
+
+                        <Text>Continue Shopping</Text>
                     </Button>
                 </Content>
 
