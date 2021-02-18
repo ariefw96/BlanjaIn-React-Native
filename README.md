@@ -6,6 +6,7 @@
 - [Features](#features)
 - [Requirements](#requirements-for-development)
 - [Installation](#installation-for-development)
+- [Related Project](#related-project)
 
 ## Description
 
@@ -55,6 +56,10 @@ BASE_URL = "http://localhost:8000"
 5. Before run this project, you must configure and run backend. You can find backend for this project [here](https://github.com/ariefw96/blanja-restAPI)
 6. Type `npm run server` in terminal for running backend.
 7. If you want to build this project, type `react-native start --reset-cache` then `react-native run-android`.
+
+## Related Project
+
+[`BlanjaIn-restAPI`](https://github.com/ariefw96/BlanjaIn-restAPI)
 
 # Here some display about the app
 
