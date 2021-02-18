@@ -59,7 +59,14 @@ BASE_URL = "http://localhost:8000"
 
 ## Related Project
 
+**restful-API**
+
+
 [`BlanjaIn-restAPI`](https://github.com/ariefw96/BlanjaIn-restAPI)
+
+Other project
+
+[`BlanjaIn (ReactJs)`](https://github.com/ariefw96/BlanjaIn-React)
 
 # Here some display about the app
 
