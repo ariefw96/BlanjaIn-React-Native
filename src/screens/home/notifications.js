@@ -26,7 +26,6 @@ class HeaderTransparent extends Component {
           console.log(response.data)
         })
     } else if (this.props.auth.level == 1) {
-      console.log('saya buyer')
       axios.get(BASE_URL + '/notif/buyer/' + this.props.auth.id)
         .then(({ data }) => {
           this.setState({
@@ -73,7 +72,7 @@ class HeaderTransparent extends Component {
             <Title style={{ color: 'black', marginLeft: 25, fontWeight: 'bold' }}>Notification</Title>
           </Body>
         </Header>
-        <Content>
+        <Content style={{backgroundColor: '#f0f0f0'}}>
           {listNotification}
         </Content>
       </Container>

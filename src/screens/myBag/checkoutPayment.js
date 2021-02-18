@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Container, Header, Title, Content, Button, Left, Body, Text, Item, Input, CheckBox } from "native-base";
 import { Image, View, TouchableOpacity, StyleSheet, Picker, ToastAndroid } from 'react-native'
 import { connect } from 'react-redux'
+import { vw, vh } from 'react-native-expo-viewport-units'
 import { orderItems } from './../../utils/redux/ActionCreators/bag'
 import axios from 'axios'
 import { BASE_URL } from '@env'
@@ -93,7 +94,7 @@ class CheckOut extends React.Component {
                                 }
                                 axios.post(BASE_URL + '/notif/add', notifData)
                                     .then(({ data }) => {
-                                        this.props.navigation.navigate('Success')
+                                        this.props.navigation.replace('Success')
                                     }).catch(({ response }) => {
                                         console.log(response.data)
                                     })
@@ -226,23 +227,29 @@ class CheckOut extends React.Component {
                                             </View>
 
                                             <Text style={{ marginTop: 20, marginLeft: 5, fontWeight: 'bold', fontSize: 18 }}>Payment</Text>
-                                            <View style={{ flexDirection: 'row', marginRight: 10, height: 60, }}>
-                                                <Image source={require('./../../assets/icons/master.png')} style={{ width: 105, height: 88 }} />
-                                                <Text style={{ marginTop: 30, width: 120 }}>Master Card</Text>
-                                                <CheckBox style={{ marginLeft: 70, marginTop: 30 }} checked={this.state.isCheckedMaster} onPress={this.checkedMaster} />
+                                            <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginRight: vw(5), height: 60 }}>
+                                                <View style={{ flexDirection: 'row' }}>
+                                                    <Image source={require('./../../assets/icons/master.png')} style={{ width: 105, height: 88 }} />
+                                                    <Text style={{ marginTop: 30, width: 120 }}>Master Card</Text>
+                                                </View>
+                                                <CheckBox style={{ marginTop: 30 }} checked={this.state.isCheckedMaster} onPress={this.checkedMaster} />
                                             </View>
-                                            <View style={{ flexDirection: 'row', marginRight: 10, height: 60, }}>
-                                                <Image source={require('./../../assets/icons/pos.png')} />
-                                                <Text style={{ marginTop: 30, width: 120 }}>Post Indonesia</Text>
-                                                <CheckBox style={{ marginLeft: 70, marginTop: 30 }} checked={this.state.isCheckedPost} onPress={this.checkedPost} />
+                                            <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginRight: vw(5), height: 60 }}>
+                                                <View style={{ flexDirection: 'row' }}>
+                                                    <Image source={require('./../../assets/icons/pos.png')} />
+                                                    <Text style={{ marginTop: 30, width: 120 }}>Post Indonesia</Text>
+                                                </View>
+                                                <CheckBox style={{ marginTop: 30 }} checked={this.state.isCheckedPost} onPress={this.checkedPost} />
                                             </View>
-                                            <View style={{ flexDirection: 'row', marginRight: 10, height: 60, }}>
-                                                <Image source={require('./../../assets/icons/gopay.png')} />
-                                                <Text style={{ marginTop: 30, width: 120 }}>GoPay</Text>
-                                                <CheckBox style={{ marginLeft: 70, marginTop: 30 }} checked={this.state.isCheckedGopay} onPress={this.checkedGopay} />
+                                            <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginRight: vw(5), height: 60 }}>
+                                                <View style={{ flexDirection: 'row' }}>
+                                                    <Image source={require('./../../assets/icons/gopay.png')} />
+                                                    <Text style={{ marginTop: 30, width: 120 }}>GoPay</Text>
+                                                </View>
+                                                <CheckBox style={{ marginTop: 30 }} checked={this.state.isCheckedGopay} onPress={this.checkedGopay} />
                                             </View>
                                         </View>
-                                        <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginLeft: 15, marginVertical: 5, marginTop: 30 }}>
+                                        <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginLeft: 25, marginVertical: 5, marginTop: 30 }}>
                                             <Text style={{ width: 80, color: 'gray' }}>Shipping :</Text>
                                             <View style={{ width: 150, height: 40, marginTop: -15 }}>
                                                 <Picker
@@ -259,28 +266,28 @@ class CheckOut extends React.Component {
                                                 </Picker>
                                             </View>
                                         </View>
-                                        <View style={{ backgroundColor: 'white', height: 160, marginTop: 10, borderTopEndRadius: 10, borderTopLeftRadius: 10 }}>
-                                            <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginHorizontal: 15, marginVertical: 5 }}>
-                                                <Text style={{ width: 100, color: 'gray' }}>Order :</Text>
-                                                <Text>Rp. {this.props.bag.totalAmmount}</Text>
-                                            </View>
-                                            <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginHorizontal: 15, marginVertical: 5 }}>
-                                                <Text style={{ width: 100, color: 'gray' }}>Shipping :</Text>
-                                                <Text>Rp. {this.state.shippingPrice}</Text>
-                                            </View>
-                                            <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginHorizontal: 15, marginVertical: 5 }}>
-                                                <Text style={{ width: 100, color: 'gray' }}>Summary :</Text>
-                                                <Text style={{ fontWeight: 'bold', fontSize: 18 }}>Rp. {this.props.bag.totalAmmount + this.state.shippingPrice}</Text>
-                                            </View>
-                                            <Button full rounded danger style={{ margin: 10 }}
-                                                onPress={this.submitOrder}
-                                            >
-                                                <Text style={{ color: 'white' }}>
-                                                    Submit Order
-                            </Text>
-                                            </Button>
-                                        </View>
                                     </Content>
+                                    <View style={{ backgroundColor: 'white', height: 160, marginTop: 10, borderTopEndRadius: 10, borderTopLeftRadius: 10 }}>
+                                        <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginHorizontal: 15, marginVertical: 5 }}>
+                                            <Text style={{ width: 100, color: 'gray' }}>Order :</Text>
+                                            <Text>Rp. {this.props.bag.totalAmmount}</Text>
+                                        </View>
+                                        <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginHorizontal: 15, marginVertical: 5 }}>
+                                            <Text style={{ width: 100, color: 'gray' }}>Shipping :</Text>
+                                            <Text>Rp. {this.state.shippingPrice}</Text>
+                                        </View>
+                                        <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginHorizontal: 15, marginVertical: 5 }}>
+                                            <Text style={{ width: 100, color: 'gray' }}>Summary :</Text>
+                                            <Text style={{ fontWeight: 'bold', fontSize: 18 }}>Rp. {this.props.bag.totalAmmount + this.state.shippingPrice}</Text>
+                                        </View>
+                                        <Button full rounded danger style={{ margin: 10 }}
+                                            onPress={this.submitOrder}
+                                        >
+                                            <Text style={{ color: 'white' }}>
+                                                Submit Order
+                            </Text>
+                                        </Button>
+                                    </View>
                                 </Container>
                             </>
                         )

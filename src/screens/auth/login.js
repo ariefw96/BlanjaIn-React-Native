@@ -49,10 +49,9 @@ class Login extends React.Component {
                             id:data.result.user_id,
                             token:data.result.token
                         }
-                        // console.log(dataLogin)
-                        ToastAndroid.show(data.message, ToastAndroid.SHORT, ToastAndroid.CENTER);
+                        ToastAndroid.show('Selamat berbelanja :)', ToastAndroid.SHORT, ToastAndroid.CENTER);
                         this.props.dispatch(setLogintrue(dataLogin))
-                        this.props.navigation.push('Tab')
+                        this.props.navigation.replace('Tab')
                     }).catch(({ response }) => {
                         console.log('loginfail'+BASE_URL)
                         console.log(response.data)
@@ -99,7 +98,7 @@ class Login extends React.Component {
                         {'\n'}
                     </Text>
                     <TouchableOpacity
-                        onPress={() => { this.props.navigation.navigate('Home') }}
+                        onPress={() => { this.props.navigation.replace('Tab') }}
                     >
                         <Image style={{ alignSelf: 'center' }}
                             source={require('./../../assets/Vector.png')}

@@ -71,7 +71,7 @@ class Profile extends React.Component {
     componentDidMount = () => {
         this._unsubscribe = this.props.navigation.addListener('focus', () => {
             if (!this.props.auth.isLogin) {
-                this.props.navigation.navigate('Login')
+                this.props.navigation.replace('Login')
             } else {
                 this.getAddress()
                 this.getMyOrder()

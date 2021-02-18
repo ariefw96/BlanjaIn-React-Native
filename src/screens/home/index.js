@@ -47,7 +47,7 @@ const Home = ({ navigation }) => {
             .then(({ data }) => {
                 setProducts(data.data.products)
             }).catch((error) => {
-                // console.log(error.response)
+                console.log(error.response)
             })
         axios.get(BASE_URL + '/products?sortBy=rating&orderBy=desc')
             .then(({ data }) => {
@@ -55,7 +55,7 @@ const Home = ({ navigation }) => {
                 setLoading(false)
                 setRefreshing(false)
             }).catch((error) => {
-                // console.log(error.response)
+                console.log(error.response)
             })
     }
 
@@ -73,7 +73,7 @@ const Home = ({ navigation }) => {
                 importance: 4,
                 vibrate: true,
             },
-            (created) => console.log(`createchannel returned '${created}'`),
+            (created) => console.log(`create channel returned '${created}'`),
         );
 
         PushNotification.getChannels((channel_ids) => {
@@ -82,11 +82,8 @@ const Home = ({ navigation }) => {
     }, [])
 
     useEffect(() => {
-        console.log('type user' + auth.level)
         if (auth.level == 1) {
-            console.log('masuk ga si ??')
             socket.on('toBuyer', (message) => {
-                console.log('buyer dapet notif')
                 const notifData = {
                     user_id: auth.id,
                     level: auth.level,
@@ -101,10 +98,9 @@ const Home = ({ navigation }) => {
                     })
 
             })
+            return () => socket.off('toBuyer')
         } else if (auth.level == 2) {
-            console.log('masuk ga si ?????')
             socket.on('toSeller', (message) => {
-                console.log('seller dapet notif')
                 const notifData = {
                     user_id: auth.id,
                     level: auth.level,
@@ -119,6 +115,7 @@ const Home = ({ navigation }) => {
                     })
 
             })
+            return () => socket.off('toSeller')
         }
     }, [])
 

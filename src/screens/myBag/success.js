@@ -27,8 +27,8 @@ class SuccesPage extends Component {
                     </View>
                     <Button full rounded danger style={{ marginTop: 160 }}
                         onPress={() => {
-                            this.props.navigation.navigate(
-                                "Home"
+                            this.props.navigation.replace(
+                                "Tab"
                             )
                         }}
                     >

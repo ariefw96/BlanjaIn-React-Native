@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Container, Header, Title, Content, Button, Left, Body, Text, Item, Label, Input, CheckBox, ListItem, Form } from "native-base";
-import { Image, View, TouchableOpacity, StyleSheet, Modal, Alert } from 'react-native'
+import { Image, View, TouchableOpacity, StyleSheet, Modal, Alert, ToastAndroid } from 'react-native'
 import { vw, vh } from 'react-native-expo-viewport-units'
 import { BASE_URL } from '@env'
 import { connect } from 'react-redux'
@@ -11,7 +11,8 @@ class Setting extends React.Component {
         isChecked: true,
         modalTrackingVisible: false,
         old_password: '',
-        new_password: ''
+        new_password: '',
+        conf_password: '',
     }
 
     setModalVisible = (e) => {
@@ -21,46 +22,46 @@ class Setting extends React.Component {
     }
 
     changePassword = () => {
-        if (this.state.old_password.length < 6 || this.state.new_password.length < 6) {
-            alert('Minimal 6 karakter')
+        if (this.state.old_password.length < 6 || this.state.new_password.length < 6 || this.state.conf_password.length < 6) {
+            ToastAndroid.show('Minimal 6 karakter', ToastAndroid.SHORT, ToastAndroid.CENTER);
         } else {
-            const updateData = {
-                old_password: this.state.old_password,
-                new_password: this.state.new_password
+            if (this.state.new_password != this.state.conf_password) {
+                ToastAndroid.show('Kata sandi dan konfirmasi harus sama! ', ToastAndroid.SHORT, ToastAndroid.CENTER);
+            } else {
+                const updateData = {
+                    old_password: this.state.old_password,
+                    new_password: this.state.new_password
+                }
+                const config = {
+                    headers: {
+                        'x-access-token': 'Bearer ' + this.props.auth.token,
+                    },
+                };
+                axios.patch(BASE_URL + '/user/changePassword', updateData, config)
+                    .then(({ data }) => {
+                        ToastAndroid.show(data.message, ToastAndroid.SHORT, ToastAndroid.CENTER);
+                        this.setState({
+                            modalTrackingVisible:'false'
+                        })
+                    }).catch(({ response }) => {
+                        console.log(response.data)
+                        if (response.data.status == 401) {
+                            Alert.alert(
+                                'Kesalahan',
+                                'Kata sandi lama tidak dikenali',
+                                [
+                                    { text: 'OK', style: 'cancel' },
+
+                                ])
+                        }
+                    })
             }
-            const config = {
-                headers: {
-                    'x-access-token': 'Bearer ' + this.props.auth.token,
-                },
-            };
-            axios.patch(BASE_URL + '/user/changePassword', updateData, config)
-                .then(({ data }) => {
-                    Alert.alert(
-                        'OK',
-                        data.message,
-                        [
-                            { text: 'OK', style: 'cancel' },
-
-                        ])
-                }).catch(({ response }) => {
-                    console.log(response.data)
-                    if (response.data.status == 401) {
-                        Alert.alert(
-                            'Kesalahan',
-                            'Kata sandi lama tidak dikenali',
-                            [
-                                { text: 'OK', style: 'cancel' },
-
-                            ])
-                    }
-                })
         }
 
     }
 
     render() {
-        const { modalTrackingVisible, old_password, new_password } = this.state
-        console.log(new_password, old_password)
+        const { modalTrackingVisible, old_password, new_password, conf_password } = this.state
         return (
             <>
                 <Container>
@@ -89,7 +90,7 @@ class Setting extends React.Component {
                                 <Label style={{ marginLeft: 10 }}>Date of Birth</Label>
                                 <Input style={{ marginLeft: 10 }} value='30/12/1996' />
                             </Item>
-                            <View style={{ flexDirection: 'row', marginTop: 30, marginBottom: 5, justifyContent:'space-between' }}>
+                            <View style={{ flexDirection: 'row', marginTop: 30, marginBottom: 5, justifyContent: 'space-between' }}>
                                 <Text style={{ fontWeight: 'bold', }}>Password</Text>
                                 <TouchableOpacity
                                     onPress={() => { this.setModalVisible(true) }}
@@ -99,7 +100,7 @@ class Setting extends React.Component {
                             </View>
                             <Item floatingLabel style={{ backgroundColor: 'white', marginTop: 20, paddingTop: 10, paddingBottom: 10 }}>
                                 <Label style={{ marginLeft: 10 }}>Password</Label>
-                                <Input style={{marginLeft:10}} secureTextEntry={true} value='Password' />
+                                <Input style={{ marginLeft: 10 }} secureTextEntry={true} value='Password' />
                             </Item>
                             <Text style={{ fontWeight: 'bold', marginTop: 30, marginBottom: 5 }}>Notification</Text>
                             <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginRight: 10 }}>
@@ -135,7 +136,7 @@ class Setting extends React.Component {
                                 </Item>
                                 <Item floatingLabel>
                                     <Label>Konfirmasi kata sandi baru</Label>
-                                    <Input name="newPassword" secureTextEntry={true} value={new_password} onChangeText={(text) => { this.setState({ new_password: text }) }} placeholder='Kata sandi baru' />
+                                    <Input name="confPassword" secureTextEntry={true} value={conf_password} onChangeText={(text) => { this.setState({ conf_password: text }) }} placeholder='Kata sandi baru' />
                                 </Item>
                             </Form>
                             <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginHorizontal: 10, marginTop: 30 }}>
