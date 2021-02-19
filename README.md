@@ -6,7 +6,7 @@
 - [Features](#features)
 - [Requirements](#requirements-for-development)
 - [Installation](#installation-for-development)
-- [Screenshot] (#screenshot)
+- [Screenshot](#screenshot)
 - [Related Project](#related-project)
 
 ## Description
