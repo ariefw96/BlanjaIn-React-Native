@@ -6,6 +6,7 @@
 - [Features](#features)
 - [Requirements](#requirements-for-development)
 - [Installation](#installation-for-development)
+- [Screenshot] (#screenshot)
 - [Related Project](#related-project)
 
 ## Description
@@ -57,16 +58,7 @@ BASE_URL = "http://localhost:8000"
 6. Type `npm run server` in terminal for running backend.
 7. If you want to build this project, type `react-native start --reset-cache` then `react-native run-android`.
 
-## Related Project
-
-**restful-API**
-
-
-[`BlanjaIn-restAPI`](https://github.com/ariefw96/BlanjaIn-restAPI)
-
-Other project
-
-[`BlanjaIn (ReactJs)`](https://github.com/ariefw96/BlanjaIn-React)
+## Screenshot
 
 # Here some display about the app
 
@@ -82,5 +74,14 @@ Other project
 |----------------------|-----------------------------------------|
 | <img src="https://user-images.githubusercontent.com/70320451/107331686-caf45f80-6ae5-11eb-9341-1fd88eab0e6a.jpg" width="450" />  |<img src="https://user-images.githubusercontent.com/70320451/107331700-cdef5000-6ae5-11eb-97fa-f983107dcf12.jpg" width="450" />|
 
+## Related Project
 
+**restful-API**
+
+
+[`BlanjaIn-restAPI`](https://github.com/ariefw96/BlanjaIn-restAPI)
+
+Other project
+
+[`BlanjaIn (ReactJs)`](https://github.com/ariefw96/BlanjaIn-React)
 
