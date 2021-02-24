@@ -64,7 +64,7 @@ BASE_URL = "http://localhost:8000"
 
 |  Home                |  Product Details                        |
 |----------------------|-----------------------------------------|
-| <img src="https://user-images.githubusercontent.com/70320451/107331704-ce87e680-6ae5-11eb-9d64-c3edf9b9c8b4.jpg" width="450" />  | <img src="https://user-images.githubusercontent.com/70320451/107331694-ccbe2300-6ae5-11eb-9645-8bb0bbf51789.jpg" width="450" />             |
+| <img src="https://user-images.githubusercontent.com/70320451/107331704-ce87e680-6ae5-11eb-9d64-c3edf9b9c8b4.jpg" width="450" />  | <img src="https://user-images.githubusercontent.com/70320451/108988908-9678ca00-76c7-11eb-8a10-2332cfe71a16.jpgg" width="450" />             |
 
 |  Cart                |  Shipping Address                       |
 |----------------------|-----------------------------------------|
