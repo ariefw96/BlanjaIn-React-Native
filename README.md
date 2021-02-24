@@ -66,9 +66,9 @@ BASE_URL = "http://localhost:8000"
 |----------------------|-----------------------------------------|
 |<img src="https://user-images.githubusercontent.com/70320451/108989389-1e5ed400-76c8-11eb-81a4-4a4517625488.jpg" width="450" />  |<img src="https://user-images.githubusercontent.com/70320451/108988908-9678ca00-76c7-11eb-8a10-2332cfe71a16.jpg" width="450" />             |
 
-|  Cart                |  Shipping Address                       |
+|  Chat                |  Shipping Address                       |
 |----------------------|-----------------------------------------|
-| <img src="https://user-images.githubusercontent.com/70320451/107331707-cf207d00-6ae5-11eb-8e50-c855e9c2c17a.jpg" width="450" />  | <img src="https://user-images.githubusercontent.com/70320451/107331698-cd56b980-6ae5-11eb-887b-5f2094c8517d.jpg" width="450" />             |
+|<img src="https://user-images.githubusercontent.com/70320451/108989713-7ac1f380-76c8-11eb-98a8-b7d3142a6a8d.jpg" width="450" />  |<https://user-images.githubusercontent.com/70320451/108989795-93320e00-76c8-11eb-8f17-39b5ac9ac547.jpg" width="450" />             |
 
 |  My Order            |  Order Details                          |
 |----------------------|-----------------------------------------|
