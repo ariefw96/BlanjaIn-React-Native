@@ -68,11 +68,11 @@ BASE_URL = "http://localhost:8000"
 
 |  Chat                |  Shipping Address                       |
 |----------------------|-----------------------------------------|
-|<img src="https://user-images.githubusercontent.com/70320451/108989713-7ac1f380-76c8-11eb-98a8-b7d3142a6a8d.jpg" width="450" />  |<https://user-images.githubusercontent.com/70320451/108989795-93320e00-76c8-11eb-8f17-39b5ac9ac547.jpg" width="450" />             |
+|<img src="https://user-images.githubusercontent.com/70320451/108989713-7ac1f380-76c8-11eb-98a8-b7d3142a6a8d.jpg" width="450" />  |<img src="https://user-images.githubusercontent.com/70320451/108989795-93320e00-76c8-11eb-8f17-39b5ac9ac547.jpg" width="450" />             |
 
 |  My Order            |  Order Details                          |
 |----------------------|-----------------------------------------|
-| <img src="https://user-images.githubusercontent.com/70320451/107331686-caf45f80-6ae5-11eb-9341-1fd88eab0e6a.jpg" width="450" />  |<img src="https://user-images.githubusercontent.com/70320451/107331700-cdef5000-6ae5-11eb-97fa-f983107dcf12.jpg" width="450" />|
+| <img src="https://user-images.githubusercontent.com/70320451/108989916-b9f04480-76c8-11eb-977b-b44f44e1f6a5.jpg" width="450" />  |<img src="https://user-images.githubusercontent.com/70320451/108989955-c70d3380-76c8-11eb-8b4a-50802e8fe7f9.jpg" width="450" />|
 
 ## Related Project
 
